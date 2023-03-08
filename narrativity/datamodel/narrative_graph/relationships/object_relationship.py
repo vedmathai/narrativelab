@@ -1,4 +1,5 @@
 from typing import List
+import uuid
 
 from narrativity.datamodel.narrative_graph.relationships.abstract_relationship import AbstractRelationship
 
@@ -23,6 +24,12 @@ class ObjectRelationship(AbstractRelationship):
 
     def object(self) -> str:
         return self._narrative_graph.id2object_node(self._object_id)
+
+    def set_narrative(self, narrative):
+        self._narrative_id = narrative.id()
+
+    def set_object(self, object):
+        self._object_id = object.id()
 
     def set_preposition(self, preposition: str):
         self._preposition = preposition
@@ -49,3 +56,9 @@ class ObjectRelationship(AbstractRelationship):
             'narrative_id': self.narrative_id(),
             'object_id': self.object_id(),
         }
+
+    @staticmethod
+    def create():
+        object_relationship = ObjectRelationship()
+        object_relationship.set_id(str(uuid.uuid4()))
+        return object_relationship

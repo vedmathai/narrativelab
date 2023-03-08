@@ -16,6 +16,7 @@ class FeaturizedToken:
         self._tag = None
         self._vector = None
         self._i_in_sentence = None
+        self._coreference = None
 
     def text(self):
         return self._text
@@ -43,6 +44,9 @@ class FeaturizedToken:
 
     def children(self):
         return self._deps
+
+    def coreference(self):
+        return self._coreference
 
     def all_children(self):
         children = []
@@ -121,8 +125,11 @@ class FeaturizedToken:
     def set_parent(self, parent):
         self._parent = parent
 
+    def set_coreference(self, coreference):
+        self._coreference = coreference
+
     @staticmethod
-    def from_spacy(token, sentence):
+    def from_spacy(token, sentence, document):
         ftoken = FeaturizedToken()
         ftoken._text = token.text
         ftoken._i = token.i
@@ -135,4 +142,7 @@ class FeaturizedToken:
         ftoken._pos = token.pos_
         ftoken._dep = token.dep_
         ftoken._vector = token.vector
+        coref = document._.coref_chains.resolve(token)
+        if coref is not None:
+            ftoken._coreference = [i.i for i in coref]
         return ftoken

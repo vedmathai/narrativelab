@@ -25,6 +25,9 @@ class NarrativeGraph:
         self._object_relationships: Dict[str, ObjectRelationship] = {}
         self._temporal_relationships: Dict[str, TemporalRelationship] = {}
         self._state_relationships: Dict[str, StateRelationship] = {}
+        self._text2action_node: Dict[str, ActionNode] = {}
+        self._text2entity_node: Dict[str, EntityNode] = {}
+
 
     def action_nodes(self) -> Dict[str, ActionNode]:
         return self._action_nodes
@@ -38,11 +41,20 @@ class NarrativeGraph:
     def narrative_nodes(self) -> Dict[str, NarrativeNode]:
         return self._narrative_nodes
 
-    def id2action_node(self, id: str) -> ActionNode:
-        return self._action_nodes.get(id)
+    def state_nodes(self) -> Dict[str, StateNode]:
+        return self._state_nodes
+
+    def text2action_node(self, text: str) -> ActionNode:
+        return self._text2action_node.get(str)
+
+    def text2entity_node(self, text: str) -> EntityNode:
+        return self._text2entity_node.get(text)
 
     def id2entity_node(self, id: str) -> EntityNode:
         return self._entity_nodes.get(id)
+
+    def text2entity_node(self, text: str) -> EntityNode:
+        return self._text2entity_node.get(text)
 
     def id2absolute_temporal_node(self, id: str) -> AbsoluteTemporalNode:
         return self._absolute_temporal_nodes.get(id)
@@ -106,9 +118,15 @@ class NarrativeGraph:
 
     def set_action_nodes(self, action_nodes: Dict[str, ActionNode]) -> None:
         self._action_nodes = action_nodes
+        for action_node in self._action_nodes.values():
+            if action_node.canonical_name() is not None:
+                self._text2entity_node[action_node.canonical_name()] = action_node
 
     def set_entity_nodes(self, entity_nodes: Dict[str, EntityNode]) -> None:
         self._entity_nodes = entity_nodes
+        for entity_node in self._entity_nodes.values():
+            if entity_node.canonical_name() is not None:
+                self._text2entity_node[entity_node.canonical_name()] = entity_node
 
     def set_absolute_temporal_nodes(self, absolute_temporal_nodes: Dict[str, AbsoluteTemporalNode]) -> None:
         self._absolute_temporal_nodes = absolute_temporal_nodes
@@ -133,23 +151,25 @@ class NarrativeGraph:
 
     def add_action_node(self, action_node: ActionNode) -> None:
         self._action_nodes[action_node.id()] = action_node
+        self._text2entity_node[action_node.canonical_name()] = action_node
 
-    def add_entity_nodes(self, entity_node: EntityNode) -> None:
+    def add_entity_node(self, entity_node: EntityNode) -> None:
         self._entity_nodes[entity_node.id()] = entity_node
+        self._text2entity_node[entity_node.canonical_name()] = entity_node
 
-    def add_state_nodes(self, state_node: StateNode) -> None:
+    def add_state_node(self, state_node: StateNode) -> None:
         self._state_nodes[state_node.id()] = state_node
 
-    def add_absolute_temporal_nodes(self, absolute_temporal_node: AbsoluteTemporalNode) -> None:
+    def add_absolute_temporal_node(self, absolute_temporal_node: AbsoluteTemporalNode) -> None:
         self._absolute_temporal_nodes[absolute_temporal_node.id()] = absolute_temporal_node
     
-    def add_narrative_nodes(self, narrative_node: NarrativeNode) -> None:
-        self._narrative_node[narrative_node.id()] = narrative_node
+    def add_narrative_node(self, narrative_node: NarrativeNode) -> None:
+        self._narrative_nodes[narrative_node.id()] = narrative_node
 
     def add_location_relationship(self, location_relationship: LocationRelationship) -> None:
         self._location_relationships[location_relationship.id()] = location_relationship
 
-    def add_temporal_relationships(self, temporal_relationship: TemporalRelationship) -> None:
+    def add_temporal_relationship(self, temporal_relationship: TemporalRelationship) -> None:
         self._temporal_relationships[temporal_relationship.id()] = temporal_relationship
     
     def add_object_relationship(self, object_relationship: ObjectRelationship) -> None:
@@ -201,3 +221,4 @@ class NarrativeGraph:
         narrative_graph.set_state_relationships({
             i['id']: StateRelationship.from_dict(i) for i in val['state_relationships']
         })
+        

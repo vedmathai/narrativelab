@@ -23,15 +23,15 @@ class FeaturizedSentence:
         self._root = root
 
     @staticmethod
-    def from_spacy(sentence):
+    def from_spacy(sentence, document):
         fsent = FeaturizedSentence()
         i2token = {}
         for token in sentence:
-            ft = FeaturizedToken.from_spacy(token, sentence)
+            ft = FeaturizedToken.from_spacy(token, sentence, document)
             i2token[token.i] = ft
             fsent.add_token(ft)
             if token.dep_ == 'ROOT':
-                fsent.set_root(token)
+                fsent.set_root(ft)
         for parent in sentence:
             for child in parent.children:
                 child_token = i2token[child.i]

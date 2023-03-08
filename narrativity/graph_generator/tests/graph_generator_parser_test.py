@@ -4,7 +4,7 @@ import pytest
 
 from narrativity.graph_generator.dependency_parse_pipeline.parser import NarrativeGraphGenerator
 
-text = "He wrote paper even though he is not ready."
+text = "Alice wrote the paper and Bob submitted it"
 def test_graph_generator_parser():
     ngg = NarrativeGraphGenerator()
     ngg.load()

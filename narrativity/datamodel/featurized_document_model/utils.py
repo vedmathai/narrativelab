@@ -26,3 +26,15 @@ def find_common_parent(path_1, path_2):
             break
         i += 1
     return common
+
+def resolve_coreference_pointers(document):
+    i2token = {}
+    for sentence in document.sentences():
+        for token in sentence.tokens():
+            i2token[token.i()] = token
+    for sentence in document.sentences():
+        for token in sentence.tokens():
+            if token.coreference() is not None:
+                coreference = [i2token[i] for i in token.coreference()]
+                token.set_coreference(coreference)
+    return document
