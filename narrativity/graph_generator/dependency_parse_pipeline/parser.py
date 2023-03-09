@@ -7,6 +7,20 @@ class NarrativeGraphGenerator:
         self._corpus2spacy = Corpus2spacy()
         self._dependency2narrative = Dependency2Narrative()
 
+    _instance = None
+
+    @classmethod
+    def instantiate(cls):
+        if cls._instance is None:
+            cls._instance = cls()
+            cls._instance.load()
+
+    @classmethod
+    def instance(cls):
+        if cls._instance is None:
+            raise Exception('{} not instantiated.'.format(cls._name))
+        return cls._instance
+
     def load(self):
         self._corpus2spacy.load()
         self._dependency2narrative.load()

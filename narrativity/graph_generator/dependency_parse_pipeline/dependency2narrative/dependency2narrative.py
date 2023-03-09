@@ -23,7 +23,6 @@ verb2actor_paths = [
 
 class Dependency2Narrative:
     def __init__(self):
-        self._narrative_graph = NarrativeGraph()
         self._sentence2phrases = Sentence2Phrases()
         self._verb2event = Verb2Event()
 
@@ -32,6 +31,7 @@ class Dependency2Narrative:
         self._verb2event.load()
 
     def convert(self, fdocument):
+        self._narrative_graph = NarrativeGraph()
         phrase_connectors = []
         for sentence in fdocument.sentences():
             phrase_connectors = self._sentence2phrases.split(sentence.root(), phrase_connectors)
@@ -43,7 +43,6 @@ class Dependency2Narrative:
         return self._narrative_graph
 
     def clause_root2event(self, clause_root):
-        print(clause_root.pos())
         if clause_root.pos() == 'VERB':
             self._verb2event.convert(clause_root, self._narrative_graph)
         if clause_root.pos() == 'AUX':
