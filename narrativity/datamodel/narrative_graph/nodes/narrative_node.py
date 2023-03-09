@@ -114,6 +114,9 @@ class NarrativeNode(AbstractNode):
     def set_indirect_object_relationship_ids(self, indirect_object_relationship_ids) -> List[str]:
         self._indirect_object_relationship_ids = indirect_object_relationship_ids
 
+    def add_indirect_object_relationship(self, indirect_object_relationship) -> List[str]:
+        self._indirect_object_relationship_ids.append(indirect_object_relationship.id())
+
     def set_location_relationship_ids(self, location_relationship_ids) -> List[str]:
         self._location_relationship_ids = location_relationship_ids
 
