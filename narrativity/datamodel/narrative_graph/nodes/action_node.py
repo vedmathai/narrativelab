@@ -1,4 +1,5 @@
 from typing import Dict, List
+import uuid
 
 from narrativity.datamodel.narrative_graph.nodes.abstract_node import AbstractNode
 
@@ -39,3 +40,9 @@ class ActionNode(AbstractNode):
             "canonical_name": self.canonical_name(),
             "narrative_relationship_ids": self.narrative_relationship_ids(),
         }
+
+    @staticmethod
+    def create():
+        action_node = ActionNode()
+        action_node.set_id(str(uuid.uuid4()))
+        return action_node
