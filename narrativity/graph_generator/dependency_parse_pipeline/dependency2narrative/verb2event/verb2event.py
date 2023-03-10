@@ -25,6 +25,7 @@ class Verb2Event:
         self._verb2indirect_objects.convert(verb, all_children_tokens, narrative_node, narrative_graph)
         self._verb2direct_objects.convert(verb, all_children_tokens, narrative_node, narrative_graph)
         narrative_graph.add_narrative_node(narrative_node)
+        narrative_node.set_narrative_graph(narrative_graph)
 
     def all_tokens(self, verb):
         queue = [verb]

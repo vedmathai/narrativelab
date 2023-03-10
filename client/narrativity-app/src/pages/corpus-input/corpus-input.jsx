@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
+
 
 import './corpus-input.css'
+import 'pages/pages.css'
 
 import postSampleCorpusAPI from 'apis/corpus/postSampleCorpusAPI';
-import getNodesAPI from 'apis/nodes/getNodesAPI';
+import getMostConnectedEntity from 'apis/nodes/getMostConnectedEntityAPI';
 
 
 export default function CorpusInput(props) {
     var [corpus, setCorpus] = useState({"text": ""});
     var [nodes, setNodes] = useState([]);
 
+    const navigate = useNavigate();
 
     const onChangeCorpusInputFn = (e) => {
         var c = {...corpus, "text": e.target.value}; 
         setCorpus(c);
     }
 
+    const navigateToNodeContext = async (id) => {
+        navigate("/node-context-explorer?node-id=" +id)
+    }
+
     const onClickSubmitCorpus = async() => {
         await postSampleCorpusAPI(corpus);
-        const nodes = await getNodesAPI();
-        setNodes(nodes);
+        const entity = await getMostConnectedEntity();
+        await navigateToNodeContext(entity.id);
     }
 
     useEffect(() => {
@@ -44,7 +52,6 @@ export default function CorpusInput(props) {
                             Submit
                         </button>
                     </div>
-                    {JSON.stringify(nodes)}
                 </div>
             </div>
         </>

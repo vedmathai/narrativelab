@@ -3,6 +3,9 @@ class AbstractRelationship:
         self._id = None
         self._narrative_graph = None
 
+    def type(self):
+        return self._type
+
     def id(self):
         return self._id
 

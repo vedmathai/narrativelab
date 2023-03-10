@@ -47,6 +47,9 @@ class NarrativeGraph:
     def text2action_node(self, text: str) -> ActionNode:
         return self._text2action_node.get(str)
 
+    def id2action_node(self, id: str) -> ActionNode:
+        return self._action_nodes.get(id)
+
     def text2entity_node(self, text: str) -> EntityNode:
         return self._text2entity_node.get(text)
 

@@ -4,6 +4,8 @@ from narrativity.datamodel.narrative_graph.relationships.abstract_relationship i
 
 
 class TemporalRelationship(AbstractRelationship):
+    _type = "temporal_relationship"
+
     def __init__(self):
         self._preposition = None
         self._temporal_node_ids = []

@@ -5,6 +5,8 @@ from narrativity.datamodel.narrative_graph.nodes.abstract_node import AbstractNo
 
 
 class ActionNode(AbstractNode):
+    _type = "action_node"
+
     def __init__(self):
         super().__init__()
         self._canonical_name = ""

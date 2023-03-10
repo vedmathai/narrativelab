@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
-import './narrativity-explorer.css'
+import './node-search.css'
 import TopBar from 'common/top-bar/top-bar';
-import SideBar from 'common/side-bar/side-bar';
-import CorpusInput from './components/corpus/corpus-input';
 import 'pages/pages.css'
+import NodeSearchSideBar from './components/node-search-side-bar/node-search-side-bar';
 
 
-export default function NarrativityExplorer(props) {
+export default function NodeSearch(props) {
 
     useEffect(() => {
     }, []);
@@ -15,9 +14,8 @@ export default function NarrativityExplorer(props) {
     return (
         <>
             <div className="page">
-                <SideBar />
+                <NodeSearchSideBar />
                 <TopBar />
-                <CorpusInput />
             </div>
         </>
     )

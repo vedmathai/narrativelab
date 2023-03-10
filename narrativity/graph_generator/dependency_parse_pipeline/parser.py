@@ -8,6 +8,7 @@ class NarrativeGraphGenerator:
         self._dependency2narrative = Dependency2Narrative()
 
     _instance = None
+    _name = "Narrative Graph Generator"
 
     @classmethod
     def instantiate(cls):

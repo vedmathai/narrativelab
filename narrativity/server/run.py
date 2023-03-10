@@ -10,6 +10,7 @@ from narrativity.server.blueprints.corpus_blueprint import corpus_blueprint
 from narrativity.server.blueprints.nodes_blueprint import nodes_blueprint
 
 
+
 from narrativity.server.server import NarrativityServer
 
 
