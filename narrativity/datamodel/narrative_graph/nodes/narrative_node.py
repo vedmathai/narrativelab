@@ -16,6 +16,7 @@ class NarrativeNode(AbstractNode):
         self._indirect_object_relationship_ids = [] #adjunct vs instrumental
         self._location_relationship_ids = []
         self._temporal_relationship_ids = []
+        self._state_relationship_ids = []
         self._sub_narrative_ids = []
         self._parent_narrative_ids = []
         self._sources = []
@@ -62,6 +63,9 @@ class NarrativeNode(AbstractNode):
 
     def temporal_relationship_ids(self) -> List[str]:
         return self._temporal_relationship_ids
+
+    def state_relationship_ids(self) -> List[str]:
+        return self._state_relationship_ids
 
     def temporal_relationships(self):
         return [self._narrative_graph.id2temporal_relationship(i) for i in self.temporal_relationship_ids()]
@@ -126,6 +130,12 @@ class NarrativeNode(AbstractNode):
     def set_temporal_relationship_ids(self, temporal_relationship_ids) -> List[str]:
         self._temporal_relationship_ids = temporal_relationship_ids
 
+    def set_state_relationship_ids(self, state_relationship_ids) -> List[str]:
+        self._state_relationship_ids = state_relationship_ids
+
+    def add_state_relationship(self, state_relationship) -> None:
+        self._state_relationship_ids.append(state_relationship.id())
+
     def set_sub_narrative_ids(self, sub_narrative_ids) -> List[str]:
         self._sub_narrative_ids = sub_narrative_ids
 
@@ -160,6 +170,7 @@ class NarrativeNode(AbstractNode):
         narrative_node.set_indirect_object_relationship_ids(val['indirect_object_relationship_ids'])
         narrative_node.set_location_relationship_ids(val['location_relationship_ids'])
         narrative_node.set_temporal_relationship_ids(val['temporal_relationship_ids'])
+        narrative_node.set_state_relationship_ids(val['state_relationship_ids'])
         narrative_node.set_sub_narrative_ids(val['sub_narrative_ids'])
         narrative_node.set_parent_narrative_ids(val['parent_narrative_ids'])
         narrative_node.set_sources(val['sources'])
@@ -179,6 +190,7 @@ class NarrativeNode(AbstractNode):
             "indirect_object_relationship_ids": self.indirect_object_relationship_ids(),
             "location_relationship_ids": self.location_relationship_ids(),
             "temporal_relationship_ids": self.temporal_relationship_ids(),
+            "state_relationship_ids": self.state_relationship_ids(),
             "sub_narrative_ids": self.sub_narrative_ids(),
             "parent_narrative_ids": self.parent_narrative_ids(),
             "sources": self.sources(),

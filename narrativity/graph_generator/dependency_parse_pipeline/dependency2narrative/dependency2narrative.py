@@ -3,32 +3,19 @@ import pprint
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.sentence2phrases import Sentence2Phrases
 from narrativity.datamodel.narrative_graph.narrative_graph import NarrativeGraph
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2event import Verb2Event
-
-
-
-path2key = {
-    ('nsubj', 'ROOT'): 'actor',
-    ('advcl', 'nsubj'): 'actor',
-    ('advcl', 'acomp'): 'state',
-    ('acomp', 'prep'): 'state',
-    ('acomp', 'prep', 'pobj'): 'state',
-    ('acomp', 'prep', 'pobj', 'poss'): 'state',
-}
-
-verb2actor_paths = [
-    ('ROOT', 'nsubj'),
-    ('conj', 'nsubj'),
-]
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.aux2state.aux2state import Aux2State
 
 
 class Dependency2Narrative:
     def __init__(self):
         self._sentence2phrases = Sentence2Phrases()
         self._verb2event = Verb2Event()
+        self._aux2state = Aux2State()
 
     def load(self):
         self._sentence2phrases.load()
         self._verb2event.load()
+        self._aux2state.load()
 
     def convert(self, fdocument):
         self._narrative_graph = NarrativeGraph()
@@ -43,19 +30,11 @@ class Dependency2Narrative:
         return self._narrative_graph
 
     def clause_root2event(self, clause_root):
+        if clause_root is None:
+            return
         if clause_root.pos() == 'VERB':
             self._verb2event.convert(clause_root, self._narrative_graph)
+        print(clause_root.pos())
         if clause_root.pos() == 'AUX':
-            self._aux2event(clause_root)
-        
+            self._aux2state.convert(clause_root, self._narrative_graph)
     
-    def aux2event(self, aux):
-        self._aux2actors(aux)
-        self._aux2states(aux)
-
-    def _aux2actors(self, aux):
-        pass
-
-    def _aux2states(self, aux):
-        pass
-

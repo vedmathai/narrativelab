@@ -16,3 +16,13 @@ def resolve_auxiliaries(token):
                 auxiliary = resolve_auxiliaries(child)
     auxiliary.append(token)
     return auxiliary
+
+def get_all_children_tokens(token):
+    queue = [token]
+    tokens = []
+    while len(queue) > 0:
+        token = queue.pop(0)
+        for children in token.children().values():
+            queue.extend(children)
+        tokens.append(token)
+    return tokens
