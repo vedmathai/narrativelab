@@ -11,6 +11,7 @@ from narrativity.datamodel.narrative_graph.relationships.location_relationship i
 from narrativity.datamodel.narrative_graph.relationships.object_relationship import ObjectRelationship
 from narrativity.datamodel.narrative_graph.relationships.temporal_relationship import TemporalRelationship
 from narrativity.datamodel.narrative_graph.relationships.state_relationship import StateRelationship
+from narrativity.datamodel.narrative_graph.relationships.actor_relationship import ActorRelationship
 
 
 
@@ -22,7 +23,9 @@ class NarrativeGraph:
         self._narrative_nodes: Dict[str, NarrativeNode] = {}
         self._state_nodes: Dict[str, StateNode] = {}
         self._location_relationships: Dict[str, LocationRelationship] = {}
-        self._object_relationships: Dict[str, ObjectRelationship] = {}
+        self._actor_relationships: Dict[str, ActorRelationship] = {}
+        self._direct_object_relationships: Dict[str, ObjectRelationship] = {}
+        self._indirect_object_relationships: Dict[str, ObjectRelationship] = {}
         self._temporal_relationships: Dict[str, TemporalRelationship] = {}
         self._state_relationships: Dict[str, StateRelationship] = {}
         self._text2action_node: Dict[str, ActionNode] = {}
@@ -68,11 +71,17 @@ class NarrativeGraph:
     def id2state_node(self, id: str) -> StateNode:
         return self._state_nodes.get(id)
 
+    def actor_relationships(self) -> Dict[str, ActorRelationship]:
+        return self._actor_relationships
+
     def location_relationships(self) -> Dict[str, LocationRelationship]:
         return self._location_relationships
 
-    def object_relationships(self) -> Dict[str, ObjectRelationship]:
-        return self._object_relationships
+    def direct_object_relationships(self) -> Dict[str, ObjectRelationship]:
+        return self._direct_object_relationships
+
+    def indirect_object_relationships(self) -> Dict[str, ObjectRelationship]:
+        return self._indirect_object_relationships
 
     def temporal_relationships(self) -> Dict[str, TemporalRelationship]:
         return self._temporal_relationships
@@ -80,11 +89,18 @@ class NarrativeGraph:
     def state_relationships(self) -> Dict[str, StateRelationship]:
         return self._state_relationships
 
+    def id2actor_relationship(self, id: str) -> ActorRelationship:
+        return self._actor_relationships.get(id)
+
     def id2location_relationship(self, id: str) -> LocationRelationship:
         return self._location_relationships.get(id)
 
-    def id2object_relationships(self, id: str) -> ObjectRelationship:
-        return self._object_relationships.get(id)
+    def id2direct_object_relationship(self, id: str) -> ObjectRelationship:
+        return self._direct_object_relationships.get(id)
+
+    def id2indirect_object_relationship(self, id: str) -> ObjectRelationship:
+        print(self._indirect_object_relationships, id)
+        return self._indirect_object_relationships.get(id)
 
     def id2temporal_relationship(self, id: str) -> TemporalRelationship:
         return self._temporal_relationships.get(id)
@@ -109,9 +125,11 @@ class NarrativeGraph:
     def id2relationship(self, id: str) -> AbstractRelationship:
         id2relationshipfns = [
             self.id2location_relationship,
-            self.id2object_relationships,
+            self.id2direct_object_relationship,
+            self.id2indirect_object_relationship,
             self.id2temporal_relationship,
             self.id2state_relationship,
+            self.id2actor_relationship,
         ]
         for fn in id2relationshipfns:
             relationship = fn(id)
@@ -146,11 +164,17 @@ class NarrativeGraph:
     def set_temporal_relationships(self, temporal_relationships: Dict[str, TemporalRelationship]) -> None:
         self._temporal_relationships = temporal_relationships
     
-    def set_object_relationships(self, object_relationships: Dict[str, ObjectRelationship]) -> None:
-        self._object_relationships = object_relationships
+    def set_direct_object_relationships(self, direct_object_relationships: Dict[str, ObjectRelationship]) -> None:
+        self._direct_object_relationships = direct_object_relationships
+
+    def set_indirect_object_relationships(self, indirect_object_relationships: Dict[str, ObjectRelationship]) -> None:
+        self._indirect_object_relationships = indirect_object_relationships
 
     def set_state_relationships(self, state_relationships: Dict[str, StateRelationship]) -> None:
         self._state_relationships = state_relationships
+
+    def set_actor_relationships(self, actor_relationships: Dict[str, ActorRelationship]) -> None:
+        self._actor_relationships = actor_relationships
 
     def add_action_node(self, action_node: ActionNode) -> None:
         self._action_nodes[action_node.id()] = action_node
@@ -175,11 +199,17 @@ class NarrativeGraph:
     def add_temporal_relationship(self, temporal_relationship: TemporalRelationship) -> None:
         self._temporal_relationships[temporal_relationship.id()] = temporal_relationship
     
-    def add_object_relationship(self, object_relationship: ObjectRelationship) -> None:
-        self._object_relationships[object_relationship.id()] = object_relationship
+    def add_direct_object_relationship(self, object_relationship: ObjectRelationship) -> None:
+        self._direct_object_relationships[object_relationship.id()] = object_relationship
+
+    def add_indirect_object_relationship(self, object_relationship: ObjectRelationship) -> None:
+        self._indirect_object_relationships[object_relationship.id()] = object_relationship
 
     def add_state_relationship(self, state_relationship: StateRelationship) -> None:
         self._state_relationships[state_relationship.id()] = state_relationship
+
+    def add_actor_relationship(self, actor_relationship: ActorRelationship) -> None:
+        self._actor_relationships[actor_relationship.id()] = actor_relationship
 
     def to_dict(self):
         return {
@@ -189,9 +219,11 @@ class NarrativeGraph:
             "narrative_nodes": [i.to_dict() for i in self.narrative_nodes().values()],
             "state_nodes": [i.to_dict() for i in self.state_nodes().values()],
             "location_relationships": [i.to_dict() for i in self.location_relationships().values()],
-            "object_relationships": [i.to_dict() for i in self.object_relationships().values()],
+            "direct_object_relationships": [i.to_dict() for i in self.direct_object_relationships().values()],
+            "indirect_object_relationships": [i.to_dict() for i in self.indirect_object_relationships().values()],
             "temporal_relationships": [i.to_dict() for i in self.temporal_relationships().values()],
             "state_relationships": [i.to_dict() for i in self.state_relationships().values()],
+            "actor_relationships": [i.to_dict() for i in self.actor_relationships().values()],
         }
 
     @staticmethod
@@ -215,13 +247,19 @@ class NarrativeGraph:
         narrative_graph.set_location_relationships({
             i['id']: LocationRelationship.from_dict(i) for i in val['location_relationships']
         })
-        narrative_graph.set_object_relationships({
-            i['id']: ObjectRelationship.from_dict(i) for i in val['object_relationships']
+        narrative_graph.set_direct_object_relationships({
+            i['id']: ObjectRelationship.from_dict(i) for i in val['direct_object_relationships']
+        })
+        narrative_graph.set_indirect_object_relationships({
+            i['id']: ObjectRelationship.from_dict(i) for i in val['indirect_object_relationships']
         })
         narrative_graph.set_location_relationships({
             i['id']: LocationRelationship.from_dict(i) for i in val['location_relationships']
         })
         narrative_graph.set_state_relationships({
             i['id']: StateRelationship.from_dict(i) for i in val['state_relationships']
+        })
+        narrative_graph.set_state_relationships({
+            i['id']: StateRelationship.from_dict(i) for i in val['actor_relationships']
         })
         

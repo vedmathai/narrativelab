@@ -30,9 +30,10 @@ class Verb2DirectObjects:
         object_relationship = ObjectRelationship.create()
         object_relationship.set_narrative(narrative_node)
         object_relationship.set_object(direct_object_node)
+        object_relationship.set_narrative_graph(narrative_graph)
         narrative_node.add_direct_object_relationship(object_relationship)
         direct_object_node.add_narrative_relationship(object_relationship)
-        narrative_graph.add_object_relationship(object_relationship)
+        narrative_graph.add_direct_object_relationship(object_relationship)
 
     def get_direct_object_node(self, object_token, narrative_graph):
         whole_text = resolve_compounds(object_token)

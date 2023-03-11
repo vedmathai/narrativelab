@@ -8,7 +8,7 @@ export default function ContextNode(props) {
     return (
         <>
             <div className="page-card">
-                {props.node.id}
+                {props.node.display_name}
             </div>
         </>
     )

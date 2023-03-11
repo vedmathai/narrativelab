@@ -10,7 +10,7 @@ class NarrativeNode(AbstractNode):
     def __init__(self):
         self._canonical_name = None
         self._names = []
-        self._actor_ids = []
+        self._actor_relationship_ids = []
         self._action_ids = []
         self._direct_object_relationship_ids = []
         self._indirect_object_relationship_ids = [] #adjunct vs instrumental
@@ -20,7 +20,6 @@ class NarrativeNode(AbstractNode):
         self._sub_narrative_ids = []
         self._parent_narrative_ids = []
         self._sources = []
-        self._state_ids = []
         self._is_leaf = False
         self._is_state = False
         self._narrative_graph = None
@@ -31,11 +30,19 @@ class NarrativeNode(AbstractNode):
     def names(self) -> List[str]:
         return self._names
 
-    def actors(self):
-        return [self._narrative_graph.id2entity_node(i) for i in self.actor_ids()]
+    def display_name(self) -> str:
+        if self._canonical_name is None:
+            actors = [i.actor() for i in self.actor_relationships()]
+            actors = '|'.join(actor.display_name() for actor in actors)
+            actions = '|'.join(action.display_name() for action in self.actions())
+            direct_objects = '|'.join(i.object().display_name() for i in self.direct_object_relationships())
+            return f'{actors}->{actions}->{direct_objects}'
 
-    def actor_ids(self) -> List[str]:
-        return self._actor_ids
+    def actor_relationship_ids(self) -> List[str]:
+        return self._actor_relationship_ids
+
+    def actor_relationships(self):
+        return [self._narrative_graph.id2actor_relationship(i) for i in self.actor_relationship_ids()]
 
     def actions(self):
         return [self._narrative_graph.id2action_node(i) for i in self.action_ids()]
@@ -44,13 +51,14 @@ class NarrativeNode(AbstractNode):
         return self._action_ids
 
     def direct_object_relationships(self):
-        return [self._narrative_graph.id2entity_node(i) for i in self.direct_object_relationship_ids()]
+        return [self._narrative_graph.id2direct_object_relationship(i) for i in self.direct_object_relationship_ids()]
 
     def direct_object_relationship_ids(self) -> List[str]:
         return self._direct_object_relationship_ids
 
     def indirect_object_relationships(self):
-        return [self._narrative_graph.id2entity_node(i) for i in self.indirect_object_relationship_ids()]
+        print(self.indirect_object_relationship_ids())
+        return [self._narrative_graph.id2indirect_object_relationship(i) for i in self.indirect_object_relationship_ids()]
 
     def indirect_object_relationship_ids(self) -> List[str]:
         return self._indirect_object_relationship_ids
@@ -85,12 +93,6 @@ class NarrativeNode(AbstractNode):
     def sources(self) -> List[str]:
         return self._sources
 
-    def states(self) -> List[str]:
-        return [self._narrative_graph.id2state_node(id) for i in self.state_ids()]
- 
-    def state_ids(self) -> List[str]:
-        return self._state_ids
-
     def is_state(self) -> bool:
         return self._is_state
 
@@ -103,14 +105,17 @@ class NarrativeNode(AbstractNode):
     def set_actor_ids(self, actor_ids: List[str]) -> None:
         self._actor_ids = actor_ids
 
-    def add_actor(self, actor) -> None:
-        self._actor_ids.append(actor.id())
+    def add_actor_relationship(self, actor_relationship) -> None:
+        self._actor_relationship_ids.append(actor_relationship.id())
 
     def set_action_ids(self, action_ids: List[str]) -> None:
         self._action_ids = action_ids
 
     def add_action(self, action) -> None:
         self._action_ids.append(action.id())
+
+    def set_actor_relationship_ids(self, actor_relationship_id) -> List[str]:
+        self._actor_relationship_ids = actor_relationship_id
 
     def set_direct_object_relationship_ids(self, direct_object_relationship_id) -> List[str]:
         self._direct_object_relationship_ids = direct_object_relationship_id
@@ -145,9 +150,6 @@ class NarrativeNode(AbstractNode):
     def set_sources(self, sources: List[str]) -> None:
         self._sources = sources
 
-    def set_state_ids(self, state_ids: List[str]) -> None:
-        self._state_ids = state_ids
-
     def set_is_state(self, is_state: bool) -> None:
         self._is_state = is_state
 
@@ -164,7 +166,7 @@ class NarrativeNode(AbstractNode):
         narrative_node.set_narrative_graph(narrative_graph)
         narrative_node.set_canonical_name(val['canonical_name'])
         narrative_node.set_names(val['names'])
-        narrative_node.set_actor_ids(val['actor_ids'])
+        narrative_node.set_actor_relationship_ids(val['actor_relationship_ids'])
         narrative_node.set_action_ids(val['action_ids'])
         narrative_node.set_direct_object_relationship_ids(val['direct_object_relationship_ids'])
         narrative_node.set_indirect_object_relationship_ids(val['indirect_object_relationship_ids'])
@@ -174,7 +176,6 @@ class NarrativeNode(AbstractNode):
         narrative_node.set_sub_narrative_ids(val['sub_narrative_ids'])
         narrative_node.set_parent_narrative_ids(val['parent_narrative_ids'])
         narrative_node.set_sources(val['sources'])
-        narrative_node.set_state_ids(val['state_ids'])
         narrative_node.set_is_state(val['is_state'])
         narrative_node.set_canonical_name(val['canonical_name'])
         return narrative_node
@@ -183,8 +184,9 @@ class NarrativeNode(AbstractNode):
         return {
             "id": self.id(),
             "canonical_name": self.canonical_name(),
+            "display_name": self.display_name(),
             "names": self.names(),
-            "actor_ids": self.actor_ids(),
+            "actor_relationship_ids": self.actor_relationship_ids(),
             "action_ids": self.action_ids(),
             "direct_object_relationship_ids": self.direct_object_relationship_ids(),
             "indirect_object_relationship_ids": self.indirect_object_relationship_ids(),
@@ -194,7 +196,6 @@ class NarrativeNode(AbstractNode):
             "sub_narrative_ids": self.sub_narrative_ids(),
             "parent_narrative_ids": self.parent_narrative_ids(),
             "sources": self.sources(),
-            "state_ids": self.state_ids(),
             "is_state": self.is_state(),
             "canonical_name": self.canonical_name(),
         }

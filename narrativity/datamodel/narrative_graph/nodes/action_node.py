@@ -15,6 +15,9 @@ class ActionNode(AbstractNode):
     def canonical_name(self) -> str:
         return self._canonical_name
 
+    def display_name(self) -> str:
+        return self._canonical_name
+
     def set_canonical_name(self, canonical_name: str) -> None:
         self._canonical_name = canonical_name
 
@@ -40,6 +43,7 @@ class ActionNode(AbstractNode):
         return {
             "id": self.id(),
             "canonical_name": self.canonical_name(),
+            "display_name": self.display_name(),
             "narrative_relationship_ids": self.narrative_relationship_ids(),
         }
 

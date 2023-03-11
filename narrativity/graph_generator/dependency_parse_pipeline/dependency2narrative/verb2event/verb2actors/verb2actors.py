@@ -5,6 +5,7 @@ from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.
     create_entity_node,
 )
 from narrativity.datamodel.featurized_document_model.featurized_sentence import FeaturizedSentence
+from narrativity.datamodel.narrative_graph.relationships.actor_relationship import ActorRelationship
 
 
 verb2actor_paths = [
@@ -28,7 +29,16 @@ class Verb2Actors:
                         actor_node = self.get_actor_node(coreference, narrative_graph)
                 else:
                     actor_node = self.get_actor_node(child, narrative_graph)
-                narrative_node.add_actor(actor_node)
+                self.add_actor_relationship(actor_node, narrative_node, narrative_graph)
+
+    def add_actor_relationship(self, actor_node, narrative_node, narrative_graph):
+        actor_relationship = ActorRelationship.create()
+        actor_relationship.set_narrative_graph(narrative_graph)
+        actor_relationship.set_narrative(narrative_node)
+        actor_relationship.set_actor(actor_node)
+        narrative_node.add_actor_relationship(actor_relationship)
+        actor_node.add_narrative_relationship(actor_relationship)
+        narrative_graph.add_actor_relationship(actor_relationship)
 
     def get_actor_node(self, actor_token, narrative_graph):
         whole_text = resolve_compounds(actor_token)
