@@ -6,6 +6,8 @@ from narrativity.datamodel.narrative_graph.auxiliaries.temporal_value import Tem
 
 
 class AbsoluteTemporalNode(AbstractNode):
+    _type = "absolute_temporal_node"
+
     def __init__(self):
         self._id = ""
         self._unit = None

@@ -5,6 +5,8 @@ from narrativity.datamodel.narrative_graph.relationships.abstract_relationship i
 
 
 class ObjectRelationship(AbstractRelationship):
+    _type = "object_relationship"
+
     def __init__(self):
         self._preposition = None
         self._narrative_id = None

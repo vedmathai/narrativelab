@@ -5,6 +5,8 @@ from narrativity.datamodel.narrative_graph.nodes.abstract_node import AbstractNo
 
 
 class NarrativeNode(AbstractNode):
+    _type = "narrative_node"
+
     def __init__(self):
         self._canonical_name = None
         self._names = []
@@ -20,6 +22,7 @@ class NarrativeNode(AbstractNode):
         self._state_ids = []
         self._is_leaf = False
         self._is_state = False
+        self._narrative_graph = None
 
     def canonical_name(self) -> str:
         return self._canonical_name
@@ -28,25 +31,25 @@ class NarrativeNode(AbstractNode):
         return self._names
 
     def actors(self):
-        return [self.narrative_graph().id2entity_node(i) for i in self.actor_ids()]
+        return [self._narrative_graph.id2entity_node(i) for i in self.actor_ids()]
 
     def actor_ids(self) -> List[str]:
         return self._actor_ids
 
     def actions(self):
-        return [self.narrative_graph().id2action_node(i) for i in self.action_ids()]
+        return [self._narrative_graph.id2action_node(i) for i in self.action_ids()]
 
     def action_ids(self) -> List[str]:
         return self._action_ids
 
     def direct_object_relationships(self):
-        return [self.narrative_graph().id2entity_node(i) for i in self.direct_object_relationship_ids()]
+        return [self._narrative_graph.id2entity_node(i) for i in self.direct_object_relationship_ids()]
 
     def direct_object_relationship_ids(self) -> List[str]:
         return self._direct_object_relationship_ids
 
     def indirect_object_relationships(self):
-        return [self.narrative_graph().id2entity_node(i) for i in self.indirect_object_relationship_ids()]
+        return [self._narrative_graph.id2entity_node(i) for i in self.indirect_object_relationship_ids()]
 
     def indirect_object_relationship_ids(self) -> List[str]:
         return self._indirect_object_relationship_ids
@@ -55,13 +58,13 @@ class NarrativeNode(AbstractNode):
         return self._location_relationship_ids
 
     def location_relationships(self):
-        return [self.narrative_graph().id2location_relationship(i) for i in self.location_relationship_ids()]
+        return [self._narrative_graph.id2location_relationship(i) for i in self.location_relationship_ids()]
 
     def temporal_relationship_ids(self) -> List[str]:
         return self._temporal_relationship_ids
 
     def temporal_relationships(self):
-        return [self.narrative_graph().id2temporal_relationship(i) for i in self.temporal_relationship_ids()]
+        return [self._narrative_graph.id2temporal_relationship(i) for i in self.temporal_relationship_ids()]
 
     def sub_narrative_ids(self) -> List[str]:
         return self._sub_narrative_ids
@@ -70,16 +73,16 @@ class NarrativeNode(AbstractNode):
         return self._parent_narrative_ids
 
     def sub_narratives(self) -> List["NarrativeNode"]:
-        return [self.narrative_graph().id2narrative_node(id) for i in self.sub_narrative_ids()]
+        return [self._narrative_graph.id2narrative_node(id) for i in self.sub_narrative_ids()]
 
     def parent_narratives(self) -> List["NarrativeNode"]:
-        return [self.narrative_graph().id2narrative_node(id) for i in self.parent_narrative_ids()]
+        return [self._narrative_graph.id2narrative_node(id) for i in self.parent_narrative_ids()]
 
     def sources(self) -> List[str]:
         return self._sources
 
     def states(self) -> List[str]:
-        return [self.narrative_graph().id2state_node(id) for i in self.state_ids()]
+        return [self._narrative_graph.id2state_node(id) for i in self.state_ids()]
  
     def state_ids(self) -> List[str]:
         return self._state_ids

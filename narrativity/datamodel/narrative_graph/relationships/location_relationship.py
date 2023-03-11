@@ -5,6 +5,8 @@ from narrativity.datamodel.narrative_graph.relationships.abstract_relationship i
 
 
 class LocationRelationship(AbstractRelationship):
+    _type = "location_relationship"
+
     def __init__(self):
         self._preposition = None
         self._narrative = None

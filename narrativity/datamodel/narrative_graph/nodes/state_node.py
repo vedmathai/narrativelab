@@ -4,6 +4,8 @@ from narrativity.datamodel.narrative_graph.nodes.abstract_node import AbstractNo
 
 
 class StateNode(AbstractNode):
+    _type = "state_node"
+
     def __init__(self):
         super().__init__()
         self._canonical_name = ""
