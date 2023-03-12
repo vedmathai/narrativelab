@@ -3,6 +3,8 @@ from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2actors.verb2actors import Verb2Actors
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2objects.verb2indirect_objects import Verb2IndirectObjects
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2objects.verb2direct_objects import Verb2DirectObjects
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.utils import get_all_children_tokens
+
 
 class Verb2Event:
     def __init__(self):
@@ -19,21 +21,10 @@ class Verb2Event:
 
     def convert(self, verb, narrative_graph):
         narrative_node = NarrativeNode.create()
-        all_children_tokens = self.all_tokens(verb)
+        all_children_tokens = get_all_children_tokens(verb)
         self._verb2actors.convert(verb, all_children_tokens, narrative_node, narrative_graph)
         self._verb2actions.convert(verb, all_children_tokens, narrative_node, narrative_graph)
         self._verb2indirect_objects.convert(verb, all_children_tokens, narrative_node, narrative_graph)
         self._verb2direct_objects.convert(verb, all_children_tokens, narrative_node, narrative_graph)
         narrative_graph.add_narrative_node(narrative_node)
         narrative_node.set_narrative_graph(narrative_graph)
-
-    def all_tokens(self, verb):
-        queue = [verb]
-        tokens = []
-        while len(queue) > 0:
-            token = queue.pop(0)
-            for children in token.children().values():
-                queue.extend(children)
-            tokens.append(token)
-        return tokens
-

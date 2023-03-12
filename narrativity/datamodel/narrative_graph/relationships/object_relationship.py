@@ -25,7 +25,7 @@ class ObjectRelationship(AbstractRelationship):
         return self._object_id
 
     def object(self) -> str:
-        return self._narrative_graph.id2object_node(self._object_id)
+        return self._narrative_graph.id2entity_node(self._object_id)
 
     def set_narrative(self, narrative):
         self._narrative_id = narrative.id()

@@ -24,7 +24,8 @@ class NodeContext:
         self._key2ids[key].append(id)
 
     def add_key(self, key):
-        self._keys.append(key)
+        if key not in self._keys:
+            self._keys.append(key)
 
     def keys(self):
         # Important to maintain ordering of the row order displayed

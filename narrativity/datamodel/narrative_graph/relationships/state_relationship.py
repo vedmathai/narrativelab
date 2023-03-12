@@ -1,4 +1,5 @@
 from typing import List
+import uuid
 
 
 from narrativity.datamodel.narrative_graph.relationships.abstract_relationship import AbstractRelationship
@@ -27,6 +28,12 @@ class StateRelationship(AbstractRelationship):
     def state(self) -> str:
         return self._narrative_graph.id2state_node(self._state_id)
 
+    def set_narrative(self, narrative):
+        self._narrative_id = narrative.id()
+
+    def set_state(self, state):
+        self._state_id = state.id()
+
     def set_narrative_id(self, narrative_id: str):
         self._narrative_id = narrative_id
 
@@ -53,3 +60,9 @@ class StateRelationship(AbstractRelationship):
             'auxiliary': self.auxiliary(),
             'state': self.state_id(),
         }
+
+    @staticmethod
+    def create():
+        state_relationship = StateRelationship()
+        state_relationship.set_id(str(uuid.uuid4()))
+        return state_relationship

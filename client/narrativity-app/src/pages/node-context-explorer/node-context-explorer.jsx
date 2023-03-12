@@ -38,6 +38,7 @@ export default function NodeContextExplorer(props) {
         nodeContextRows = nodeContext.keys.map((k, k_i) => {
             return (
                 <div className='page-row'>
+                    {k}
                     <NodeContextRow
                         k={k}
                         nodeContext={nodeContext}

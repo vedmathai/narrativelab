@@ -13,7 +13,7 @@ verb2actor_paths = [
     ('conj', 'nsubj'),
 ]
 
-class Verb2Actors:
+class Aux2Subjects:
 
     def load(self):
         pass

@@ -26,7 +26,7 @@ export default function NodeContextRow(props) {
                 className='page-card'
                 onDoubleClick={() => onDoubleClickContextRowCard(node.id)}
             >
-                {JSON.stringify(node)}
+                {node.display_name}
             </div>
         )
      })
