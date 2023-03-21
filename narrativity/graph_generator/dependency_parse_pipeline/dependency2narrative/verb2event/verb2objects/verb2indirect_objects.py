@@ -36,7 +36,6 @@ class Verb2IndirectObjects:
         narrative_node.add_indirect_object_relationship(object_relationship)
         indirect_object_node.add_narrative_relationship(object_relationship)
         narrative_graph.add_indirect_object_relationship(object_relationship)
-        print(indirect_object_node.id())
 
     def _get_indirect_object_node(self, object_token, narrative_graph):
         whole_text = resolve_compounds(object_token)

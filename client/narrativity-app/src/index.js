@@ -5,14 +5,14 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import NodeContextExplorer from './pages/node-context-explorer/node-context-explorer';
 import CorpusInput from './pages/corpus-input/corpus-input';
-import NodeSearch from './pages/node-search/node-search';
+import NodeDiscover from './pages/node-discover/node-discover';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
     <Routes>
       <Route path="/node-context-explorer" element={<NodeContextExplorer />} />
-      <Route path="/search" element={<NodeSearch />} />
+      <Route path="/discover" element={<NodeDiscover />} />
       <Route path="/" element={<CorpusInput />} />
 
     </Routes>

@@ -1,0 +1,24 @@
+.node-context-row{
+    margin-top: 40px;
+}
+
+.node-context-row-heading{
+    font-family: var(--main-font-family);
+    font-size: 30px;
+}
+
+.node-context-page-cards{
+    width: 60vw;
+    overflow-x: scroll;
+    display: flex;
+    padding-bottom: 10px;
+}
+
+.node-context-page-card {
+    cursor: pointer;
+    margin-right: 30px;
+}
+
+.node-context-page-card-focussed {
+    background-color: var(--pastel-green);
+}

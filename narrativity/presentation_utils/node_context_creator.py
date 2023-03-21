@@ -41,27 +41,35 @@ class NodeContextCreator:
             fn(node, node_context)
         return node_context
 
-    def add_other_node(self, node, key, node_context: NodeContext):
-        node_context.add_id2node(node.id(), node)
+    def add_other_node(self, other_node, key, node_context: NodeContext):
+        node_context.add_id2node(other_node)
         node_context.add_key(key)
-        node_context.add_key2id(key, node.id())
+        node_context.add_key2id(key, other_node.id())
+
+    def add_relationship(self, other_node, relationship, node_context: NodeContext):
+        node_context.add_id2relationship(relationship)
+        node_context.add_node_id2relationship_id(other_node, relationship)
         
     def get_actors(self, node, node_context: NodeContext):
         for actor_relationship in node.actor_relationships():
             actor = actor_relationship.actor()
             self.add_other_node(actor, 'actor', node_context)
+            self.add_relationship(actor, actor_relationship, node_context)
 
     def get_direct_objects(self, node, node_context: NodeContext):
         for direct_object_relationship in node.direct_object_relationships():
             object = direct_object_relationship.object()
             self.add_other_node(object, 'direct_object', node_context)
+            self.add_relationship(object, direct_object_relationship, node_context)
 
     def get_indirect_objects(self, node, node_context: NodeContext):
         for indirect_object_relationship in node.indirect_object_relationships():
             object = indirect_object_relationship.object()
             self.add_other_node(object, 'indirect_object', node_context)
+            self.add_relationship(object, indirect_object_relationship, node_context)
 
     def get_narratives(self, node, node_context: NodeContext):
         for narrative_relationship in node.narrative_relationships():
             narrative = narrative_relationship.narrative()
             self.add_other_node(narrative, 'narrative', node_context)
+            self.add_relationship(narrative, narrative_relationship, node_context)

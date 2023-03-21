@@ -34,7 +34,6 @@ class Dependency2Narrative:
             return
         if clause_root.pos() == 'VERB':
             self._verb2event.convert(clause_root, self._narrative_graph)
-        print(clause_root.pos())
         if clause_root.pos() == 'AUX':
             self._aux2state.convert(clause_root, self._narrative_graph)
     

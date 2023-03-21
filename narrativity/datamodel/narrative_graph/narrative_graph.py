@@ -99,7 +99,6 @@ class NarrativeGraph:
         return self._direct_object_relationships.get(id)
 
     def id2indirect_object_relationship(self, id: str) -> ObjectRelationship:
-        print(self._indirect_object_relationships, id)
         return self._indirect_object_relationships.get(id)
 
     def id2temporal_relationship(self, id: str) -> TemporalRelationship:
@@ -178,7 +177,7 @@ class NarrativeGraph:
 
     def add_action_node(self, action_node: ActionNode) -> None:
         self._action_nodes[action_node.id()] = action_node
-        self._text2entity_node[action_node.canonical_name()] = action_node
+        self._text2action_node[action_node.canonical_name()] = action_node
 
     def add_entity_node(self, entity_node: EntityNode) -> None:
         self._entity_nodes[entity_node.id()] = entity_node
