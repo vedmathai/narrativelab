@@ -29,6 +29,7 @@ class NodeContextCreator:
                 self.get_actors,
                 self.get_direct_objects,
                 self.get_indirect_objects,
+                self.get_locations,
             ]
         }
         return node_type2fn.get(node.type())
@@ -67,6 +68,12 @@ class NodeContextCreator:
             object = indirect_object_relationship.object()
             self.add_other_node(object, 'indirect_object', node_context)
             self.add_relationship(object, indirect_object_relationship, node_context)
+
+    def get_locations(self, node, node_context: NodeContext):
+        for location_relationship in node.location_relationships():
+            location = location_relationship.location()
+            self.add_other_node(location, 'location', node_context)
+            self.add_relationship(location, location_relationship, node_context)
 
     def get_narratives(self, node, node_context: NodeContext):
         for narrative_relationship in node.narrative_relationships():

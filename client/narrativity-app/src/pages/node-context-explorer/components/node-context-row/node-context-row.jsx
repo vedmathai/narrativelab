@@ -10,6 +10,7 @@ const key2headings = {
     'narrative': 'Narratives',
     'direct_object': 'Direct Objects',
     'indirect_object': 'Indirect Objects',
+    'location': 'Locations',
 }
 
 export default function NodeContextRow(props) {

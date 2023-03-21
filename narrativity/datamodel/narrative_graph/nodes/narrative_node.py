@@ -131,6 +131,9 @@ class NarrativeNode(AbstractNode):
     def set_location_relationship_ids(self, location_relationship_ids) -> List[str]:
         self._location_relationship_ids = location_relationship_ids
 
+    def add_location_relationship(self, location_relationship) -> List[str]:
+        self._location_relationship_ids.append(location_relationship.id())
+
     def set_temporal_relationship_ids(self, temporal_relationship_ids) -> List[str]:
         self._temporal_relationship_ids = temporal_relationship_ids
 
