@@ -32,6 +32,8 @@ class NodeContextCreator:
                 self.get_locations,
                 self.get_subjects,
                 self.get_states_descriptors,
+                self.get_causal_out_relationships,
+                self.get_causal_in_relationships,
             ]
         }
         return node_type2fn.get(node.type())
@@ -94,3 +96,15 @@ class NodeContextCreator:
             state = state_relationship.state()
             self.add_other_node(state, 'state_descriptor', node_context)
             self.add_relationship(state, state_relationship, node_context)
+
+    def get_causal_in_relationships(self, node, node_context: NodeContext):
+        for causal_in_relationship in node.causal_in_relationships():
+            narrative_1 = causal_in_relationship.narrative_1()
+            self.add_other_node(narrative_1, 'causal_in', node_context)
+            self.add_relationship(narrative_1, causal_in_relationship, node_context)
+
+    def get_causal_out_relationships(self, node, node_context: NodeContext):
+        for causal_out_relationship in node.causal_out_relationships():
+            narrative_2 = causal_out_relationship.narrative_2()
+            self.add_other_node(narrative_2, 'causal_out', node_context)
+            self.add_relationship(narrative_2, causal_out_relationship, node_context)

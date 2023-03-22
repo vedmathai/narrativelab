@@ -22,6 +22,7 @@ class Aux2State:
         narrative_graph.add_narrative_node(narrative_node)
         narrative_node.set_narrative_graph(narrative_graph)
         narrative_node.set_is_state(True)
+        return narrative_node
 
     def _resolve_auxiliary(self, aux):
         whole_text = aux.text()

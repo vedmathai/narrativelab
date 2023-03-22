@@ -13,6 +13,8 @@ const key2headings = {
     'location': 'Locations',
     'subject': 'Subjects',
     'state_descriptor': 'State Descriptors',
+    'causal_in': 'Incoming Causal Relationship',
+    'causal_out': 'Outgoing Causal Relationship',
 }
 
 export default function NodeContextRow(props) {
