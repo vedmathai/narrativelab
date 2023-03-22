@@ -30,6 +30,8 @@ class NodeContextCreator:
                 self.get_direct_objects,
                 self.get_indirect_objects,
                 self.get_locations,
+                self.get_subjects,
+                self.get_states_descriptors,
             ]
         }
         return node_type2fn.get(node.type())
@@ -80,3 +82,15 @@ class NodeContextCreator:
             narrative = narrative_relationship.narrative()
             self.add_other_node(narrative, 'narrative', node_context)
             self.add_relationship(narrative, narrative_relationship, node_context)
+
+    def get_subjects(self, node, node_context: NodeContext):
+        for subject_relationship in node.subject_relationships():
+            subject = subject_relationship.subject()
+            self.add_other_node(subject, 'subject', node_context)
+            self.add_relationship(subject, subject_relationship, node_context)
+
+    def get_states_descriptors(self, node, node_context: NodeContext):
+        for state_relationship in node.state_relationships():
+            state = state_relationship.state()
+            self.add_other_node(state, 'state_descriptor', node_context)
+            self.add_relationship(state, state_relationship, node_context)

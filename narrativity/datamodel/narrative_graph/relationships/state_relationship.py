@@ -26,7 +26,7 @@ class StateRelationship(AbstractRelationship):
         return self._state_id
 
     def state(self) -> str:
-        return self._narrative_graph.id2state_node(self._state_id)
+        return self._narrative_graph.id2entity_node(self._state_id)
 
     def set_narrative(self, narrative):
         self._narrative_id = narrative.id()

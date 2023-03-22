@@ -11,6 +11,8 @@ const key2headings = {
     'direct_object': 'Direct Objects',
     'indirect_object': 'Indirect Objects',
     'location': 'Locations',
+    'subject': 'Subjects',
+    'state_descriptor': 'State Descriptors',
 }
 
 export default function NodeContextRow(props) {

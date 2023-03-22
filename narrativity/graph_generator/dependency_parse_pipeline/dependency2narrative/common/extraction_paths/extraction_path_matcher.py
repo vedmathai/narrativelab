@@ -35,7 +35,7 @@ class ExtractionPathMatcher:
         dep_check = element.dep() in path_element.deps()
         pos_check = True
         if len(path_element.pos()) > 0:
-            pos = element.pos() in path_element.pos()
+            pos_check = element.pos() in path_element.pos()
         tokens_check = True
         token_whitelists = path_element.tokens()
         token_whitelist = self._extraction_paths_common.keys2word_lists(token_whitelists)
