@@ -6,9 +6,13 @@
                 "on",
                 "at"
             ],
-            "contradiction_conjuctions": [
-                "but",
-                "though",
+            "but_like_contradiction_conjunctions": [
+                "but"
+            ],
+            "though_like_contradiction_conjunctions": [
+                "though"
+            ],
+            "however_like_contradiction_conjunctions": [
                 "however"
             ],
             "forwards_causal_marks": [
@@ -23,7 +27,7 @@
     },
     "extraction_paths": [
         {
-            "element": "causation",
+            "element": "forwards_causation",
             "extraction_path": [
                 {
                     "deps": [
@@ -47,13 +51,43 @@
                         "mark", "advmod"
                     ],
                     "pos": [],
-                    "tokens": ["$$forwards_causal_marks$$", "$$backwards_causal_marks$$"],
+                    "tokens": ["$$forwards_causal_marks$$"],
                     "tokens_blacklist": []
                 }
             ]
         },
         {
-            "element": "contradiction_detection",
+            "element": "backwards_causation",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "mark", "advmod"
+                    ],
+                    "pos": [],
+                    "tokens": ["$$backwards_causal_marks$$"],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "but_like_contradiction_detection",
             "extraction_path": [
                 {
                     "deps": [
@@ -68,20 +102,20 @@
                         "cc"
                     ],
                     "pos": ["CCONJ"],
-                    "tokens": ["$$contradiction_conjuctions$$"],
+                    "tokens": ["$$but_like_contradiction_conjunctions$$"],
                     "tokens_blacklist": []
                 }
             ]
         },
         {
-            "element": "contradiction",
+            "element": "but_like_contradiction",
             "extraction_path": [
                 {
                     "deps": [
                         "cc"
                     ],
                     "pos": ["CCONJ"],
-                    "tokens": ["$$contradiction_conjuctions$$"],
+                    "tokens": ["$$but_like_contradiction_conjunctions$$"],
                     "tokens_blacklist": []
                 },
                 {
@@ -95,6 +129,106 @@
                 {
                     "deps": [
                         "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "however_like_contradiction_detection",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advmod"
+                    ],
+                    "pos": [],
+                    "tokens": ["$$however_like_contradiction_conjunctions$$"],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "however_like_contradiction",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "advmod"
+                    ],
+                    "pos": ["ADV"],
+                    "tokens": ["$$however_like_contradiction_conjunctions$$"],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "though_like_contradiction_detection",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "mark"
+                    ],
+                    "pos": ["SCONJ"],
+                    "tokens": ["$$though_like_contradiction_conjunctions$$"],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "though_like_contradiction",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "mark"
+                    ],
+                    "pos": ["SCONJ"],
+                    "tokens": ["$$though_like_contradiction_conjunctions$$"],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],

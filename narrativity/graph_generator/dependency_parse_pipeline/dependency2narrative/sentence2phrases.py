@@ -14,23 +14,15 @@ class Sentence2Phrases:
         all_children_tokens = get_all_children_tokens(root)
         for child in all_children_tokens:
             path = FeaturizedSentence.dependency_path_between_tokens(root, child)
-            if self._extraction_path_matcher.match(path, 'causation') is True:
-                single_root_flag = False
-                mark = child
-                parent_verb = self._find_parent_clause(mark)
-                phrase_connector = PhraseConnector.create(root, parent_verb, "causation", mark)
-                phrase_connectors.append(phrase_connector)
-                phrase_connectors = self.split(child, phrase_connectors, False)
-            if self._extraction_path_matcher.match(path, 'contradiction_detection') is True:
-                single_root_flag = False
-                mark = child
-                for child2 in all_children_tokens:
-                    path2 = FeaturizedSentence.dependency_path_between_tokens(mark, child2)
-                    if self._extraction_path_matcher.match(path2, 'contradiction') is True:
-                        second_verb = child2
-                        phrase_connector = PhraseConnector.create(root, second_verb, "contradiction", mark)
-                        phrase_connectors.append(phrase_connector)
-                        phrase_connectors = self.split(child2, phrase_connectors, False)
+            phrase_connector_fns = [
+                self._backwards_contradiction,
+                self._forwards_contradiction,
+                self._but_like_contradiction,
+                self._however_like_contradiction,
+            ]
+            for phrase_connector_fn in phrase_connector_fns:
+                phrase_connectors, single_root_flag = phrase_connector_fn(path, phrase_connectors, root, child, all_children_tokens, single_root_flag)
+
         if is_root is True and single_root_flag is True:
             phrase_connector = PhraseConnector.create(root, None, "single", None)
             phrase_connectors.append(phrase_connector)
@@ -41,3 +33,49 @@ class Sentence2Phrases:
         while current.pos() not in ['AUX', 'VERB']:
             current = current.parent()
         return current
+
+    def _forwards_contradiction(self, path, phrase_connectors, root, child, all_children_tokens, single_root_flag):
+        if self._extraction_path_matcher.match(path, 'forwards_causation') is True:
+            single_root_flag = False
+            mark = child
+            parent_verb = self._find_parent_clause(mark)
+            phrase_connector = PhraseConnector.create(root, parent_verb, "forwards_causation", mark)
+            phrase_connectors.append(phrase_connector)
+            phrase_connectors = self.split(child, phrase_connectors, False)
+        return phrase_connectors, single_root_flag
+
+    def _backwards_contradiction(self, path, phrase_connectors, root, child, all_children_tokens, single_root_flag):
+        if self._extraction_path_matcher.match(path, 'backwards_causation') is True:
+            single_root_flag = False
+            mark = child
+            parent_verb = self._find_parent_clause(mark)
+            phrase_connector = PhraseConnector.create(root, parent_verb, "backwards_causation", mark)
+            phrase_connectors.append(phrase_connector)
+            phrase_connectors = self.split(child, phrase_connectors, False)
+        return phrase_connectors, single_root_flag
+
+    def _but_like_contradiction(self, path, phrase_connectors, root, child, all_children_tokens, single_root_flag):
+        if self._extraction_path_matcher.match(path, 'but_like_contradiction_detection') is True:
+            single_root_flag = False
+            mark = child
+            for child2 in all_children_tokens:
+                path2 = FeaturizedSentence.dependency_path_between_tokens(mark, child2)
+                if self._extraction_path_matcher.match(path2, 'but_like_contradiction') is True:
+                    second_verb = child2
+                    phrase_connector = PhraseConnector.create(root, second_verb, "but_like_contradiction", mark)
+                    phrase_connectors.append(phrase_connector)
+                    phrase_connectors = self.split(child2, phrase_connectors, False)
+        return phrase_connectors, single_root_flag
+        
+    def _however_like_contradiction(self, path, phrase_connectors, root, child, all_children_tokens, single_root_flag):
+        if self._extraction_path_matcher.match(path, 'however_like_contradiction_detection') is True:
+            single_root_flag = False
+            mark = child
+            for child2 in all_children_tokens:
+                path2 = FeaturizedSentence.dependency_path_between_tokens(mark, child2)
+                if self._extraction_path_matcher.match(path2, 'however_like_contradiction') is True:
+                    second_verb = child2
+                    phrase_connector = PhraseConnector.create(root, second_verb, "however_like_contradiction", mark)
+                    phrase_connectors.append(phrase_connector)
+                    phrase_connectors = self.split(child2, phrase_connectors, False)
+        return phrase_connectors, single_root_flag
