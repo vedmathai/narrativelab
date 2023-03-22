@@ -9,13 +9,14 @@ def resolve_compounds(token):
 
 
 def resolve_auxiliaries(token):
-    auxiliary = []
+    auxiliaries = []
     for dep, child_list in token.children().items():
         for child in child_list:
-            if child.dep() == 'auxiliary':
-                auxiliary = resolve_auxiliaries(child)
-    auxiliary.append(token)
-    return auxiliary
+            if child.dep() in ['auxiliary', 'prt']:
+                auxiliaries = resolve_auxiliaries(child)
+    auxiliaries.extend([token])
+    auxiliaries = sorted(auxiliaries, key=lambda x: x.i())
+    return auxiliaries
 
 def get_all_children_tokens(token):
     queue = [token]

@@ -1,24 +1,18 @@
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.utils import resolve_compounds
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.creators import create_entity_node
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.extraction_paths.extraction_path_matcher import ExtractionPathMatcher
 from narrativity.datamodel.featurized_document_model.featurized_sentence import FeaturizedSentence
 from narrativity.datamodel.narrative_graph.relationships.object_relationship import ObjectRelationship
 
 
-verb2direct_object_paths = [
-    ('ROOT', 'dobj'),
-    ('conj', 'dobj'),
-    ('ROOT', 'nsubjpass'),
-]
-
 class Verb2DirectObjects:
     def load(self):
-        pass
+        self._extraction_path_matcher = ExtractionPathMatcher()
 
     def convert(self, verb_token, all_children_tokens, narrative_node, narrative_graph):
         for child in all_children_tokens:
             path = FeaturizedSentence.dependency_path_between_tokens(verb_token, child)
-            tup = (tuple(i.dep() for i in path))
-            if tup in verb2direct_object_paths:
+            if self._extraction_path_matcher.match(path, 'direct_object') is True:
                 coreferences = child.coreference()
                 if coreferences is not None:
                     for coreference in coreferences:
@@ -40,7 +34,6 @@ class Verb2DirectObjects:
         whole_text = resolve_compounds(object_token)
         whole_text = ' '.join(i.text() for i in whole_text)
         object_node = narrative_graph.text2entity_node(whole_text)
-        print(type(object_node))
         if object_node is not None:
             return object_node
         return create_entity_node(whole_text, narrative_graph)

@@ -1,23 +1,18 @@
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.utils import resolve_compounds
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.creators import create_entity_node
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.extraction_paths.extraction_path_matcher import ExtractionPathMatcher
 from narrativity.datamodel.featurized_document_model.featurized_sentence import FeaturizedSentence
 from narrativity.datamodel.narrative_graph.relationships.object_relationship import ObjectRelationship
 
 
-verb2indirect_object_paths = [
-    ('ROOT', 'prep', 'pobj'),
-    ('conj', 'prep', 'pobj'),
-]
-
 class Verb2IndirectObjects:
     def load(self):
-        pass
+        self._extraction_path_matcher = ExtractionPathMatcher()
 
     def convert(self, verb_token, all_children_tokens, narrative_node, narrative_graph):
         for child in all_children_tokens:
             path = FeaturizedSentence.dependency_path_between_tokens(verb_token, child)
-            tup = (tuple(i.dep() for i in path))
-            if tup in verb2indirect_object_paths:
+            if self._extraction_path_matcher.match(path, 'indirect_object') is True:
                 coreferences = child.coreference()
                 preposition = self._get_indirect_object_preposition(child)
                 if coreferences is not None:

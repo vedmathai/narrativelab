@@ -1,27 +1,18 @@
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.utils import resolve_compounds
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.creators import create_entity_node
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.extraction_paths.extraction_path_matcher import ExtractionPathMatcher
 from narrativity.datamodel.featurized_document_model.featurized_sentence import FeaturizedSentence
 from narrativity.datamodel.narrative_graph.relationships.state_relationship import StateRelationship
 
 
-aux2description = [
-    ('ROOT', 'attr'),
-    ('conj', 'attr'),
-    ('nsubj', 'appos'),
-    ('nsubj', 'acomp'),
-    ('ROOT', 'acomp'),
-]
-
-
-class Aux2Description:
+class Aux2StateDescriptor:
     def load(self):
-        pass
+        self._extraction_path_matcher = ExtractionPathMatcher()
 
     def convert(self, aux_token, all_children_tokens, narrative_node, narrative_graph):
         for child in all_children_tokens:
             path = FeaturizedSentence.dependency_path_between_tokens(aux_token, child)
-            tup = (tuple(i.dep() for i in path))
-            if tup in aux2description:
+            if self._extraction_path_matcher.match(path, 'state_desciptor') is True:
                 coreferences = child.coreference()
                 if coreferences is not None:
                     for coreference in coreferences:
@@ -33,6 +24,7 @@ class Aux2Description:
     def add_state_relationship(self, state_node, aux, narrative_node, narrative_graph):
         state_relationship = StateRelationship.create()
         state_relationship.set_narrative(narrative_node)
+        state_relationship.set_narrative_graph(narrative_graph)
         state_relationship.set_state(state_node)
         state_relationship.set_auxiliary(aux.text())
         narrative_node.add_state_relationship(state_relationship)

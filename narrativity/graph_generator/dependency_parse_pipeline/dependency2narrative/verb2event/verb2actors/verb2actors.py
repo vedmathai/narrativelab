@@ -4,25 +4,20 @@ from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.creators import (
     create_entity_node,
 )
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.extraction_paths.extraction_path_matcher import ExtractionPathMatcher
 from narrativity.datamodel.featurized_document_model.featurized_sentence import FeaturizedSentence
 from narrativity.datamodel.narrative_graph.relationships.actor_relationship import ActorRelationship
 
 
-verb2actor_paths = [
-    ('ROOT', 'nsubj'),
-    ('conj', 'nsubj'),
-]
-
 class Verb2Actors:
 
     def load(self):
-        pass
+        self._extraction_path_matcher = ExtractionPathMatcher()
 
     def convert(self, verb_token, all_children_tokens, narrative_node, narrative_graph):
         for child in all_children_tokens:
             path = FeaturizedSentence.dependency_path_between_tokens(verb_token, child)
-            tup = (tuple(i.dep() for i in path))
-            if tup in verb2actor_paths:
+            if self._extraction_path_matcher.match(path, 'actor') is True:
                 coreferences = child.coreference()
                 if coreferences is not None:
                     for coreference in coreferences:

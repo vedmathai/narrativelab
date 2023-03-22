@@ -1,0 +1,247 @@
+{
+    "common": {
+        "word_lists": {
+            "location_prepositions": [
+                "in",
+                "on",
+                "at"
+            ]
+        }
+    },
+    "extraction_paths": [
+        {
+            "element": "direct_object",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "dobj",
+                        "nsubjpass"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "indirect_object",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [
+                        "$$location_prepositions$$"
+                    ]
+                },
+                {
+                    "deps": [
+                        "pobj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "indirect_object",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "pobj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "actor",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "nsubj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "actor",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "agent"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "pobj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "location",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": [],
+                    "tokens": [
+                        "$$location_prepositions$$"
+                    ],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "pobj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "subject",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "nsubj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "state_desciptor",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "attr", "acomp"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "state_desciptor",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "nsubj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "appos", "acomp"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        }
+    ]
+}
