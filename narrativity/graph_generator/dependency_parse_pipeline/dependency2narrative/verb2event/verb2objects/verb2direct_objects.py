@@ -7,6 +7,7 @@ from narrativity.datamodel.narrative_graph.relationships.object_relationship imp
 verb2direct_object_paths = [
     ('ROOT', 'dobj'),
     ('conj', 'dobj'),
+    ('ROOT', 'nsubjpass'),
 ]
 
 class Verb2DirectObjects:
@@ -39,6 +40,7 @@ class Verb2DirectObjects:
         whole_text = resolve_compounds(object_token)
         whole_text = ' '.join(i.text() for i in whole_text)
         object_node = narrative_graph.text2entity_node(whole_text)
+        print(type(object_node))
         if object_node is not None:
             return object_node
         return create_entity_node(whole_text, narrative_graph)

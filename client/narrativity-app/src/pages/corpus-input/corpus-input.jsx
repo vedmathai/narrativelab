@@ -7,6 +7,7 @@ import 'pages/pages.css'
 
 import postSampleCorpusAPI from 'apis/corpus/postSampleCorpusAPI';
 import getMostConnectedEntity from 'apis/nodes/getMostConnectedEntityAPI';
+import TopBar from '../../common/top-bar/top-bar';
 
 
 export default function CorpusInput(props) {
@@ -20,14 +21,13 @@ export default function CorpusInput(props) {
         setCorpus(c);
     }
 
-    const navigateToNodeContext = async (id) => {
-        navigate("/node-context-explorer?node-id=" +id)
+    const navigateToDiscover = async () => {
+        navigate("/discover")
     }
 
     const onClickSubmitCorpus = async() => {
         await postSampleCorpusAPI(corpus);
-        const entity = await getMostConnectedEntity();
-        await navigateToNodeContext(entity.id);
+        await navigateToDiscover();
     }
 
     useEffect(() => {
@@ -35,6 +35,7 @@ export default function CorpusInput(props) {
 
     return (
         <>
+            <TopBar />
             <div className="page">
                 <div className="page-content">
                     <div className="page-row">
@@ -46,7 +47,7 @@ export default function CorpusInput(props) {
                     </div>
                     <div>
                         <button 
-                            className="corpus-input-button"
+                            className="page-button corpus-input-submit-button"
                             onClick={() => onClickSubmitCorpus()}
                         >
                             Submit

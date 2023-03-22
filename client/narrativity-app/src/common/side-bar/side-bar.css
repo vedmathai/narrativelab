@@ -1,16 +1,21 @@
 .side-bar {
     height: 100vh;
-    width: 200px;
-    background-color: var(--light-green);
+    width: 300px;
+    background-color: var(--dark-grey);
     position: fixed;
     left: 0;
     top: 0;
-    border-right: var(--dark-green) 1px solid;
     padding-top: 80px;
 }
 
-.sidebar-rows {
+.side-bar-content {
     padding-top: 20px;
+    padding-left: 20px;
+}
+
+.side-bar-heading {
+    font-family: var(--main-font-family);
+    font-size: 20px;
 }
 
 .side-bar-row {
@@ -20,7 +25,7 @@
     cursor: pointer;
     font-family: var(--main-font-family);
     font-size: 20px;
-    color: var(--off-white);
+    color: var(--black);
 }
 
 .side-bar-row:hover {

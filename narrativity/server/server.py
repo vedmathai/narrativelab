@@ -1,5 +1,6 @@
 from narrativity.graph_generator.dependency_parse_pipeline.parser import NarrativeGraphGenerator
 from narrativity.presentation_utils.node_context_creator import NodeContextCreator
+from narrativity.graph_searcher.graph_searcher import GraphSearcher
 
 
 class NarrativityServer:
@@ -14,6 +15,7 @@ class NarrativityServer:
         if cls._instance is None:
             NarrativeGraphGenerator.instantiate()
             NodeContextCreator.instantiate()
+            GraphSearcher.instantiate()
             cls._instance = NarrativityServer()
             cls._instance.setup()
 
@@ -26,6 +28,7 @@ class NarrativityServer:
     def setup(self):
         self._narrative_graph_generator = NarrativeGraphGenerator.instance()
         self._node_context_creator = NodeContextCreator.instance()
+        self._graph_search = GraphSearcher.instance()
         self._narrative_graph_generator.load()
 
     def upload_corpus(self, corpus):
@@ -38,3 +41,7 @@ class NarrativityServer:
 
     def get_most_connected_node(self):
         return list(self._graph.narrative_nodes().values())[0]
+
+    def search_graph(self, search_request):
+        search_response = self._graph_search.search(search_request, self._graph)
+        return search_response

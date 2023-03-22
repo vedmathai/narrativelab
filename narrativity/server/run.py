@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 from narrativity.server.blueprints.corpus_blueprint import corpus_blueprint
 from narrativity.server.blueprints.nodes_blueprint import nodes_blueprint
-
+from narrativity.server.blueprints.graph_blueprint import graph_blueprint
 
 
 from narrativity.server.server import NarrativityServer
@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     # registering the blueprints
     blueprints = [
-        corpus_blueprint, nodes_blueprint
+        corpus_blueprint, nodes_blueprint, graph_blueprint
     ]
     for blueprint in blueprints:
         narrativity_app.register_blueprint(blueprint, url_prefix='/v1')

@@ -57,7 +57,6 @@ class NarrativeNode(AbstractNode):
         return self._direct_object_relationship_ids
 
     def indirect_object_relationships(self):
-        print(self.indirect_object_relationship_ids())
         return [self._narrative_graph.id2indirect_object_relationship(i) for i in self.indirect_object_relationship_ids()]
 
     def indirect_object_relationship_ids(self) -> List[str]:

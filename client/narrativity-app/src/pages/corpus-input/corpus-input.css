@@ -1,4 +1,11 @@
 .corpus-input-textarea {
     width: 1200px;
     height: 400px;
-  }
+    outline: none;
+    font-family: var(--main-font-family);
+}
+
+.corpus-input-submit-button {
+  margin-top: 20px;
+  margin-left: 1100px;
+}

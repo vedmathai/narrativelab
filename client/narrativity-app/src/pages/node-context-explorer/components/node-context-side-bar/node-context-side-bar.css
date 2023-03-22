@@ -1,0 +1,8 @@
+.side-bar-relationship-property-key{
+    font-family: var(--main-font-family);
+}
+
+.side-bar-relationship-property-value{
+    margin-left: 10px;
+    font-family: var(--main-font-family);
+}

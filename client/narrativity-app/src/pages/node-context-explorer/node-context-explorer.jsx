@@ -4,15 +4,16 @@ import { useSearchParams } from "react-router-dom";
 
 import './node-context-explorer.css'
 import TopBar from 'common/top-bar/top-bar';
-import SideBar from 'common/side-bar/side-bar';
 import 'pages/pages.css'
 import getNodeContextAPI from 'apis/nodes/getNodeContextAPI';
 import ContextNode from './components/context-node/context-node';
-import NodeContextRow from './components/NodeContextRow/node-context-row';
+import NodeContextRow from './components/node-context-row/node-context-row';
+import NodeContextSideBar from './components/node-context-side-bar/node-context-side-bar';
 
 
 export default function NodeContextExplorer(props) {
     var [nodeContext, setNodeContext] = useState();
+    var [focussedOtherNodeID, setFocussedOtherNodeID] = useState();
     var contextNodeRow = ""
     var nodeContextRows = ""
 
@@ -24,13 +25,17 @@ export default function NodeContextExplorer(props) {
         setNodeContext(context);
     }
 
+    const onClickContextRowCard = (id) => {
+        setFocussedOtherNodeID(id);
+    }
+
     useEffect(() => {
         getNodeContext(node_id);
     }, [node_id]);
 
-    console.log(typeof nodeContext != undefined, nodeContext);
     if (nodeContext) {
         contextNodeRow = <div className='page-row'>
+            <div className="node-context-row-heading">Node under Observation</div>
             <ContextNode
                 node={nodeContext.node}
             />
@@ -38,10 +43,11 @@ export default function NodeContextExplorer(props) {
         nodeContextRows = nodeContext.keys.map((k, k_i) => {
             return (
                 <div className='page-row'>
-                    {k}
                     <NodeContextRow
                         k={k}
                         nodeContext={nodeContext}
+                        onClickContextRowCard={onClickContextRowCard}
+                        focussedOtherNodeID={focussedOtherNodeID}
                     />
                 </div>
             )
@@ -51,12 +57,14 @@ export default function NodeContextExplorer(props) {
     return (
         <>
             <div className="page">
-                <SideBar />
+                <NodeContextSideBar 
+                    focussedOtherNodeID = {focussedOtherNodeID}
+                    nodeContext={nodeContext}
+                />
                 <TopBar />
                 <div className="page-content">
-                   {contextNodeRow}
-                   {nodeContextRows}
-
+                    {contextNodeRow}
+                    {nodeContextRows}
                 </div>
             </div>
         </>
