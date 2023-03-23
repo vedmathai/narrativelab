@@ -13,6 +13,7 @@ from narrativity.datamodel.narrative_graph.relationships.state_relationship impo
 from narrativity.datamodel.narrative_graph.relationships.actor_relationship import ActorRelationship
 from narrativity.datamodel.narrative_graph.relationships.subject_relationship import SubjectRelationship
 from narrativity.datamodel.narrative_graph.relationships.causal_relationship import CausalRelationship
+from narrativity.datamodel.narrative_graph.relationships.contradictory_relationship import ContradictoryRelationship
 
 
 class NarrativeGraph:
@@ -29,6 +30,7 @@ class NarrativeGraph:
         self._state_relationships: Dict[str, StateRelationship] = {}
         self._subject_relationships: Dict[str, SubjectRelationship] = {}
         self._causal_relationships: Dict[str, CausalRelationship] = {}
+        self._contradictory_relationships: Dict[str, ContradictoryRelationship] = {}
         self._text2action_node: Dict[str, ActionNode] = {}
         self._text2entity_node: Dict[str, EntityNode] = {}
 
@@ -89,6 +91,9 @@ class NarrativeGraph:
     def causal_relationships(self) -> Dict[str, CausalRelationship]:
         return self._causal_relationships
 
+    def contradictory_relationships(self) -> Dict[str, ContradictoryRelationship]:
+        return self._contradictory_relationships
+
     def id2actor_relationship(self, id: str) -> ActorRelationship:
         return self._actor_relationships.get(id)
 
@@ -113,6 +118,9 @@ class NarrativeGraph:
     def id2causal_relationship(self, id: str) -> CausalRelationship:
         return self._causal_relationships.get(id)
 
+    def id2contradictory_relationship(self, id: str) -> ContradictoryRelationship:
+        return self._contradictory_relationships.get(id)
+
     def id2node(self, id: str) -> AbstractNode:
         id2nodefns = [
             self.id2action_node,
@@ -136,6 +144,7 @@ class NarrativeGraph:
             self.id2actor_relationship,
             self.id2subject_relationship,
             self.id2causal_relationship,
+            self.id2contradictory_relationship,
         ]
         for fn in id2relationshipfns:
             relationship = fn(id)
@@ -185,6 +194,9 @@ class NarrativeGraph:
     def set_causal_relationships(self, causal_relationships: Dict[str, CausalRelationship]) -> None:
         self._causal_relationships = causal_relationships
 
+    def set_contradictory_relationships(self, contradictory_relationships: Dict[str, ContradictoryRelationship]) -> None:
+        self._contradictory_relationships = contradictory_relationships
+
     def add_action_node(self, action_node: ActionNode) -> None:
         self._action_nodes[action_node.id()] = action_node
         self._text2action_node[action_node.canonical_name()] = action_node
@@ -223,6 +235,9 @@ class NarrativeGraph:
     def add_causal_relationship(self, causal_relationship: CausalRelationship) -> None:
         self._causal_relationships[causal_relationship.id()] = causal_relationship
 
+    def add_contradictory_relationship(self, contradictory_relationship: ContradictoryRelationship) -> None:
+        self._contradictory_relationships[contradictory_relationship.id()] = contradictory_relationship
+
     def to_dict(self):
         return {
             "action_nodes": [i.to_dict() for i in self.action_nodes().values()],
@@ -236,6 +251,7 @@ class NarrativeGraph:
             "state_relationships": [i.to_dict() for i in self.state_relationships().values()],
             "actor_relationships": [i.to_dict() for i in self.actor_relationships().values()],
             "causal_relationships": [i.to_dict() for i in self.causal_relationships.values()],
+            "contradictory_relationships": [i.to_dict() for i in self.contradictory_relationships.values()],
             "subject_relationships": [i.to_dict() for i in self.subject_relationships().values()],
         }
 
@@ -278,4 +294,6 @@ class NarrativeGraph:
         narrative_graph.set_causal_relationships({
             i['id']: CausalRelationship.from_dict(i) for i in val['causal_relationships']
         })
-
+        narrative_graph.set_contradictory_relationships({
+            i['id']: CausalRelationship.from_dict(i) for i in val['contradictory_relationships']
+        })

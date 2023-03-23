@@ -22,6 +22,8 @@ class NarrativeNode(AbstractNode):
         self._parent_narrative_ids = []
         self._causal_out_relationship_ids = []
         self._causal_in_relationship_ids = []
+        self._contradictory_out_relationship_ids = []
+        self._contradictory_in_relationship_ids = []
         self._sources = []
         self._is_leaf = False
         self._is_state = False
@@ -109,6 +111,18 @@ class NarrativeNode(AbstractNode):
     def causal_out_relationships(self):
         return [self._narrative_graph.id2causal_relationship(i) for i in self.causal_out_relationship_ids()]
 
+    def contradictory_in_relationship_ids(self):
+        return self._contradictory_in_relationship_ids
+
+    def contradictory_out_relationship_ids(self):
+        return self._contradictory_out_relationship_ids
+
+    def contradictory_in_relationships(self):
+        return [self._narrative_graph.id2contradictory_relationship(i) for i in self.contradictory_in_relationship_ids()]
+
+    def contradictory_out_relationships(self):
+        return [self._narrative_graph.id2contradictory_relationship(i) for i in self.contradictory_out_relationship_ids()]
+
     def sub_narrative_ids(self) -> List[str]:
         return self._sub_narrative_ids
 
@@ -193,6 +207,18 @@ class NarrativeNode(AbstractNode):
     def add_causal_out_relationship(self, causal_out_relationship) -> None:
         self._causal_out_relationship_ids.append(causal_out_relationship.id())
 
+    def set_contradictory_in_relationship_ids(self, contradictory_in_relationship_ids) -> None:
+        self._contradictory_in_relationship_ids = contradictory_in_relationship_ids
+
+    def set_contradictory_out_relationship_ids(self, contradictory_out_relationship_ids) -> None:
+        self._contradictory_out_relationship_ids = contradictory_out_relationship_ids
+
+    def add_contradictory_in_relationship(self, contradictory_in_relationship) -> None:
+        self._contradictory_in_relationship_ids.append(contradictory_in_relationship.id())
+
+    def add_contradictory_out_relationship(self, contradictory_out_relationship) -> None:
+        self._contradictory_out_relationship_ids.append(contradictory_out_relationship.id())
+
     def set_sub_narrative_ids(self, sub_narrative_ids) -> List[str]:
         self._sub_narrative_ids = sub_narrative_ids
 
@@ -228,6 +254,8 @@ class NarrativeNode(AbstractNode):
         narrative_node.set_state_relationship_ids(val['state_relationship_ids'])
         narrative_node.set_causal_in_relationship_ids(val['causal_in_relationship_ids'])
         narrative_node.set_causal_out_relationship_ids(val['causal_out_relationship_ids'])
+        narrative_node.set_contradictory_in_relationship_ids(val['contradictory_in_relationship_ids'])
+        narrative_node.set_contradictory_out_relationship_ids(val['contradictory_out_relationship_ids'])
         narrative_node.set_sub_narrative_ids(val['sub_narrative_ids'])
         narrative_node.set_parent_narrative_ids(val['parent_narrative_ids'])
         narrative_node.set_sources(val['sources'])
@@ -251,6 +279,8 @@ class NarrativeNode(AbstractNode):
             "state_relationship_ids": self.state_relationship_ids(),
             "causal_in_relationship_ids": self.causal_in_relationship_ids(),
             "causal_out_relationship_ids": self.causal_out_relationship_ids(),
+            "contradictory_in_relationship_ids": self.contradictory_in_relationship_ids(),
+            "contradictory_out_relationship_ids": self.contradictory_out_relationship_ids(),
             "sub_narrative_ids": self.sub_narrative_ids(),
             "parent_narrative_ids": self.parent_narrative_ids(),
             "sources": self.sources(),

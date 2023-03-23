@@ -34,6 +34,8 @@ class NodeContextCreator:
                 self.get_states_descriptors,
                 self.get_causal_out_relationships,
                 self.get_causal_in_relationships,
+                self.get_contradictory_out_relationships,
+                self.get_contradictory_in_relationships,
             ]
         }
         return node_type2fn.get(node.type())
@@ -108,3 +110,15 @@ class NodeContextCreator:
             narrative_2 = causal_out_relationship.narrative_2()
             self.add_other_node(narrative_2, 'causal_out', node_context)
             self.add_relationship(narrative_2, causal_out_relationship, node_context)
+
+    def get_contradictory_in_relationships(self, node, node_context: NodeContext):
+        for contradictory_in_relationship in node.contradictory_in_relationships():
+            narrative_1 = contradictory_in_relationship.narrative_1()
+            self.add_other_node(narrative_1, 'contradictory_in', node_context)
+            self.add_relationship(narrative_1, contradictory_in_relationship, node_context)
+
+    def get_contradictory_out_relationships(self, node, node_context: NodeContext):
+        for contradictory_out_relationship in node.contradictory_out_relationships():
+            narrative_2 = contradictory_out_relationship.narrative_2()
+            self.add_other_node(narrative_2, 'contradictory_out', node_context)
+            self.add_relationship(narrative_2, contradictory_out_relationship, node_context)

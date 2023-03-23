@@ -15,6 +15,8 @@ const key2headings = {
     'state_descriptor': 'State Descriptors',
     'causal_in': 'Incoming Causal Relationship',
     'causal_out': 'Outgoing Causal Relationship',
+    'contradictory_in': 'Incoming Contradictory Relationship',
+    'contradictory_out': 'Outgoing Contradictory Relationship',
 }
 
 export default function NodeContextRow(props) {
