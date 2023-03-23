@@ -5,17 +5,111 @@
                 "in",
                 "on",
                 "at"
+            ],
+            "contradiction_conjuctions": [
+                "but",
+                "though",
+                "however"
+            ],
+            "forwards_causal_marks": [
+                "though",
+                "therefore"
+            ],
+            "backwards_causal_marks": [
+                "because",
+                "since"
             ]
         }
     },
     "extraction_paths": [
+        {
+            "element": "causation",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "mark", "advmod"
+                    ],
+                    "pos": [],
+                    "tokens": ["$$forwards_causal_marks$$", "$$backwards_causal_marks$$"],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "contradiction_detection",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "cc"
+                    ],
+                    "pos": ["CCONJ"],
+                    "tokens": ["$$contradiction_conjuctions$$"],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "contradiction",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "cc"
+                    ],
+                    "pos": ["CCONJ"],
+                    "tokens": ["$$contradiction_conjuctions$$"],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "ROOT", "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
         {
             "element": "direct_object",
             "extraction_path": [
                 {
                     "deps": [
                         "ROOT",
-                        "conj"
+                        "conj",
+                        "advcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -38,7 +132,8 @@
                 {
                     "deps": [
                         "ROOT",
-                        "conj"
+                        "conj",
+                        "advcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -70,7 +165,8 @@
                 {
                     "deps": [
                         "ROOT",
-                        "conj"
+                        "conj",
+                        "advcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -100,7 +196,8 @@
                 {
                     "deps": [
                         "ROOT",
-                        "conj"
+                        "conj",
+                        "advcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -122,7 +219,8 @@
                 {
                     "deps": [
                         "ROOT",
-                        "conj"
+                        "conj",
+                        "advcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -152,7 +250,8 @@
                 {
                     "deps": [
                         "ROOT",
-                        "conj"
+                        "conj",
+                        "advcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -184,7 +283,8 @@
                 {
                     "deps": [
                         "ROOT",
-                        "conj"
+                        "conj",
+                        "advcl"
                     ],
                     "pos": ["AUX"],
                     "tokens": [],

@@ -12,6 +12,7 @@ from narrativity.datamodel.narrative_graph.relationships.temporal_relationship i
 from narrativity.datamodel.narrative_graph.relationships.state_relationship import StateRelationship
 from narrativity.datamodel.narrative_graph.relationships.actor_relationship import ActorRelationship
 from narrativity.datamodel.narrative_graph.relationships.subject_relationship import SubjectRelationship
+from narrativity.datamodel.narrative_graph.relationships.causal_relationship import CausalRelationship
 
 
 class NarrativeGraph:
@@ -27,6 +28,7 @@ class NarrativeGraph:
         self._temporal_relationships: Dict[str, TemporalRelationship] = {}
         self._state_relationships: Dict[str, StateRelationship] = {}
         self._subject_relationships: Dict[str, SubjectRelationship] = {}
+        self._causal_relationships: Dict[str, CausalRelationship] = {}
         self._text2action_node: Dict[str, ActionNode] = {}
         self._text2entity_node: Dict[str, EntityNode] = {}
 
@@ -84,6 +86,9 @@ class NarrativeGraph:
     def state_relationships(self) -> Dict[str, StateRelationship]:
         return self._state_relationships
 
+    def causal_relationships(self) -> Dict[str, CausalRelationship]:
+        return self._causal_relationships
+
     def id2actor_relationship(self, id: str) -> ActorRelationship:
         return self._actor_relationships.get(id)
 
@@ -104,6 +109,9 @@ class NarrativeGraph:
 
     def id2state_relationship(self, id: str) -> StateRelationship:
         return self._state_relationships.get(id)
+
+    def id2causal_relationship(self, id: str) -> CausalRelationship:
+        return self._causal_relationships.get(id)
 
     def id2node(self, id: str) -> AbstractNode:
         id2nodefns = [
@@ -127,6 +135,7 @@ class NarrativeGraph:
             self.id2state_relationship,
             self.id2actor_relationship,
             self.id2subject_relationship,
+            self.id2causal_relationship,
         ]
         for fn in id2relationshipfns:
             relationship = fn(id)
@@ -138,15 +147,13 @@ class NarrativeGraph:
         self._action_nodes = action_nodes
         for action_node in self._action_nodes.values():
             if action_node.canonical_name() is not None:
-                self._text2entity_node[action_node.canonical_name(
-                )] = action_node
+                self._text2entity_node[action_node.canonical_name()] = action_node
 
     def set_entity_nodes(self, entity_nodes: Dict[str, EntityNode]) -> None:
         self._entity_nodes = entity_nodes
         for entity_node in self._entity_nodes.values():
             if entity_node.canonical_name() is not None:
-                self._text2entity_node[entity_node.canonical_name(
-                )] = entity_node
+                self._text2entity_node[entity_node.canonical_name()] = entity_node
 
     def set_absolute_temporal_nodes(self, absolute_temporal_nodes: Dict[str, AbsoluteTemporalNode]) -> None:
         self._absolute_temporal_nodes = absolute_temporal_nodes
@@ -175,6 +182,9 @@ class NarrativeGraph:
     def set_subject_relationships(self, subject_relationships: Dict[str, SubjectRelationship]) -> None:
         self._subject_relationships = subject_relationships
 
+    def set_causal_relationships(self, causal_relationships: Dict[str, CausalRelationship]) -> None:
+        self._causal_relationships = causal_relationships
+
     def add_action_node(self, action_node: ActionNode) -> None:
         self._action_nodes[action_node.id()] = action_node
         self._text2action_node[action_node.canonical_name()] = action_node
@@ -202,7 +212,6 @@ class NarrativeGraph:
         self._indirect_object_relationships[object_relationship.id()] = object_relationship
 
     def add_state_relationship(self, state_relationship: StateRelationship) -> None:
-        print(state_relationship.id())
         self._state_relationships[state_relationship.id()] = state_relationship
 
     def add_actor_relationship(self, actor_relationship: ActorRelationship) -> None:
@@ -210,6 +219,9 @@ class NarrativeGraph:
 
     def add_subject_relationship(self, subject_relationship: SubjectRelationship) -> None:
         self._subject_relationships[subject_relationship.id()] = subject_relationship
+
+    def add_causal_relationship(self, causal_relationship: CausalRelationship) -> None:
+        self._causal_relationships[causal_relationship.id()] = causal_relationship
 
     def to_dict(self):
         return {
@@ -223,6 +235,7 @@ class NarrativeGraph:
             "temporal_relationships": [i.to_dict() for i in self.temporal_relationships().values()],
             "state_relationships": [i.to_dict() for i in self.state_relationships().values()],
             "actor_relationships": [i.to_dict() for i in self.actor_relationships().values()],
+            "causal_relationships": [i.to_dict() for i in self.causal_relationships.values()],
             "subject_relationships": [i.to_dict() for i in self.subject_relationships().values()],
         }
 
@@ -262,3 +275,7 @@ class NarrativeGraph:
         narrative_graph.set_subject_relationships({
             i['id']: SubjectRelationship.from_dict(i) for i in val['subject_relationships']
         })
+        narrative_graph.set_causal_relationships({
+            i['id']: CausalRelationship.from_dict(i) for i in val['causal_relationships']
+        })
+

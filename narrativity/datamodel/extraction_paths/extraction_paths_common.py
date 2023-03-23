@@ -11,9 +11,12 @@ class ExtractionPathsCommon:
     def keys2word_lists(self, keys):
         all_words = set()
         for key in keys:
-            key = key.strip('$$')
-            all_words |= set(self._word_lists[key])
+            all_words |= self.key2word_list(key)
         return all_words
+
+    def key2word_list(self, key):
+        key = key.strip('$$')
+        return set(self._word_lists[key])
 
     def set_word_lists(self, word_lists):
         self._word_lists = word_lists

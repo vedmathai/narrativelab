@@ -32,3 +32,4 @@ class Verb2Event:
         self._verb2locations.convert(verb, all_children_tokens, narrative_node, narrative_graph)
         narrative_graph.add_narrative_node(narrative_node)
         narrative_node.set_narrative_graph(narrative_graph)
+        return narrative_node
