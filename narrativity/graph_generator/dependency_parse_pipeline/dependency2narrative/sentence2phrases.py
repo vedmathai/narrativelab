@@ -19,6 +19,7 @@ class Sentence2Phrases:
                 self._forwards_contradiction,
                 self._but_like_contradiction,
                 self._however_like_contradiction,
+                self._after_like_temporal_relationship,
             ]
             for phrase_connector_fn in phrase_connector_fns:
                 phrase_connectors, single_root_flag = phrase_connector_fn(path, phrase_connectors, root, child, all_children_tokens, single_root_flag)
@@ -76,6 +77,19 @@ class Sentence2Phrases:
                 if self._extraction_path_matcher.match(path2, 'however_like_contradiction') is True:
                     second_verb = child2
                     phrase_connector = PhraseConnector.create(root, second_verb, "however_like_contradiction", mark)
+                    phrase_connectors.append(phrase_connector)
+                    phrase_connectors = self.split(child2, phrase_connectors, False)
+        return phrase_connectors, single_root_flag
+
+    def _after_like_temporal_relationship(self, path, phrase_connectors, root, child, all_children_tokens, single_root_flag):
+        if self._extraction_path_matcher.match(path, 'after_like_temporal_relationship_detection') is True:
+            single_root_flag = False
+            mark = child
+            for child2 in all_children_tokens:
+                path2 = FeaturizedSentence.dependency_path_between_tokens(mark, child2)
+                if self._extraction_path_matcher.match(path2, 'after_like_temporal_relationship') is True:
+                    second_verb = child2
+                    phrase_connector = PhraseConnector.create(root, second_verb, "after_like_temporal_relationship", mark)
                     phrase_connectors.append(phrase_connector)
                     phrase_connectors = self.split(child2, phrase_connectors, False)
         return phrase_connectors, single_root_flag

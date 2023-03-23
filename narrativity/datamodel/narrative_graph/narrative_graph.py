@@ -8,7 +8,7 @@ from narrativity.datamodel.narrative_graph.nodes.absolute_temporal_node import A
 from narrativity.datamodel.narrative_graph.nodes.narrative_node import NarrativeNode
 from narrativity.datamodel.narrative_graph.relationships.location_relationship import LocationRelationship
 from narrativity.datamodel.narrative_graph.relationships.object_relationship import ObjectRelationship
-from narrativity.datamodel.narrative_graph.relationships.temporal_relationship import TemporalRelationship
+from narrativity.datamodel.narrative_graph.relationships.temporal_event_relationship import TemporalEventRelationship
 from narrativity.datamodel.narrative_graph.relationships.state_relationship import StateRelationship
 from narrativity.datamodel.narrative_graph.relationships.actor_relationship import ActorRelationship
 from narrativity.datamodel.narrative_graph.relationships.subject_relationship import SubjectRelationship
@@ -26,7 +26,7 @@ class NarrativeGraph:
         self._actor_relationships: Dict[str, ActorRelationship] = {}
         self._direct_object_relationships: Dict[str, ObjectRelationship] = {}
         self._indirect_object_relationships: Dict[str, ObjectRelationship] = {}
-        self._temporal_relationships: Dict[str, TemporalRelationship] = {}
+        self._temporal_event_relationships: Dict[str, TemporalEventRelationship] = {}
         self._state_relationships: Dict[str, StateRelationship] = {}
         self._subject_relationships: Dict[str, SubjectRelationship] = {}
         self._causal_relationships: Dict[str, CausalRelationship] = {}
@@ -82,8 +82,8 @@ class NarrativeGraph:
     def indirect_object_relationships(self) -> Dict[str, ObjectRelationship]:
         return self._indirect_object_relationships
 
-    def temporal_relationships(self) -> Dict[str, TemporalRelationship]:
-        return self._temporal_relationships
+    def temporal_event_relationships(self) -> Dict[str, TemporalEventRelationship]:
+        return self._temporal_event_relationships
 
     def state_relationships(self) -> Dict[str, StateRelationship]:
         return self._state_relationships
@@ -109,8 +109,8 @@ class NarrativeGraph:
     def id2indirect_object_relationship(self, id: str) -> ObjectRelationship:
         return self._indirect_object_relationships.get(id)
 
-    def id2temporal_relationship(self, id: str) -> TemporalRelationship:
-        return self._temporal_relationships.get(id)
+    def id2temporal_event_relationship(self, id: str) -> TemporalEventRelationship:
+        return self._temporal_event_relationships.get(id)
 
     def id2state_relationship(self, id: str) -> StateRelationship:
         return self._state_relationships.get(id)
@@ -139,7 +139,7 @@ class NarrativeGraph:
             self.id2location_relationship,
             self.id2direct_object_relationship,
             self.id2indirect_object_relationship,
-            self.id2temporal_relationship,
+            self.id2temporal_event_relationship,
             self.id2state_relationship,
             self.id2actor_relationship,
             self.id2subject_relationship,
@@ -173,8 +173,8 @@ class NarrativeGraph:
     def set_location_relationships(self, location_relationships: Dict[str, LocationRelationship]) -> None:
         self._location_relationships = location_relationships
 
-    def set_temporal_relationships(self, temporal_relationships: Dict[str, TemporalRelationship]) -> None:
-        self._temporal_relationships = temporal_relationships
+    def set_temporal_event_relationships(self, temporal_event_relationships: Dict[str, TemporalEventRelationship]) -> None:
+        self._temporal_event_relationships = temporal_event_relationships
 
     def set_direct_object_relationships(self, direct_object_relationships: Dict[str, ObjectRelationship]) -> None:
         self._direct_object_relationships = direct_object_relationships
@@ -214,8 +214,8 @@ class NarrativeGraph:
     def add_location_relationship(self, location_relationship: LocationRelationship) -> None:
         self._location_relationships[location_relationship.id()] = location_relationship
 
-    def add_temporal_relationship(self, temporal_relationship: TemporalRelationship) -> None:
-        self._temporal_relationships[temporal_relationship.id()] = temporal_relationship
+    def add_temporal_event_relationship(self, temporal_event_relationship: TemporalEventRelationship) -> None:
+        self._temporal_event_relationships[temporal_event_relationship.id()] = temporal_event_relationship
 
     def add_direct_object_relationship(self, object_relationship: ObjectRelationship) -> None:
         self._direct_object_relationships[object_relationship.id()] = object_relationship
@@ -247,7 +247,7 @@ class NarrativeGraph:
             "location_relationships": [i.to_dict() for i in self.location_relationships().values()],
             "direct_object_relationships": [i.to_dict() for i in self.direct_object_relationships().values()],
             "indirect_object_relationships": [i.to_dict() for i in self.indirect_object_relationships().values()],
-            "temporal_relationships": [i.to_dict() for i in self.temporal_relationships().values()],
+            "temporal_event_relationships": [i.to_dict() for i in self.temporal_event_relationships().values()],
             "state_relationships": [i.to_dict() for i in self.state_relationships().values()],
             "actor_relationships": [i.to_dict() for i in self.actor_relationships().values()],
             "causal_relationships": [i.to_dict() for i in self.causal_relationships.values()],
@@ -295,5 +295,8 @@ class NarrativeGraph:
             i['id']: CausalRelationship.from_dict(i) for i in val['causal_relationships']
         })
         narrative_graph.set_contradictory_relationships({
-            i['id']: CausalRelationship.from_dict(i) for i in val['contradictory_relationships']
+            i['id']: ContradictoryRelationship.from_dict(i) for i in val['contradictory_relationships']
+        })
+        narrative_graph.set_temporal_event_relationships({
+            i['id']: TemporalEventRelationship.from_dict(i) for i in val['temporal_event_relationships']
         })

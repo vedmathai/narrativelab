@@ -22,6 +22,9 @@
             "backwards_causal_marks": [
                 "because",
                 "since"
+            ],
+            "after_like_temporal_prepositions": [
+                "after", "before", "during", "while", "when"
             ]
         }
     },
@@ -224,6 +227,56 @@
                     ],
                     "pos": ["SCONJ"],
                     "tokens": ["$$though_like_contradiction_conjunctions$$"],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "after_like_temporal_relationship_detection",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": []
+                },
+                {
+                    "deps": [
+                        "mark", "advmod"
+                    ],
+                    "pos": ["SCONJ"],
+                    "tokens": ["$$after_like_temporal_prepositions$$"],
+                    "tokens_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "after_like_temporal_relationship",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "mark", "advmod"
+                    ],
+                    "pos": ["SCONJ"],
+                    "tokens": ["$$after_like_temporal_prepositions$$"],
                     "tokens_blacklist": []
                 },
                 {

@@ -17,6 +17,8 @@ const key2headings = {
     'causal_out': 'Outgoing Causal Relationship',
     'contradictory_in': 'Incoming Contradictory Relationship',
     'contradictory_out': 'Outgoing Contradictory Relationship',
+    'temporal_event_in': 'Incoming Temporal Event Relationship',
+    'temporal_event_out': 'Outgoing Temporal Event Relationship'
 }
 
 export default function NodeContextRow(props) {
