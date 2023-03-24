@@ -46,6 +46,18 @@ class ExtractionPathMatcher:
         blacklist_tokens_check = True
         if len(blacklist_tokens) > 0 and element.text().lower() in blacklist_tokens:
             blacklist_tokens_check = False
-        checks = [dep_check, pos_check, tokens_check, blacklist_tokens_check]
+        entity_type_check = self._check_entity_type(element, path_element)
+        checks = [dep_check, pos_check, tokens_check, blacklist_tokens_check, entity_type_check]
         check = all(i for i in checks)
         return check
+
+    def _check_entity_type(self, element, path_element):
+        entity_type_check = True
+        entity_types_whitelists = path_element.entity_types()
+        if len(entity_types_whitelists) > 0 and entity_types_whitelists:
+            entity_type_check = element.entity_type() in entity_types_whitelists
+        blacklist_entity_types = path_element.entity_types_blacklist()
+        blacklist_entity_types_check = True
+        if len(blacklist_entity_types) > 0 and element.entity_type() in blacklist_entity_types:
+            blacklist_entity_types_check = False
+        return entity_type_check and blacklist_entity_types_check

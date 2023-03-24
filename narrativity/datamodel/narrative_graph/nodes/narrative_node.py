@@ -16,7 +16,9 @@ class NarrativeNode(AbstractNode):
         self._direct_object_relationship_ids = []
         self._indirect_object_relationship_ids = [] #adjunct vs instrumental
         self._location_relationship_ids = []
-        self._temporal_relationship_ids = []
+        self._temporal_event_in_relationship_ids = []
+        self._temporal_event_out_relationship_ids = []
+        self._absolute_temporal_relationship_ids = []
         self._state_relationship_ids = []
         self._sub_narrative_ids = []
         self._parent_narrative_ids = []
@@ -87,8 +89,14 @@ class NarrativeNode(AbstractNode):
     def location_relationships(self):
         return [self._narrative_graph.id2location_relationship(i) for i in self.location_relationship_ids()]
 
-    def temporal_relationship_ids(self) -> List[str]:
-        return self._temporal_relationship_ids
+    def temporal_event_in_relationship_ids(self) -> List[str]:
+        return self._temporal_event_in_relationship_ids
+
+    def temporal_event_out_relationship_ids(self) -> List[str]:
+        return self._temporal_event_out_relationship_ids
+
+    def absolute_temporal_relationship_ids(self) -> List[str]:
+        return self._absolute_temporal_relationship_ids
 
     def state_relationships(self):
         return [self._narrative_graph.id2state_relationship(i) for i in self.state_relationship_ids()]
@@ -96,8 +104,14 @@ class NarrativeNode(AbstractNode):
     def state_relationship_ids(self) -> List[str]:
         return self._state_relationship_ids
 
-    def temporal_relationships(self):
-        return [self._narrative_graph.id2temporal_relationship(i) for i in self.temporal_relationship_ids()]
+    def temporal_event_in_relationships(self):
+        return [self._narrative_graph.id2temporal_event_relationship(i) for i in self.temporal_event_in_relationship_ids()]
+
+    def temporal_event_out_relationships(self):
+        return [self._narrative_graph.id2temporal_event_relationship(i) for i in self.temporal_event_out_relationship_ids()]
+
+    def absolute_temporal_relationships(self):
+        return [self._narrative_graph.id2absolute_temporal_relationship(i) for i in self.absolute_temporal_relationship_ids()]
 
     def causal_in_relationship_ids(self):
         return self._causal_in_relationship_ids
@@ -186,8 +200,14 @@ class NarrativeNode(AbstractNode):
     def add_location_relationship(self, location_relationship) -> List[str]:
         self._location_relationship_ids.append(location_relationship.id())
 
-    def set_temporal_relationship_ids(self, temporal_relationship_ids) -> List[str]:
-        self._temporal_relationship_ids = temporal_relationship_ids
+    def set_temporal_event_in_relationship_ids(self, temporal_event_in_relationship_ids) -> List[str]:
+        self._temporal_event_in_relationship_ids = temporal_event_in_relationship_ids
+
+    def set_temporal_event_out_relationship_ids(self, temporal_event_out_relationship_ids) -> List[str]:
+        self._temporal_event_out_relationship_ids = temporal_event_out_relationship_ids
+
+    def set_absolute_temporal_relationship_ids(self, absolute_temporal_relationship_ids) -> List[str]:
+        self._absolute_temporal_relationship_ids = absolute_temporal_relationship_ids
 
     def set_state_relationship_ids(self, state_relationship_ids) -> List[str]:
         self._state_relationship_ids = state_relationship_ids
@@ -218,6 +238,15 @@ class NarrativeNode(AbstractNode):
 
     def add_contradictory_out_relationship(self, contradictory_out_relationship) -> None:
         self._contradictory_out_relationship_ids.append(contradictory_out_relationship.id())
+
+    def add_temporal_event_in_relationship(self, temporal_event_in_relationship) -> None:
+        self._temporal_event_in_relationship_ids.append(temporal_event_in_relationship.id())
+
+    def add_temporal_event_out_relationship(self, temporal_event_out_relationship) -> None:
+        self._temporal_event_out_relationship_ids.append(temporal_event_out_relationship.id())
+
+    def add_absolute_temporal_relationship(self, absolute_temporal_relationship) -> None:
+        self._absolute_temporal_relationship_ids.append(absolute_temporal_relationship.id())
 
     def set_sub_narrative_ids(self, sub_narrative_ids) -> List[str]:
         self._sub_narrative_ids = sub_narrative_ids
@@ -250,7 +279,9 @@ class NarrativeNode(AbstractNode):
         narrative_node.set_direct_object_relationship_ids(val['direct_object_relationship_ids'])
         narrative_node.set_indirect_object_relationship_ids(val['indirect_object_relationship_ids'])
         narrative_node.set_location_relationship_ids(val['location_relationship_ids'])
-        narrative_node.set_temporal_relationship_ids(val['temporal_relationship_ids'])
+        narrative_node.set_temporal_event_in_relationship_ids(val['temporal_event_in_relationship_ids'])
+        narrative_node.set_temporal_event_out_relationship_ids(val['temporal_event_out_relationship_ids'])
+        narrative_node.set_absolute_temporal_relationship_ids(val['absolute_temporal_relationship_ids'])
         narrative_node.set_state_relationship_ids(val['state_relationship_ids'])
         narrative_node.set_causal_in_relationship_ids(val['causal_in_relationship_ids'])
         narrative_node.set_causal_out_relationship_ids(val['causal_out_relationship_ids'])
@@ -275,7 +306,9 @@ class NarrativeNode(AbstractNode):
             "direct_object_relationship_ids": self.direct_object_relationship_ids(),
             "indirect_object_relationship_ids": self.indirect_object_relationship_ids(),
             "location_relationship_ids": self.location_relationship_ids(),
-            "temporal_relationship_ids": self.temporal_relationship_ids(),
+            "temporal_event_in_relationship_ids": self.temporal_event_in_relationship_ids(),
+            "temporal_event_out_relationship_ids": self.temporal_event_out_relationship_ids(),
+            "absolute_temporal_relationship_ids": self.absolute_temporal_relationship_ids(),
             "state_relationship_ids": self.state_relationship_ids(),
             "causal_in_relationship_ids": self.causal_in_relationship_ids(),
             "causal_out_relationship_ids": self.causal_out_relationship_ids(),

@@ -14,3 +14,4 @@ class AbstractEvents2Relationships:
             extraction_paths_dict = json.load(f)
             extraction_paths = ExtractionPaths.from_dict(extraction_paths_dict)
         self._extraction_paths = extraction_paths
+

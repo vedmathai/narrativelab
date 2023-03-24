@@ -22,6 +22,9 @@
             "backwards_causal_marks": [
                 "because",
                 "since"
+            ],
+            "after_like_temporal_prepositions": [
+                "after", "before", "during", "while", "when"
             ]
         }
     },
@@ -36,7 +39,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -44,7 +49,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -52,7 +59,9 @@
                     ],
                     "pos": [],
                     "tokens": ["$$forwards_causal_marks$$"],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -66,7 +75,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -74,7 +85,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -82,7 +95,9 @@
                     ],
                     "pos": [],
                     "tokens": ["$$backwards_causal_marks$$"],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -95,7 +110,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -103,7 +120,9 @@
                     ],
                     "pos": ["CCONJ"],
                     "tokens": ["$$but_like_contradiction_conjunctions$$"],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -116,7 +135,9 @@
                     ],
                     "pos": ["CCONJ"],
                     "tokens": ["$$but_like_contradiction_conjunctions$$"],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -124,7 +145,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -132,7 +155,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -145,7 +170,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -153,7 +180,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -161,7 +190,9 @@
                     ],
                     "pos": [],
                     "tokens": ["$$however_like_contradiction_conjunctions$$"],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -174,7 +205,9 @@
                     ],
                     "pos": ["ADV"],
                     "tokens": ["$$however_like_contradiction_conjunctions$$"],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -182,7 +215,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -195,7 +230,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -203,7 +240,9 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -211,7 +250,9 @@
                     ],
                     "pos": ["SCONJ"],
                     "tokens": ["$$though_like_contradiction_conjunctions$$"],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -224,7 +265,9 @@
                     ],
                     "pos": ["SCONJ"],
                     "tokens": ["$$though_like_contradiction_conjunctions$$"],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -232,7 +275,69 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "after_like_temporal_relationship_detection",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "mark", "advmod"
+                    ],
+                    "pos": ["SCONJ"],
+                    "tokens": ["$$after_like_temporal_prepositions$$"],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "after_like_temporal_relationship",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "mark", "advmod"
+                    ],
+                    "pos": ["SCONJ"],
+                    "tokens": ["$$after_like_temporal_prepositions$$"],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -247,7 +352,9 @@
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -256,7 +363,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -271,7 +380,9 @@
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -281,7 +392,9 @@
                     "tokens": [],
                     "tokens_blacklist": [
                         "$$location_prepositions$$"
-                    ]
+                    ],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -289,7 +402,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -304,7 +419,9 @@
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -312,7 +429,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -320,7 +439,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": ["DATE"]
                 }
             ]
         },
@@ -335,7 +456,9 @@
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -343,7 +466,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -358,7 +483,9 @@
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -366,7 +493,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -374,7 +503,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -389,7 +520,9 @@
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -399,7 +532,9 @@
                     "tokens": [
                         "$$location_prepositions$$"
                     ],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -407,7 +542,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": ["DATE"]
                 }
             ]
         },
@@ -422,7 +559,9 @@
                     ],
                     "pos": ["AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -430,7 +569,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -444,7 +585,9 @@
                     ],
                     "pos": ["AUX"],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -452,7 +595,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 }
             ]
         },
@@ -465,7 +610,9 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
                 },
                 {
                     "deps": [
@@ -473,7 +620,44 @@
                     ],
                     "pos": [],
                     "tokens": [],
-                    "tokens_blacklist": []
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "absolute_times",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "pobj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": ["DATE"],
+                    "entity_types_blacklist": []
                 }
             ]
         }

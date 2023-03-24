@@ -1,5 +1,5 @@
 from typing import Dict, List
-
+import uuid
 
 from narrativity.datamodel.narrative_graph.nodes.abstract_node import AbstractNode
 from narrativity.datamodel.narrative_graph.auxiliaries.temporal_value import TemporalValue
@@ -9,14 +9,17 @@ class AbsoluteTemporalNode(AbstractNode):
     _type = "absolute_temporal_node"
 
     def __init__(self):
-        self._id = ""
-        self._unit = None
+        super().__init__()
         self._temporal_values = []
         self._narrative_relationship_ids = []
-        
-    def id(self) -> str:
-        return self._id
 
+    def canonical_name(self) -> str:
+        name = '_'.join(i.value() for i in self._temporal_values)
+        return name
+
+    def display_name(self) -> str:
+        return self.canonical_name()
+        
     def temporal_values(self) -> List[TemporalValue]:
         return self._temporal_values
 
@@ -26,17 +29,20 @@ class AbsoluteTemporalNode(AbstractNode):
     def narrative_relationships(self):
         return [self._narrative_graph.id2action_relationships(id) for id in self.narrative_relationship_ids()]
 
+    def add_temporal_value(self, temporal_value: TemporalValue):
+        self._temporal_values.append(temporal_value)
+
     def set_id(self, id: str) -> None:
         self._id = id
-
-    def set_unit(self, unit: str) -> None:
-        self._unit = unit
 
     def set_temporal_values(self, temporal_values: List[TemporalValue]) -> None:
         self._temporal_values = temporal_values
 
     def set_narrative_relationship_ids(self, narrative_relationships_ids: List[str]):
         self._narrative_relationship_ids = narrative_relationships_ids
+
+    def add_narrative_relationship(self, narrative_relationship):
+        self._narrative_relationship_ids.append(narrative_relationship.id())
 
     @staticmethod
     def from_dict(val, narrative_graph) -> "AbsoluteTemporalNode":
@@ -50,7 +56,13 @@ class AbsoluteTemporalNode(AbstractNode):
     def to_dict(self) -> Dict:
         return {
             "id": self.id(),
-            "unit": self.unit(),
-            "values": [i.to_dict() for i in self.values()],
+            "display_name": self.display_name(),
+            "temporal_values": [i.to_dict() for i in self.temporal_values()],
             "narrative_relationship_ids": self.narrative_relationship_ids(),
         }
+
+    @staticmethod
+    def create():
+        action_node = AbsoluteTemporalNode()
+        action_node.set_id(str(uuid.uuid4()))
+        return action_node

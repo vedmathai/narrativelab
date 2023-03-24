@@ -11,12 +11,15 @@ const key2headings = {
     'direct_object': 'Direct Objects',
     'indirect_object': 'Indirect Objects',
     'location': 'Locations',
+    'absolute_time': 'Absolute Temporal Relationships',
     'subject': 'Subjects',
     'state_descriptor': 'State Descriptors',
     'causal_in': 'Incoming Causal Relationship',
     'causal_out': 'Outgoing Causal Relationship',
     'contradictory_in': 'Incoming Contradictory Relationship',
     'contradictory_out': 'Outgoing Contradictory Relationship',
+    'temporal_event_in': 'Incoming Temporal Event Relationship',
+    'temporal_event_out': 'Outgoing Temporal Event Relationship'
 }
 
 export default function NodeContextRow(props) {
