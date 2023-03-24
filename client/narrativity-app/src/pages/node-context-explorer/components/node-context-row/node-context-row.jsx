@@ -11,6 +11,7 @@ const key2headings = {
     'direct_object': 'Direct Objects',
     'indirect_object': 'Indirect Objects',
     'location': 'Locations',
+    'absolute_time': 'Absolute Temporal Relationships',
     'subject': 'Subjects',
     'state_descriptor': 'State Descriptors',
     'causal_in': 'Incoming Causal Relationship',

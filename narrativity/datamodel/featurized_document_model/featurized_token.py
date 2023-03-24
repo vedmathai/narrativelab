@@ -14,6 +14,7 @@ class FeaturizedToken:
         self._deps = defaultdict(list)
         self._dep = None
         self._tag = None
+        self._entity_type = None
         self._vector = None
         self._i_in_sentence = None
         self._coreference = None
@@ -32,6 +33,9 @@ class FeaturizedToken:
 
     def tag(self):
         return self._tag
+
+    def entity_type(self):
+        return self._entity_type
 
     def pos(self):
         return self._pos
@@ -104,6 +108,9 @@ class FeaturizedToken:
     def set_tag(self, tag):
         self._tag = tag
 
+    def set_entity_type(self, entity_type):
+        self._entity_type = entity_type
+
     def set_vector(self, vector):
         self._vector = vector
 
@@ -142,6 +149,7 @@ class FeaturizedToken:
         ftoken._pos = token.pos_
         ftoken._dep = token.dep_
         ftoken._vector = token.vector
+        ftoken._entity_type = token.ent_type_
         coref = document._.coref_chains.resolve(token)
         if coref is not None:
             ftoken._coreference = [i.i for i in coref]

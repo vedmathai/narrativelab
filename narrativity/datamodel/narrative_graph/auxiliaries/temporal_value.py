@@ -1,8 +1,8 @@
 
 class TemporalValue:
     def __init__(self):
-        self._value
-        self._unit
+        self._value = None
+        self._unit = None
 
     def value(self) -> str:
         return self._value
@@ -28,3 +28,9 @@ class TemporalValue:
         temporal_value.set_value(val['value'])
         temporal_value.set_unit(val['unit'])
         return temporal_value
+
+    @staticmethod
+    def create():
+        temporal_value = TemporalValue()
+        return temporal_value
+

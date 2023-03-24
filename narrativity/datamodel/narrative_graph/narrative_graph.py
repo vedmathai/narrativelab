@@ -9,6 +9,7 @@ from narrativity.datamodel.narrative_graph.nodes.narrative_node import Narrative
 from narrativity.datamodel.narrative_graph.relationships.location_relationship import LocationRelationship
 from narrativity.datamodel.narrative_graph.relationships.object_relationship import ObjectRelationship
 from narrativity.datamodel.narrative_graph.relationships.temporal_event_relationship import TemporalEventRelationship
+from narrativity.datamodel.narrative_graph.relationships.absolute_temporal_relationship import AbsoluteTemporalRelationship
 from narrativity.datamodel.narrative_graph.relationships.state_relationship import StateRelationship
 from narrativity.datamodel.narrative_graph.relationships.actor_relationship import ActorRelationship
 from narrativity.datamodel.narrative_graph.relationships.subject_relationship import SubjectRelationship
@@ -27,12 +28,14 @@ class NarrativeGraph:
         self._direct_object_relationships: Dict[str, ObjectRelationship] = {}
         self._indirect_object_relationships: Dict[str, ObjectRelationship] = {}
         self._temporal_event_relationships: Dict[str, TemporalEventRelationship] = {}
+        self._absolute_temporal_relationships: Dict[str, AbsoluteTemporalRelationship] = {}
         self._state_relationships: Dict[str, StateRelationship] = {}
         self._subject_relationships: Dict[str, SubjectRelationship] = {}
         self._causal_relationships: Dict[str, CausalRelationship] = {}
         self._contradictory_relationships: Dict[str, ContradictoryRelationship] = {}
         self._text2action_node: Dict[str, ActionNode] = {}
         self._text2entity_node: Dict[str, EntityNode] = {}
+        self._text2absolute_temporal_node: Dict[str, AbsoluteTemporalNode] = {}
 
     def action_nodes(self) -> Dict[str, ActionNode]:
         return self._action_nodes
@@ -64,6 +67,9 @@ class NarrativeGraph:
     def id2absolute_temporal_node(self, id: str) -> AbsoluteTemporalNode:
         return self._absolute_temporal_nodes.get(id)
 
+    def text2absolute_temporal_node(self, text: str) -> AbsoluteTemporalNode:
+        return self._text2absolute_temporal_node.get(text)
+
     def id2narrative_node(self, id: str) -> NarrativeNode:
         return self._narrative_nodes.get(id)
 
@@ -84,6 +90,9 @@ class NarrativeGraph:
 
     def temporal_event_relationships(self) -> Dict[str, TemporalEventRelationship]:
         return self._temporal_event_relationships
+
+    def absolute_temporal_relationships(self) -> Dict[str, AbsoluteTemporalRelationship]:
+        return self._absolute_temporal_relationships
 
     def state_relationships(self) -> Dict[str, StateRelationship]:
         return self._state_relationships
@@ -108,6 +117,9 @@ class NarrativeGraph:
 
     def id2indirect_object_relationship(self, id: str) -> ObjectRelationship:
         return self._indirect_object_relationships.get(id)
+
+    def id2absolute_temporal_relationship(self, id: str) -> AbsoluteTemporalRelationship:
+        return self._absolute_temporal_relationships.get(id)
 
     def id2temporal_event_relationship(self, id: str) -> TemporalEventRelationship:
         return self._temporal_event_relationships.get(id)
@@ -140,6 +152,7 @@ class NarrativeGraph:
             self.id2direct_object_relationship,
             self.id2indirect_object_relationship,
             self.id2temporal_event_relationship,
+            self.id2absolute_temporal_relationship,
             self.id2state_relationship,
             self.id2actor_relationship,
             self.id2subject_relationship,
@@ -166,6 +179,12 @@ class NarrativeGraph:
 
     def set_absolute_temporal_nodes(self, absolute_temporal_nodes: Dict[str, AbsoluteTemporalNode]) -> None:
         self._absolute_temporal_nodes = absolute_temporal_nodes
+        for absolute_temporal_node in self._absolute_temporal_nodes.values():
+            if absolute_temporal_node.canonical_name() is not None:
+                self._text2absolute_temporal_node[absolute_temporal_node.canonical_name()] = absolute_temporal_node
+
+    def set_absolute_temporal_nodes(self, absolute_temporal_nodes: Dict[str, AbsoluteTemporalNode]) -> None:
+        self._absolute_temporal_nodes = absolute_temporal_nodes
 
     def set_narrative_nodes(self, narrative_nodes: Dict[str, NarrativeNode]) -> None:
         self._narrative_nodes = narrative_nodes
@@ -175,6 +194,9 @@ class NarrativeGraph:
 
     def set_temporal_event_relationships(self, temporal_event_relationships: Dict[str, TemporalEventRelationship]) -> None:
         self._temporal_event_relationships = temporal_event_relationships
+        
+    def set_absolute_temporal_relationships(self, absolute_temporal_relationships: Dict[str, AbsoluteTemporalRelationship]) -> None:
+        self._absolute_temporal_relationships = absolute_temporal_relationships
 
     def set_direct_object_relationships(self, direct_object_relationships: Dict[str, ObjectRelationship]) -> None:
         self._direct_object_relationships = direct_object_relationships
@@ -207,6 +229,7 @@ class NarrativeGraph:
 
     def add_absolute_temporal_node(self, absolute_temporal_node: AbsoluteTemporalNode) -> None:
         self._absolute_temporal_nodes[absolute_temporal_node.id()] = absolute_temporal_node
+        self._text2absolute_temporal_node[absolute_temporal_node.canonical_name()] = absolute_temporal_node
 
     def add_narrative_node(self, narrative_node: NarrativeNode) -> None:
         self._narrative_nodes[narrative_node.id()] = narrative_node
@@ -216,6 +239,9 @@ class NarrativeGraph:
 
     def add_temporal_event_relationship(self, temporal_event_relationship: TemporalEventRelationship) -> None:
         self._temporal_event_relationships[temporal_event_relationship.id()] = temporal_event_relationship
+    
+    def add_absolute_temporal_relationship(self, absolute_temporal_relationship: AbsoluteTemporalRelationship) -> None:
+        self._absolute_temporal_relationships[absolute_temporal_relationship.id()] = absolute_temporal_relationship
 
     def add_direct_object_relationship(self, object_relationship: ObjectRelationship) -> None:
         self._direct_object_relationships[object_relationship.id()] = object_relationship
@@ -248,10 +274,11 @@ class NarrativeGraph:
             "direct_object_relationships": [i.to_dict() for i in self.direct_object_relationships().values()],
             "indirect_object_relationships": [i.to_dict() for i in self.indirect_object_relationships().values()],
             "temporal_event_relationships": [i.to_dict() for i in self.temporal_event_relationships().values()],
+            "absolute_temporal_relationships": [i.to_dict() for i in self.absolute_temporal_relationships().values()],
             "state_relationships": [i.to_dict() for i in self.state_relationships().values()],
             "actor_relationships": [i.to_dict() for i in self.actor_relationships().values()],
-            "causal_relationships": [i.to_dict() for i in self.causal_relationships.values()],
-            "contradictory_relationships": [i.to_dict() for i in self.contradictory_relationships.values()],
+            "causal_relationships": [i.to_dict() for i in self.causal_relationships().values()],
+            "contradictory_relationships": [i.to_dict() for i in self.contradictory_relationships().values()],
             "subject_relationships": [i.to_dict() for i in self.subject_relationships().values()],
         }
 
@@ -299,4 +326,7 @@ class NarrativeGraph:
         })
         narrative_graph.set_temporal_event_relationships({
             i['id']: TemporalEventRelationship.from_dict(i) for i in val['temporal_event_relationships']
+        })
+        narrative_graph.set_absolute_temporal_relationships({
+            i['id']: AbsoluteTemporalRelationship.from_dict(i) for i in val['absolute_temporal_relationships']
         })

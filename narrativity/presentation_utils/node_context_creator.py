@@ -30,6 +30,7 @@ class NodeContextCreator:
                 self.get_direct_objects,
                 self.get_indirect_objects,
                 self.get_locations,
+                self.get_absolute_times,
                 self.get_subjects,
                 self.get_states_descriptors,
                 self.get_causal_out_relationships,
@@ -82,6 +83,12 @@ class NodeContextCreator:
             location = location_relationship.location()
             self.add_other_node(location, 'location', node_context)
             self.add_relationship(location, location_relationship, node_context)
+
+    def get_absolute_times(self, node, node_context: NodeContext):
+        for absolute_temporal_relationship in node.absolute_temporal_relationships():
+            absolute_time = absolute_temporal_relationship.absolute_temporal_node()
+            self.add_other_node(absolute_time, 'absolute_time', node_context)
+            self.add_relationship(absolute_time, absolute_temporal_relationship, node_context)
 
     def get_narratives(self, node, node_context: NodeContext):
         for narrative_relationship in node.narrative_relationships():
