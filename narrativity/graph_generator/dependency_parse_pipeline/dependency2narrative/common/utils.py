@@ -7,7 +7,6 @@ def resolve_compounds(token):
     compound.append(token)
     return compound
 
-
 def resolve_auxiliaries(token):
     auxiliaries = []
     for dep, child_list in token.children().items():
@@ -27,3 +26,12 @@ def get_all_children_tokens(token):
             queue.extend(children)
         tokens.append(token)
     return tokens
+
+def resolve_absolute_time_compounds(token):
+    compound = []
+    for dep, child_list in token.children().items():
+        for child in child_list:
+            if child.dep() in ['nummod', 'compound'] and child.entity_type() == 'DATE':
+                compound = resolve_compounds(child)
+    compound.append(token)
+    return compound

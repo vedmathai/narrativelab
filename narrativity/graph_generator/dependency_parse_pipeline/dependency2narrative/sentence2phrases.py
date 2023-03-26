@@ -24,10 +24,14 @@ class Sentence2Phrases:
             for phrase_connector_fn in phrase_connector_fns:
                 phrase_connectors, single_root_flag = phrase_connector_fn(path, phrase_connectors, root, child, all_children_tokens, single_root_flag)
 
-        if is_root is True and single_root_flag is True:
+        if self._check_single_clause(is_root, single_root_flag, root) is True:
             phrase_connector = PhraseConnector.create(root, None, "single", None)
             phrase_connectors.append(phrase_connector)
         return phrase_connectors
+
+    def _check_single_clause(self, is_root, single_root_flag, root):
+        verb_like_check = root.pos() in ['VERB', 'AUX']
+        return all([is_root, single_root_flag, verb_like_check])
 
     def _find_parent_clause(self, mark):
         current = mark

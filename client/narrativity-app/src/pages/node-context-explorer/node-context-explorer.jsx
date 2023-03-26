@@ -34,15 +34,15 @@ export default function NodeContextExplorer(props) {
     }, [node_id]);
 
     if (nodeContext) {
-        contextNodeRow = <div className='page-row'>
-            <div className="node-context-row-heading">Node under Observation</div>
+        contextNodeRow = <div className='page-card-row'>
+            <div className="page-card-row-heading">Node under Observation</div>
             <ContextNode
                 node={nodeContext.node}
             />
         </div>
         nodeContextRows = nodeContext.keys.map((k, k_i) => {
             return (
-                <div className='page-row'>
+                <div className='page-card-row'>
                     <NodeContextRow
                         k={k}
                         nodeContext={nodeContext}
@@ -63,6 +63,7 @@ export default function NodeContextExplorer(props) {
                 />
                 <TopBar />
                 <div className="page-content">
+                    <div className="page-heading">Node Context Explorer</div>
                     {contextNodeRow}
                     {nodeContextRows}
                 </div>
