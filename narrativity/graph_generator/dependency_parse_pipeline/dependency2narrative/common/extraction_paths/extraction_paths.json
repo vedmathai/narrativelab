@@ -25,10 +25,39 @@
             ],
             "after_like_temporal_prepositions": [
                 "after", "before", "during", "while", "when"
+            ],
+            "anecdotal_verbs": [
+                "say", "said", "recall", "recalled", "believe", "believed"
             ]
         }
     },
     "extraction_paths": [
+        {
+            "element": "anecdotal_relationship",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj", "ccomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": ["$$anecdotal_verbs$$"],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "ccomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
         {
             "element": "forwards_causation",
             "extraction_path": [
@@ -71,7 +100,7 @@
                 {
                     "deps": [
                         "ROOT",
-                        "conj"
+                        "conj", "ccomp"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -106,7 +135,7 @@
             "extraction_path": [
                 {
                     "deps": [
-                        "ROOT", "conj"
+                        "ROOT", "conj", "ccomp"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -141,7 +170,7 @@
                 },
                 {
                     "deps": [
-                        "ROOT", "conj"
+                        "ROOT", "conj", "ccomp"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -166,7 +195,7 @@
             "extraction_path": [
                 {
                     "deps": [
-                        "ROOT", "conj"
+                        "ROOT", "conj", "ccomp"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -226,7 +255,7 @@
             "extraction_path": [
                 {
                     "deps": [
-                        "ROOT", "conj"
+                        "ROOT", "conj", "ccomp"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -286,7 +315,7 @@
             "extraction_path": [
                 {
                     "deps": [
-                        "ROOT", "conj"
+                        "ROOT", "conj", "ccomp"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -348,7 +377,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl"
+                        "advcl", "ccomp"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -376,7 +405,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl"
+                        "advcl", "ccomp"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -415,7 +444,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl"
+                        "advcl", "ccomp"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -452,7 +481,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl"
+                        "advcl", "ccomp"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -479,7 +508,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl"
+                        "advcl", "ccomp"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -516,7 +545,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl"
+                        "advcl", "ccomp"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -555,7 +584,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl"
+                        "advcl", "ccomp"
                     ],
                     "pos": ["AUX"],
                     "tokens": [],
@@ -581,7 +610,7 @@
                 {
                     "deps": [
                         "ROOT",
-                        "conj"
+                        "conj", "ccomp"
                     ],
                     "pos": ["AUX"],
                     "tokens": [],
@@ -631,7 +660,7 @@
             "extraction_path": [
                 {
                     "deps": [
-                        "ROOT", "conj"
+                        "ROOT", "conj", "ccomp"
                     ],
                     "pos": [],
                     "tokens": [],

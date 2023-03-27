@@ -19,7 +19,9 @@ const key2headings = {
     'contradictory_in': 'Incoming Contradictory Relationship',
     'contradictory_out': 'Outgoing Contradictory Relationship',
     'temporal_event_in': 'Incoming Temporal Event Relationship',
-    'temporal_event_out': 'Outgoing Temporal Event Relationship'
+    'temporal_event_out': 'Outgoing Temporal Event Relationship',
+    'anecdotal_in': 'Incoming Anecdotal Relationship',
+    'anecdotal_out': 'Outgoing Anecdotal Relationship',
 }
 
 export default function NodeContextRow(props) {
