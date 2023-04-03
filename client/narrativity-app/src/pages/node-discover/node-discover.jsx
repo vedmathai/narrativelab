@@ -11,7 +11,9 @@ import searchGraphAPI from '../../apis/graph/graphSearchAPI';
 
 export default function NodeDiscover(props) {
     var [searchResponse, setSearchResponse] = useState();
-    var narratives = []
+    var narratives = [];
+    var entities = [];
+    var absolute_temporal = [];
     const navigate = useNavigate();
 
     const searchGraph = async () => {
@@ -26,8 +28,8 @@ export default function NodeDiscover(props) {
         navigate("/node-context-explorer?node-id=" + id)
     }
 
-    if (searchResponse) {
-        narratives = searchResponse.nodes.map((node, node_i) => {
+    const nodes2row = (nodes) => {
+        const row_cards = nodes.map((node, node_i) => {
             return (
                 <div
                     className="page-card node-discover-page-card"
@@ -37,6 +39,17 @@ export default function NodeDiscover(props) {
                 </div>
             )
         })
+        const row = <div className="page-card-row-content">
+            {row_cards}
+        </div>
+        
+        return row;
+    }
+
+    if (searchResponse) {
+        narratives = nodes2row(searchResponse.narrative_nodes);
+        entities = nodes2row(searchResponse.entity_nodes);
+        absolute_temporal = nodes2row(searchResponse.absolute_temporal_nodes);
     }
 
     return (
@@ -48,9 +61,20 @@ export default function NodeDiscover(props) {
                     <div className="page-heading">
                         Discover
                     </div>
-                    <div>
-                        {narratives}
-                    </div>                    
+                        <div className='page-container'>
+                        <div className='page-card-row'>
+                            <div className="page-card-row-heading">Narratives</div>
+                            {narratives}
+                        </div>
+                        <div className='page-card-row'>
+                            <div className="page-card-row-heading">Entities</div>
+                            {entities}
+                        </div>
+                        <div className='page-card-row'>
+                            <div className="page-card-row-heading">Absolute Temporal Nodes</div>
+                            {absolute_temporal}
+                        </div>
+                    </div>                 
                 </div>
             </div>
         </>

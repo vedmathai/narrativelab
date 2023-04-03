@@ -20,6 +20,10 @@
     color: var(--black);
 }
 
+.page-container {
+    position: relative;
+}
+
 .page-button {
     background-color: var(--off-white);
     border: 2px solid var(--black);
@@ -62,7 +66,12 @@
 }
 
 .page-card-row {
-    padding-top: 20px;
+    margin-top: 40px;
+}
+
+.page-card-row-heading {
+    font-family: var(--main-font-family);
+    font-size: 30px;
 }
 
 .page-card-heading {

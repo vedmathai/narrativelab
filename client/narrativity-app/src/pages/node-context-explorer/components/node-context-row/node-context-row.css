@@ -2,11 +2,6 @@
     margin-top: 40px;
 }
 
-.node-context-row-heading{
-    font-family: var(--main-font-family);
-    font-size: 30px;
-}
-
 .node-context-page-cards{
     width: 60vw;
     overflow-x: scroll;

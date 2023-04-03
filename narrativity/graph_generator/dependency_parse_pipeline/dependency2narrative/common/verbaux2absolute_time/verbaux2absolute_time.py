@@ -1,11 +1,11 @@
-from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.utils import resolve_compounds
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.utils import resolve_absolute_time_compounds
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.creators import create_absolute_temporal_node
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.extraction_paths.extraction_path_matcher import ExtractionPathMatcher
 from narrativity.datamodel.featurized_document_model.featurized_sentence import FeaturizedSentence
 from narrativity.datamodel.narrative_graph.relationships.absolute_temporal_relationship import AbsoluteTemporalRelationship
 
 
-class Verb2AbsoluteTimes:
+class VerbAux2AbsoluteTimes:
     def load(self):
         self._extraction_path_matcher = ExtractionPathMatcher()
 
@@ -28,7 +28,7 @@ class Verb2AbsoluteTimes:
         narrative_graph.add_absolute_temporal_relationship(absolute_temporal_relationship)
 
     def get_absolute_temporal_node(self, time_token, narrative_graph):
-        whole_text = resolve_compounds(time_token)
+        whole_text = resolve_absolute_time_compounds(time_token)
         whole_text = ' '.join(i.text() for i in whole_text)
         temporal_node = narrative_graph.text2absolute_temporal_node(whole_text)
         if temporal_node is not None:

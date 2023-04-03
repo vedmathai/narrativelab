@@ -3,8 +3,8 @@ from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2actors.verb2actors import Verb2Actors
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2objects.verb2indirect_objects import Verb2IndirectObjects
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2objects.verb2direct_objects import Verb2DirectObjects
-from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2locations.verb2locations import Verb2Locations
-from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2times.verb2absolute_times import Verb2AbsoluteTimes
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.verbaux2locations.verbaux2locations import VerbAux2Locations
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.verbaux2absolute_time.verbaux2absolute_time import VerbAux2AbsoluteTimes
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.utils import get_all_children_tokens
 
 
@@ -14,8 +14,8 @@ class Verb2Event:
         self._verb2indirect_objects = Verb2IndirectObjects()
         self._verb2direct_objects = Verb2DirectObjects()
         self._verb2actors = Verb2Actors()
-        self._verb2locations = Verb2Locations()
-        self._verb2absolute_times = Verb2AbsoluteTimes()
+        self._verb2locations = VerbAux2Locations()
+        self._verb2absolute_times = VerbAux2AbsoluteTimes()
         self._converters = [
             self._verb2actions,
             self._verb2indirect_objects,

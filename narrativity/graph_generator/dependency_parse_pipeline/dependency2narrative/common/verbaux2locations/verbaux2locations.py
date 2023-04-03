@@ -5,10 +5,9 @@ from narrativity.datamodel.featurized_document_model.featurized_sentence import 
 from narrativity.datamodel.narrative_graph.relationships.location_relationship import LocationRelationship
 
 
-class Verb2Locations:
+class VerbAux2Locations:
     def load(self):
         self._extraction_path_matcher = ExtractionPathMatcher()
-
 
     def convert(self, verb_token, all_children_tokens, narrative_node, narrative_graph):
         for child in all_children_tokens:

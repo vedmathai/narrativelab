@@ -49,8 +49,8 @@ export default function NodeContextRow(props) {
         )
      })
     return (
-        <div className='page-row node-context-row'>
-            <div className="node-context-row-heading">
+        <div className='node-context-row'>
+            <div className="page-card-row-heading">
                 {key2headings[props.k]}
             </div>
             <div className="node-context-page-cards">

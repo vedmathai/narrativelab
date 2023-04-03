@@ -13,5 +13,4 @@ class Corpus2spacy:
     def convert(self, text):
         spacy_text = self._spacy(text)
         fdocument = FeaturizedDocument.from_spacy(spacy_text)
-       
         return fdocument

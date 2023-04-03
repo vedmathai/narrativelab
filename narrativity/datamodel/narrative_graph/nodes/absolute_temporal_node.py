@@ -27,7 +27,7 @@ class AbsoluteTemporalNode(AbstractNode):
         return self._narrative_relationship_ids
 
     def narrative_relationships(self):
-        return [self._narrative_graph.id2action_relationships(id) for id in self.narrative_relationship_ids()]
+        return [self._narrative_graph.id2absolute_temporal_relationship(id) for id in self.narrative_relationship_ids()]
 
     def add_temporal_value(self, temporal_value: TemporalValue):
         self._temporal_values.append(temporal_value)

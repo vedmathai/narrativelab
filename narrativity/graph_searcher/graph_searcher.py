@@ -24,5 +24,9 @@ class GraphSearcher:
     def search(self, search_request, narrative_graph):
         search_response = SearchResponse()
         narrative_nodes = list(narrative_graph.narrative_nodes().values())
-        search_response.set_nodes(narrative_nodes)
+        entity_nodes = list(narrative_graph.entity_nodes().values())
+        absolute_temporal_nodes = list(narrative_graph.absolute_temporal_nodes().values())
+        search_response.set_narrative_nodes(narrative_nodes)
+        search_response.set_entity_nodes(entity_nodes)
+        search_response.set_absolute_temporal_nodes(absolute_temporal_nodes)
         return search_response

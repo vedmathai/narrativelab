@@ -39,6 +39,9 @@ class NodeContextCreator:
                 self.get_contradictory_in_relationships,
                 self.get_temporal_event_out_relationships,
                 self.get_temporal_event_in_relationships,
+            ],
+            'absolute_temporal_node': [
+                self.get_narratives,
             ]
         }
         return node_type2fn.get(node.type())
