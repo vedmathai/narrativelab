@@ -15,6 +15,7 @@ class Sentence2Phrases:
         for child in all_children_tokens:
             path = FeaturizedSentence.dependency_path_between_tokens(root, child)
             phrase_connector_fns = [
+                self._anecdotal_relationship,
                 self._backwards_contradiction,
                 self._forwards_contradiction,
                 self._but_like_contradiction,
@@ -38,6 +39,14 @@ class Sentence2Phrases:
         while current.pos() not in ['AUX', 'VERB']:
             current = current.parent()
         return current
+
+    def _anecdotal_relationship(self, path, phrase_connectors, root, child, all_childrent_tokens, single_root_flag):
+        if self._extraction_path_matcher.match(path, 'anecdotal_relationship'):
+            single_root_flag = False
+            phrase_connector = PhraseConnector.create(root, child, "anecdotal_relationship", None)
+            phrase_connectors.append(phrase_connector)
+            phrase_connectors = self.split(child, phrase_connectors, False)
+        return phrase_connectors, single_root_flag
 
     def _forwards_contradiction(self, path, phrase_connectors, root, child, all_children_tokens, single_root_flag):
         if self._extraction_path_matcher.match(path, 'forwards_causation') is True:

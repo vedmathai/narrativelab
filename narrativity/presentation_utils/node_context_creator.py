@@ -39,6 +39,8 @@ class NodeContextCreator:
                 self.get_contradictory_in_relationships,
                 self.get_temporal_event_out_relationships,
                 self.get_temporal_event_in_relationships,
+                self.get_anecdotal_out_relationships,
+                self.get_anecdotal_in_relationships,
             ],
             'absolute_temporal_node': [
                 self.get_narratives,
@@ -62,6 +64,11 @@ class NodeContextCreator:
     def add_relationship(self, other_node, relationship, node_context: NodeContext):
         node_context.add_id2relationship(relationship)
         node_context.add_node_id2relationship_id(other_node, relationship)
+
+    def add_other_relationship_as_node(self, relationship, key, node_context: NodeContext):
+        node_context.add_id2node(relationship)
+        node_context.add_key(key)
+        node_context.add_key2id(key, relationship.id())
         
     def get_actors(self, node, node_context: NodeContext):
         for actor_relationship in node.actor_relationships():
@@ -146,3 +153,19 @@ class NodeContextCreator:
             narrative_2 = temporal_event_out_relationship.narrative_2()
             self.add_other_node(narrative_2, 'temporal_event_out', node_context)
             self.add_relationship(narrative_2, temporal_event_out_relationship, node_context)
+
+    def get_anecdotal_out_relationships(self, node, node_context: NodeContext):
+        for anecdotal_out_relationship in node.anecdotal_out_relationships():
+            if anecdotal_out_relationship.is_to_relationship() is False:
+                narrative_2 = anecdotal_out_relationship.narrative_2()
+                self.add_other_node(narrative_2, 'anecdotal_out', node_context)
+                self.add_relationship(narrative_2, anecdotal_out_relationship, node_context)
+            if anecdotal_out_relationship.is_to_relationship() is True:
+                relationship = anecdotal_out_relationship.relationship()
+                self.add_other_relationship_as_node(relationship, 'anecdotal_out', node_context)
+
+    def get_anecdotal_in_relationships(self, node, node_context: NodeContext):
+        for anecdotal_in_relationship in node.anecdotal_in_relationships():
+            narrative_1 = anecdotal_in_relationship.narrative_1()
+            self.add_other_node(narrative_1, 'anecdotal_in', node_context)
+            self.add_relationship(narrative_1, anecdotal_in_relationship, node_context)
