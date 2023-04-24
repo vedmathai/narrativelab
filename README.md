@@ -113,3 +113,23 @@ A new browser should open up pointed at `http://localhost:3000`. You can use a b
 6. Search and Filter does NOT currently work.
 7. Move back to the `HOME` tab to run another sentence.
 8. NOTE these are early versions and therefore may not be stable.
+
+
+
+# Git Guideline
+0. Create a new branch if neccessary with `git checkout -b myNewBranchName`
+1. Git pull to be up to date with : `git pull --rebase orgin main`
+2. Git add all files with : `git add .`
+3. Git commit any changes made with : `git commit -m 'Text of my changes'`
+4. Git push to origin with : `git push origin HEAD`
+
+5. wait for review changes & review those of your team-members 
+
+6. Merge pull request once the reviews are accepted with the button on Github
+7. Pull the accepted merged changes to your local git with : `git pull --rebase origin main`
+
+Note if you have temporary changes you don't want cloberred, commit to temp with `git commit -m 'temp'`
+Then : `git pull --rebase origin main`
+Then `git reset --soft HEAD^` to reset local changes to uncommited 
+
+
