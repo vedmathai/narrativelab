@@ -2,8 +2,9 @@ def resolve_compounds(token):
     compound = []
     for dep, child_list in token.children().items():
         for child in child_list:
-            if child.dep() == 'compound':
-                compound = resolve_compounds(child)
+            print(token.text(), child.text(), child.dep())
+            if child.dep() in ['compound', 'amod', 'nummod', 'quantmod']:
+                compound.extend(resolve_compounds(child))
     compound.append(token)
     return compound
 

@@ -1,0 +1,9 @@
+{
+    "vitamin_c_data_location": "vitamin_c",
+    "run_configs_file": "factuality/run_configs/run_config.json",
+    "vitamin_c_file_mapping": {
+        "train": "vitaminc/train.jsonl",
+        "eval": "vitamin/dev.jsonl",
+        "test": "vitaminc/test.jsonl"
+    }
+}
