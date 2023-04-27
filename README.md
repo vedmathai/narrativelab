@@ -24,6 +24,7 @@ cd narrative_project
 ## Activate the Virtual Environemnt
 You will have to do this each time you open a new terminal session or tab
 `source venv_narrative_project/bin/activate`
+Windows: `venv_narrative_project\Scripts\activate`
 
 ## Enter the git project folder
 `cd narrativelab`
@@ -37,6 +38,7 @@ RUN `python -m coreferee install en` to install the coreferee (coreference resol
 
 ## Run Python Server
 `PYTHONPATH=. python narrativity/server/run.py` 
+Windows: `$env:PYTHONPATH='.'; python .\narrativity\server\run.py`
 
 Adding the `PYTHONPATH` before the code invocation is important because the python code treats itself like a package called `narrativity`.
 Alternatively one could add this folder permanently to their `PYTHONPATH`, but may come with its own overhead.
@@ -55,6 +57,7 @@ Press CTRL+C to quit
 
  ## Test that the NLP pipeline is working and all dependencies have been installed
  Run `PYTHONPATH=. python narrativity/graph_generator/tests/graph_generator_parser_test.py`
+ Windows: `$env:PYTHONPATH='.'; python narrativity/graph_generator/tests/graph_generator_parser_test.py`
 
  The code will provide a JSON of the narrative graph.
  
@@ -90,6 +93,8 @@ with open('serialized_narrative_graph.json') as f:
 You will need npm on your local machine to go forward.
 For Ubuntu see [here](https://linuxize.com/post/how-to-install-node-js-on-ubuntu-20-04/?utm_content=cmp-true).
 For Mac see [here](https://treehouse.github.io/installation-guides/mac/node-mac.html).
+For Windows see [here](https://phoenixnap.com/kb/install-node-js-npm-on-windows).
+
 
 ## Go to UI src folder.
 1. Open a new tab in your terminal.
