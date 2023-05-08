@@ -1,6 +1,7 @@
 from collections import defaultdict
 import json
 import numpy as np
+import csv
 from collections import defaultdict
 
 from factuality.data.vitamin_c.readers.vitamin_c_datareader import VitaminCDataReader
@@ -16,14 +17,21 @@ class VitaminCStats():
         claims = set()
         evidence = set()
         dd = defaultdict(int)
+        sentences = []
+
+
         for datum in dataset.data():
             cases.add(datum.case_id())
-            claims.add(datum.claim())
+            #claims.add(datum.claim())
             evidence.add(datum.evidence())
             k = len(datum.claim())
-            dd[int(len(datum.claim()) / 10)] += 1
-            dd[int(len(datum.evidence()) / 10)] += 1
+            #dd[int(len(datum.claim().split()) / 10)] += 1
+            dd[int(len(datum.evidence().split()) / 10)] += 1
+            if int(len(datum.evidence().split()) / 10) == 2:
+                sentences.append(datum.evidence())
         d = sorted(dd.items(), key=lambda x: x[1])
-        for i in d:
-            print(i)
+        with open('sentences.csv', 'wt') as f:
+            writer = csv.writer(f, delimiter='\t')
+            for i in sentences:
+                writer.writerow([i])
         print(len(dataset.data()), len(cases), len(claims), len(evidence))

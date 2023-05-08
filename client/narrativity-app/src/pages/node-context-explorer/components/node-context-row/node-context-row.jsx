@@ -22,6 +22,7 @@ const key2headings = {
     'temporal_event_out': 'Outgoing Temporal Event Relationship',
     'anecdotal_in': 'Incoming Anecdotal Relationship',
     'anecdotal_out': 'Outgoing Anecdotal Relationship',
+    'and_like': 'And Like Relationship'
 }
 
 export default function NodeContextRow(props) {

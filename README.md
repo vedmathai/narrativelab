@@ -120,6 +120,7 @@ A new browser should open up pointed at `http://localhost:3000`. You can use a b
 8. NOTE these are early versions and therefore may not be stable.
 
 
+<<<<<<< HEAD
 
 # Git Guideline
 0. Create a new branch if neccessary with `git checkout -b myNewBranchName`
@@ -138,3 +139,6 @@ Then : `git pull --rebase origin main`
 Then `git reset --soft HEAD^` to reset local changes to uncommited 
 
 
+=======
+REQUEST_ID=1234 PROJECT_ID=narrative-lab PYTHONPATH=jade_front/narrative-lab/code/narrativelab python jade_front/narrative-lab/code/narrativelab/factuality/entrypoints/main.py
+>>>>>>> 390b8a8 (And relationship and apposition)

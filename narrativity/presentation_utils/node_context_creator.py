@@ -41,6 +41,7 @@ class NodeContextCreator:
                 self.get_temporal_event_in_relationships,
                 self.get_anecdotal_out_relationships,
                 self.get_anecdotal_in_relationships,
+                self.get_and_like_relationships,
             ],
             'absolute_temporal_node': [
                 self.get_narratives,
@@ -169,3 +170,12 @@ class NodeContextCreator:
             narrative_1 = anecdotal_in_relationship.narrative_1()
             self.add_other_node(narrative_1, 'anecdotal_in', node_context)
             self.add_relationship(narrative_1, anecdotal_in_relationship, node_context)
+
+    def get_and_like_relationships(self, node, node_context: NodeContext):
+        for and_like_relationship in node.and_like_relationships():
+            if node.id() == and_like_relationship.narrative_1().id():
+                narrative_2 = and_like_relationship.narrative_2()
+            if node.id() == and_like_relationship.narrative_2().id():
+                narrative_2 = and_like_relationship.narrative_1()
+            self.add_other_node(narrative_2, 'and_like', node_context)
+            self.add_relationship(narrative_2, and_like_relationship, node_context)

@@ -16,6 +16,7 @@ from narrativity.datamodel.narrative_graph.relationships.subject_relationship im
 from narrativity.datamodel.narrative_graph.relationships.causal_relationship import CausalRelationship
 from narrativity.datamodel.narrative_graph.relationships.contradictory_relationship import ContradictoryRelationship
 from narrativity.datamodel.narrative_graph.relationships.anecdotal_relationship import AnecdotalRelationship
+from narrativity.datamodel.narrative_graph.relationships.and_like_relationship import AndLikeRelationship
 
 
 
@@ -36,6 +37,7 @@ class NarrativeGraph:
         self._causal_relationships: Dict[str, CausalRelationship] = {}
         self._contradictory_relationships: Dict[str, ContradictoryRelationship] = {}
         self._anecdotal_relationships: Dict[str, AnecdotalRelationship] = {}
+        self._and_like_relationships: Dict[str, AndLikeRelationship] = {}
         self._text2action_node: Dict[str, ActionNode] = {}
         self._text2entity_node: Dict[str, EntityNode] = {}
         self._text2absolute_temporal_node: Dict[str, AbsoluteTemporalNode] = {}
@@ -108,6 +110,12 @@ class NarrativeGraph:
 
     def anecdotal_relationships(self) -> Dict[str, AnecdotalRelationship]:
         return self._anecdotal_relationships
+    
+    def and_like_relationships(self) -> Dict[str, AndLikeRelationship]:
+        return self._and_like_relationships
+
+    def id2and_like_relationship(self, id) -> Dict[str, AndLikeRelationship]:
+        return self._and_like_relationships.get(id)
 
     def id2actor_relationship(self, id: str) -> ActorRelationship:
         return self._actor_relationships.get(id)
@@ -168,6 +176,7 @@ class NarrativeGraph:
             self.id2causal_relationship,
             self.id2contradictory_relationship,
             self.id2anecdotal_relationship,
+            self.id2and_like_relationship,
         ]
         for fn in id2relationshipfns:
             relationship = fn(id)
@@ -232,6 +241,9 @@ class NarrativeGraph:
     def set_anecdotal_relationships(self, anecdotal_relationships: Dict[str, AnecdotalRelationship]) -> None:
         self._anecdotal_relationships = anecdotal_relationships
 
+    def set_and_like_relationships(self, and_like_relationships: Dict[str, AndLikeRelationship]) -> None:
+        self._and_like_relationships = and_like_relationships
+
     def add_action_node(self, action_node: ActionNode) -> None:
         self._action_nodes[action_node.id()] = action_node
         self._text2action_node[action_node.canonical_name()] = action_node
@@ -280,6 +292,9 @@ class NarrativeGraph:
     def add_anecdotal_relationship(self, anecdotal_relationship: AnecdotalRelationship) -> None:
         self._anecdotal_relationships[anecdotal_relationship.id()] = anecdotal_relationship
 
+    def add_and_like_relationship(self, and_like_relationship: AndLikeRelationship) -> None:
+        self._and_like_relationships[and_like_relationship.id()] = and_like_relationship
+
     def to_dict(self):
         return {
             "action_nodes": [i.to_dict() for i in self.action_nodes().values()],
@@ -296,6 +311,7 @@ class NarrativeGraph:
             "causal_relationships": [i.to_dict() for i in self.causal_relationships().values()],
             "contradictory_relationships": [i.to_dict() for i in self.contradictory_relationships().values()],
             "anecdotal_relationships": [i.to_dict() for i in self.anecdotal_relationships().values()],
+            "and_like_relationships": [i.to_dict() for i in self.and_like_relationships().values()],
             "subject_relationships": [i.to_dict() for i in self.subject_relationships().values()],
         }
 
@@ -344,6 +360,9 @@ class NarrativeGraph:
         narrative_graph.set_anecdotal_relationships({
             i['id']: AnecdotalRelationship.from_dict(i) for i in val['anecdotal_relationships']
         })
+        narrative_graph.set_and_like_relationships({
+            i['id']: AndLikeRelationship.from_dict(i) for i in val['and_like_relationships']
+        })        
         narrative_graph.set_temporal_event_relationships({
             i['id']: TemporalEventRelationship.from_dict(i) for i in val['temporal_event_relationships']
         })

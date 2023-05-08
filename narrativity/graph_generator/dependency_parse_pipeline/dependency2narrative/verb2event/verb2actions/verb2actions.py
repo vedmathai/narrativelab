@@ -1,5 +1,5 @@
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.utils import (
-    resolve_auxiliaries,
+    resolve_auxiliaries, get_main_verb
 )
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.creators import (
     create_action_node,
@@ -20,4 +20,5 @@ class Verb2Actions:
         action_node = narrative_graph.text2action_node(whole_text)
         if action_node is not None:
             return action_node
-        return create_action_node(whole_text, narrative_graph)
+        action_node = create_action_node(whole_text, narrative_graph)
+        return action_node

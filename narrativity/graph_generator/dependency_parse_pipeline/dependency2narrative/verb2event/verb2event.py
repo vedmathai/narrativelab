@@ -1,7 +1,7 @@
 from narrativity.datamodel.narrative_graph.nodes.narrative_node import NarrativeNode
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2actions.verb2actions import Verb2Actions
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2actors.verb2actors import Verb2Actors
-from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2objects.verb2indirect_objects import Verb2IndirectObjects
+from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.verbaux2objects.verbaux2indirect_objects import VerbAux2IndirectObjects
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.verb2event.verb2objects.verb2direct_objects import Verb2DirectObjects
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.verbaux2locations.verbaux2locations import VerbAux2Locations
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.common.verbaux2absolute_time.verbaux2absolute_time import VerbAux2AbsoluteTimes
@@ -11,7 +11,7 @@ from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.
 class Verb2Event:
     def __init__(self):
         self._verb2actions = Verb2Actions()
-        self._verb2indirect_objects = Verb2IndirectObjects()
+        self._verb2indirect_objects = VerbAux2IndirectObjects()
         self._verb2direct_objects = Verb2DirectObjects()
         self._verb2actors = Verb2Actors()
         self._verb2locations = VerbAux2Locations()
