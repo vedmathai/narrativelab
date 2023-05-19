@@ -32,7 +32,8 @@ class Aux2StateDescriptor:
         narrative_graph.add_state_relationship(state_relationship)
 
     def get_state_node(self, state_token, narrative_graph):
-        whole_text = state_token.text()
+        whole_text_tokens = resolve_compounds(state_token)
+        whole_text = ' '.join(i.text() for i in whole_text_tokens)
         state_node = narrative_graph.text2entity_node(whole_text)
         if state_node is not None:
             return state_node

@@ -5,7 +5,7 @@ from narrativity.datamodel.featurized_document_model.featurized_sentence import 
 from narrativity.datamodel.narrative_graph.relationships.object_relationship import ObjectRelationship
 
 
-class Verb2IndirectObjects:
+class VerbAux2IndirectObjects:
     def load(self):
         self._extraction_path_matcher = ExtractionPathMatcher()
 

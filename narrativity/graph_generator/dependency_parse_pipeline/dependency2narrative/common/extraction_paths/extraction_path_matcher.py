@@ -40,7 +40,7 @@ class ExtractionPathMatcher:
         token_whitelists = path_element.tokens()
         token_whitelist = self._extraction_paths_common.keys2word_lists(token_whitelists)
         if len(token_whitelist) > 0 and token_whitelists:
-            tokens_check = element.text() in token_whitelist
+            tokens_check = element.text().lower() in token_whitelist
         token_blacklists = path_element.tokens_blacklist()
         blacklist_tokens = self._extraction_paths_common.keys2word_lists(token_blacklists)
         blacklist_tokens_check = True

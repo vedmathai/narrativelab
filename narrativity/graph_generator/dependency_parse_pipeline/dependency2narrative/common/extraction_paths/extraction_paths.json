@@ -82,6 +82,58 @@
             ]
         },
         {
+            "element": "anecdotal_relationship",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj", "ccomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "ccomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": ["$$anecdotal_verbs$$"],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "anecdotal_relationship",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj", "ccomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": ["$$anecdotal_verbs$$"],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
             "element": "forwards_causation",
             "extraction_path": [
                 {
@@ -147,6 +199,31 @@
                     ],
                     "pos": [],
                     "tokens": ["$$backwards_causal_marks$$"],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "and_like_relationship",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj", "ccomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
                     "tokens_blacklist": [],
                     "entity_types": [],
                     "entity_types_blacklist": []
@@ -369,6 +446,56 @@
             ]
         },
         {
+            "element": "after_like_temporal_relationship_detection",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj", "ccomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": ["ADP"],
+                    "tokens": ["$$after_like_temporal_prepositions$$"],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "after_like_temporal_relationship",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": ["ADP"],
+                    "tokens": ["$$after_like_temporal_prepositions$$"],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "pcomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
             "element": "after_like_temporal_relationship",
             "extraction_path": [
                 {
@@ -411,7 +538,91 @@
                 {
                     "deps": [
                         "dobj",
-                        "nsubjpass"
+                        "nsubjpass",
+                        "npadvmod"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "direct_object",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj",
+                        "advcl", "ccomp"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "xcomp"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "dobj",
+                        "nsubjpass",
+                        "npadvmod"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": [
+                        "$$forwards_causal_marks$$",
+                        "$$backwards_causal_marks$$",
+                        "$$however_like_contradiction_conjunctions$$",
+                        "$$after_like_temporal_prepositions$$"
+                    ]
+                }
+            ]
+        },
+        {
+            "element": "indirect_object",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj",
+                        "advcl", "ccomp", "pcomp", "prep"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [
+                        "$$location_prepositions$$"
+                    ],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "pobj"
                     ],
                     "pos": [],
                     "tokens": [],
@@ -428,7 +639,66 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp"
+                        "advcl", "ccomp", "pcomp", "prep"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "dobj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [
+                        "$$location_prepositions$$"
+                    ],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "pobj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "indirect_object",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj",
+                        "advcl", "ccomp", "pcomp", "prep"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "xcomp"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -467,9 +737,9 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp"
+                        "advcl", "ccomp", "pcomp", "prep"
                     ],
-                    "pos": ["VERB"],
+                    "pos": ["VERB", "AUX"],
                     "tokens": [],
                     "tokens_blacklist": [],
                     "entity_types": [],
@@ -570,8 +840,58 @@
                         "conj",
                         "advcl", "ccomp"
                     ],
-                    "pos": ["VERB"],
+                    "pos": ["VERB", "AUX"],
                     "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": [],
+                    "tokens": [
+                        "$$location_prepositions$$"
+                    ],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "pobj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": ["DATE"]
+                }
+            ]
+        },
+        {
+            "element": "location",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj",
+                        "advcl", "ccomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "attr"
+                    ],
+                    "pos": [],
+                    "tokens": [
+                    ],
                     "tokens_blacklist": [],
                     "entity_types": [],
                     "entity_types_blacklist": []
@@ -635,7 +955,7 @@
                         "ROOT",
                         "conj", "ccomp"
                     ],
-                    "pos": ["AUX"],
+                    "pos": ["AUX", "VERB"],
                     "tokens": [],
                     "tokens_blacklist": [],
                     "entity_types": [],
@@ -709,6 +1029,76 @@
                     "tokens": [],
                     "tokens_blacklist": [],
                     "entity_types": ["DATE"],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "absolute_times",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj", "ccomp"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "pobj"
+                    ],
+                    "pos": [],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": ["DATE"],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "appos_object_detection",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "npadvmod"
+                    ],
+                    "pos": ["NOUN"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "appos"
+                    ],
+                    "pos": ["NOUN"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
                     "entity_types_blacklist": []
                 }
             ]
