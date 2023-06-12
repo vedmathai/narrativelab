@@ -27,7 +27,8 @@ class VerbAux2IndirectObjects:
         object_relationship.set_narrative(narrative_node)
         object_relationship.set_narrative_graph(narrative_graph)
         object_relationship.set_object(indirect_object_node)
-        object_relationship.set_preposition(preposition.text())
+        if preposition is not None:
+            object_relationship.set_preposition(preposition.text())
         narrative_node.add_indirect_object_relationship(object_relationship)
         indirect_object_node.add_narrative_relationship(object_relationship)
         narrative_graph.add_indirect_object_relationship(object_relationship)
