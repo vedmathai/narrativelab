@@ -29,10 +29,14 @@ class NarrativeNode(AbstractNode):
         self._anecdotal_in_relationship_ids = []
         self._anecdotal_out_relationship_ids = []
         self._and_like_relationship_ids = []
+        self._prep_in_relationship_ids = []
+        self._prep_out_relationship_ids = []
         self._sources = []
         self._is_leaf = False
         self._is_state = False
+        self._is_negative = False
         self._narrative_graph = None
+        self._token = None
 
     def canonical_name(self) -> str:
         return self._canonical_name
@@ -47,6 +51,8 @@ class NarrativeNode(AbstractNode):
             actors = [i.actor() for i in self.actor_relationships()]
             actors = '|'.join(actor.display_name() for actor in actors)
             actions = '|'.join(action.display_name() for action in self.actions())
+            if self.is_negative() is True:
+                actions = 'not ( {} )'.format(actions)
             direct_objects = '|'.join(i.object().display_name() for i in self.direct_object_relationships())
             return f'{actors}->{actions}->{direct_objects}'
         elif self.is_state() is True:
@@ -152,6 +158,18 @@ class NarrativeNode(AbstractNode):
     def anecdotal_out_relationships(self):
         return [self._narrative_graph.id2anecdotal_relationship(i) for i in self.anecdotal_out_relationship_ids()]
     
+    def prep_in_relationship_ids(self):
+        return self._prep_in_relationship_ids
+
+    def prep_out_relationship_ids(self):
+        return self._prep_out_relationship_ids
+
+    def prep_in_relationships(self):
+        return [self._narrative_graph.id2prep_relationship(i) for i in self.prep_in_relationship_ids()]
+
+    def prep_out_relationships(self):
+        return [self._narrative_graph.id2prep_relationship(i) for i in self.prep_out_relationship_ids()]
+    
     def and_like_relationship_ids(self):
         return self._and_like_relationship_ids
 
@@ -178,7 +196,10 @@ class NarrativeNode(AbstractNode):
 
     def is_leaf(self) -> bool:
         return self._is_leaf
-
+    
+    def is_negative(self) -> bool:
+        return self._is_negative
+    
     def set_names(self, names: List[str]) -> None:
         self._names = names
 
@@ -272,6 +293,18 @@ class NarrativeNode(AbstractNode):
     def add_anecdotal_out_relationship(self, anecdotal_out_relationship) -> None:
         self._anecdotal_out_relationship_ids.append(anecdotal_out_relationship.id())
 
+    def set_prep_in_relationship_ids(self, prep_in_relationship_ids) -> None:
+        self._prep_in_relationship_ids = prep_in_relationship_ids
+
+    def set_prep_out_relationship_ids(self, prep_out_relationship_ids) -> None:
+        self._prep_out_relationship_ids = prep_out_relationship_ids
+
+    def add_prep_in_relationship(self, prep_in_relationship) -> None:
+        self._prep_in_relationship_ids.append(prep_in_relationship.id())
+
+    def add_prep_out_relationship(self, prep_out_relationship) -> None:
+        self._prep_out_relationship_ids.append(prep_out_relationship.id())
+
     def set_and_like_relationship_ids(self, and_like_relationship_ids) -> None:
         self._and_like_relationship_ids = and_like_relationship_ids
 
@@ -302,6 +335,9 @@ class NarrativeNode(AbstractNode):
     def set_is_leaf(self, is_leaf: bool) -> None:
         self._is_leaf = is_leaf
 
+    def set_is_negative(self, is_negative: bool) -> None:
+        self._is_negative = is_negative
+
     def set_canonical_name(self, canonical_name: str) -> None:
         self._canonical_name = canonical_name
 
@@ -328,11 +364,14 @@ class NarrativeNode(AbstractNode):
         narrative_node.set_contradictory_out_relationship_ids(val['contradictory_out_relationship_ids'])
         narrative_node.set_anecdotal_in_relationship_ids(val['anecdotal_in_relationship_ids'])
         narrative_node.set_anecdotal_out_relationship_ids(val['anecdotal_out_relationship_ids'])
+        narrative_node.set_prep_in_relationship_ids(val['prep_in_relationship_ids'])
+        narrative_node.set_prep_out_relationship_ids(val['prep_out_relationship_ids'])
         narrative_node.set_and_like_relationship_ids(val['and_like_relationship_ids'])
         narrative_node.set_sub_narrative_ids(val['sub_narrative_ids'])
         narrative_node.set_parent_narrative_ids(val['parent_narrative_ids'])
         narrative_node.set_sources(val['sources'])
         narrative_node.set_is_state(val['is_state'])
+        narrative_node.set_is_negative(val['is_negative'])
         narrative_node.set_canonical_name(val['canonical_name'])
         return narrative_node
 
@@ -358,11 +397,14 @@ class NarrativeNode(AbstractNode):
             "contradictory_out_relationship_ids": self.contradictory_out_relationship_ids(),
             "anecdotal_in_relationship_ids": self.anecdotal_in_relationship_ids(),
             "anecdotal_out_relationship_ids": self.anecdotal_out_relationship_ids(),
+            "prep_in_relationship_ids": self.prep_in_relationship_ids(),
+            "prep_out_relationship_ids": self.prep_out_relationship_ids(),
             "and_like_relationship_ids": self.and_like_relationship_ids(),
             "sub_narrative_ids": self.sub_narrative_ids(),
             "parent_narrative_ids": self.parent_narrative_ids(),
             "sources": self.sources(),
             "is_state": self.is_state(),
+            "is_negative": self.is_negative(),
             "canonical_name": self.canonical_name(),
         }
 
