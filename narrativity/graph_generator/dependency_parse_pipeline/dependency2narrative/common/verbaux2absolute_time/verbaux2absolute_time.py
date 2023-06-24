@@ -22,7 +22,8 @@ class VerbAux2AbsoluteTimes:
         absolute_temporal_relationship.set_narrative(narrative_node)
         absolute_temporal_relationship.set_absolute_temporal_node(absolute_temporal_node)
         absolute_temporal_relationship.set_narrative_graph(narrative_graph)
-        absolute_temporal_relationship.set_preposition(preposition.text())
+        if preposition is not None:
+            absolute_temporal_relationship.set_preposition(preposition.text())
         narrative_node.add_absolute_temporal_relationship(absolute_temporal_relationship)
         absolute_temporal_node.add_narrative_relationship(absolute_temporal_relationship)
         narrative_graph.add_absolute_temporal_relationship(absolute_temporal_relationship)

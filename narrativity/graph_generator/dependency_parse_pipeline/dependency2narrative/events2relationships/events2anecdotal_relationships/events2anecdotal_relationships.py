@@ -20,6 +20,7 @@ class Events2AnecdotalRelationships:
             narrative_2.causal_in_relationships,
             narrative_2.contradictory_out_relationships,
             narrative_2.contradictory_in_relationships,
+            narrative_2.and_like_relationships,
         ]
         relationships = []
         for fn in relationship_fns:

@@ -37,6 +37,7 @@ class Dependency2Narrative:
                 if narrative_node_2 is None:
                     narrative_node_2 = self._clause_root2event(verb_2)
                     tokeni2event[verb_2.i()] = narrative_node_2
+                    narrative_node_2._token = verb_2
                 self._create_event_relationships(narrative_node_1, narrative_node_2, phrase_connector)
             if phrase_connector.connector_type() == 'anecdotal_relationship':
                 annecdotal_connectors.append((narrative_node_1, narrative_node_2, phrase_connector))

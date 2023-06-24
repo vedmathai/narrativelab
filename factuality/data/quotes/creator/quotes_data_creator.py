@@ -10,11 +10,12 @@ persons_dict = {
     'Pence': 'rep',
     'Schumer': 'dem',
     'Obama': 'dem',
-    'Barr': 'rep',
-    'Lindsey Graham': 'rep',
-    'Pompeo': 'rep',
-    'Bolton': 'rep',
-    'Sanders': 'dem',
+    'Giuliani': 'rep',
+    #'Bill Barr': 'rep',
+    #'Lindsey Graham': 'rep',
+    #'Mike Pompeo': 'rep',
+    #'John Bolton': 'rep',
+    #'Bernie Sanders': 'dem',
 }
 
 verb_list = ["observe", "observes", "observed", "describe", "describes", "described", "discuss", "discusses", "discussed",
@@ -43,6 +44,8 @@ verb_list = ["observe", "observes", "observed", "describe", "describes", "descri
     "emphasise", "emphasises", "emphasised", "declare", "declares", "declared", "indicate", "indicates", "indicated",
     "comment", "comments", "commented", "uphold", "upholds", "upheld"
 ]
+
+
 class QuotesDataCreator:
     def __init__(self):
         self._nela_datareader = NelaDatareader()
@@ -73,19 +76,20 @@ class QuotesDataCreator:
         sentences = []
         for verb in verb_list:
             search_term = person
-            speech_search_terms = ['{} {}'.format(person, verb), '{} {}'.format(verb, person)]
+            speech_search_terms = ['{} {}'.format(person, verb)]
             for search_term in [search_term]:
                 #if search_term in d.content() and not any(i in d.content() for i in speech_search_terms):
                 if any(i in d.content() for i in speech_search_terms):
-                    location = d.content().index(search_term)
+                    location = d.content().index(speech_search_terms[0])
+                    #location = d.content().index(search_term)
                     j = location
                     k = location
-                    while j > 0 and d.content()[j] != '.':
+                    while j >= 0 and d.content()[j] != '.':
                         j -= 1
-                    while k <len(d.content()) - 2 and d.content()[k] != '.':
-                        k += 1
-                    sentence = re.sub(search_term, '[MASK]', d.content()[j+1:k])
+                    while k < len(d.content()) - 2 and d.content()[k] != '.':
+                        k += 1                    
                     sentence = d.content()[j+1:k]
+                    sentence = re.sub(search_term, '[MASK]', d.content()[j+1:k])
                     sentences = [sentence]
         return sentences
                     

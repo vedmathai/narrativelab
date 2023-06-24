@@ -22,6 +22,7 @@ class Sentence2Phrases:
                 self._however_like_contradiction,
                 self._after_like_temporal_relationship,
                 self._and_like_relationship,
+                self._prep_relationship,
             ]
             for phrase_connector_fn in phrase_connector_fns:
                 phrase_connectors, single_root_flag = phrase_connector_fn(path, phrase_connectors, root, child, all_children_tokens, single_root_flag)
@@ -41,7 +42,7 @@ class Sentence2Phrases:
             current = current.parent()
         return current
 
-    def _anecdotal_relationship(self, path, phrase_connectors, root, child, all_childrent_tokens, single_root_flag):
+    def _anecdotal_relationship(self, path, phrase_connectors, root, child, all_children_tokens, single_root_flag):
         if self._extraction_path_matcher.match(path, 'anecdotal_relationship'):
             single_root_flag = False
             phrase_connector = PhraseConnector.create(root, child, "anecdotal_relationship", None)
@@ -112,6 +113,15 @@ class Sentence2Phrases:
         if self._extraction_path_matcher.match(path, 'and_like_relationship') is True:
             single_root_flag = False
             phrase_connector = PhraseConnector.create(root, child, "and_like_relationship", None)
+            phrase_connectors.append(phrase_connector)
+            phrase_connectors = self.split(child, phrase_connectors, False)
+        return phrase_connectors, single_root_flag
+
+    def _prep_relationship(self, path, phrase_connectors, root, child, all_childrent_tokens, single_root_flag):
+        if self._extraction_path_matcher.match(path, 'prep_relationship') is True:
+            single_root_flag = False
+            prep = child.parent()
+            phrase_connector = PhraseConnector.create(root, child, "prep_relationship", prep)
             phrase_connectors.append(phrase_connector)
             phrase_connectors = self.split(child, phrase_connectors, False)
         return phrase_connectors, single_root_flag
