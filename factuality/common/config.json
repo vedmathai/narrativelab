@@ -1,9 +1,10 @@
 {
     "vitamin_c_data_location": "vitamin_c",
-    "run_configs_file": "factuality/run_configs/run_config.json",
+    "run_configs_file": "factuality/common/run_config.json",
     "vitamin_c_file_mapping": {
         "train": "vitaminc/train.jsonl",
         "eval": "vitamin/dev.jsonl",
         "test": "vitaminc/test.jsonl"
-    }
+    },
+    "nela_quotes_data_location": "/home/lalady6977/oerc/projects/data/quote_bias/masked_quotes.csv"
 }

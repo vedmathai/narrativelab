@@ -10,7 +10,8 @@ class Config:
         self._pythonpath = None
         self._vitamin_c_data_location = None
         self._vitamin_c_file_mapping = None
-        self._run_config_file = None
+        self._nela_quotes_data_location = None
+        self._run_configs_file = None
         self._jade_logger = JadeLogger()
 
     @staticmethod
@@ -41,20 +42,27 @@ class Config:
     def set_vitamin_c_file_mapping(self, vitamin_c_file_mapping):
         self._vitamin_c_file_mapping = vitamin_c_file_mapping
 
-    def run_config_file(self):
-        return self._run_config_file
+    def nela_quotes_data_location(self):
+        return self._nela_quotes_data_location
+    
+    def set_nela_quotes_data_location(self, nela_quotes_data_location):
+        self._nela_quotes_data_location = nela_quotes_data_location
+
+    def run_configs_file(self):
+        return self._run_configs_file
     
     def run_configs_abs_filepath(self):
         filepath = os.path.join(self.pythonpath(), self.run_configs_file())
         return filepath
 
-    def set_run_config_file(self, run_config_file):
-        self._run_config_file = run_config_file
+    def set_run_configs_file(self, run_configs_file):
+        self._run_configs_file = run_configs_file
 
     @staticmethod
     def from_dict(val):
         config = Config()
         config.set_vitamin_c_data_location(val.get('vitamin_c_data_location'))
         config.set_vitamin_c_file_mapping(val.get('vitamin_c_file_mapping'))
-        config.set_run_config_file(val.get('run_config_file'))
+        config.set_nela_quotes_data_location(val.get('nela_quotes_data_location'))
+        config.set_run_configs_file(val.get('run_configs_file'))
         return config

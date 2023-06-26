@@ -24,7 +24,8 @@ class Dependency2Narrative:
         annecdotal_connectors = []
         tokeni2event = {}
         for sentence in fdocument.sentences():
-            phrase_connectors = self._sentence2phrases.split(sentence.root(), phrase_connectors)
+            if sentence.root() is not None:
+                phrase_connectors = self._sentence2phrases.split(sentence.root(), phrase_connectors)
         for phrase_connector in phrase_connectors:
             verb_1 = phrase_connector.verb_1()
             verb_2 = phrase_connector.verb_2()
