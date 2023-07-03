@@ -43,7 +43,8 @@ class Config:
         self._vitamin_c_file_mapping = vitamin_c_file_mapping
 
     def nela_quotes_data_location(self):
-        return self._nela_quotes_data_location
+        filepath = self._jade_logger.file_manager.data_filepath(self._nela_quotes_data_location)
+        return filepath
     
     def set_nela_quotes_data_location(self, nela_quotes_data_location):
         self._nela_quotes_data_location = nela_quotes_data_location

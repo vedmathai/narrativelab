@@ -33,6 +33,7 @@ class Dependency2Narrative:
             if narrative_node_1 is None:
                 narrative_node_1 = self._clause_root2event(verb_1)
                 tokeni2event[verb_1.i()] = narrative_node_1
+                narrative_node_1._token = verb_1
             if phrase_connector.connector_type() != 'single':
                 narrative_node_2 = tokeni2event.get(verb_2.i())
                 if narrative_node_2 is None:

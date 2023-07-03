@@ -6,5 +6,5 @@
         "eval": "vitamin/dev.jsonl",
         "test": "vitaminc/test.jsonl"
     },
-    "nela_quotes_data_location": "/home/lalady6977/oerc/projects/data/quote_bias/masked_quotes.csv"
+    "nela_quotes_data_location": "quote_bias/masked_quotes.csv"
 }

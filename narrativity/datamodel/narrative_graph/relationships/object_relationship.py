@@ -12,6 +12,9 @@ class ObjectRelationship(AbstractRelationship):
         self._narrative_id = None
         self._object_id = None
 
+    def display_name(self):
+        return self._preposition
+
     def preposition(self) -> str:
         return self._preposition
 
@@ -41,6 +44,13 @@ class ObjectRelationship(AbstractRelationship):
 
     def set_object_id(self, object_id: str):
         self._object_id = object_id
+
+    def nodes(self):
+        self._nodes = [
+            self.narrative(),
+            self.object(),
+        ]
+        return super().nodes()
 
     @staticmethod
     def from_dict(val, narrative_graph):

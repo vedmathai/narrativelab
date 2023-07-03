@@ -38,7 +38,7 @@ class CausalRelationship(AbstractRelationship):
         return self._anecdotal_in_relationship_ids
     
     def anecdotal_in_relationships(self):
-        return [self._narrative_graph.id2anecdotal_relationship(i) for i in self._anecdotal_relationship_ids]
+        return [self._narrative_graph.id2anecdotal_relationship(i) for i in self._anecdotal_in_relationship_ids]
 
     def set_narrative_1(self, narrative):
         self._narrative_1_id = narrative.id()
@@ -55,9 +55,6 @@ class CausalRelationship(AbstractRelationship):
     def set_narrative_2_id(self, narrative_id: str):
         self._narrative_2_id = narrative_id
 
-    def set_actor_id(self, actor_id: str):
-        self._actor_id = actor_id
-
     def add_anecdotal_in_relationship_id(self, anecdotal_in_relationship_id):
         self._anecdotal_in_relationship_ids.append(anecdotal_in_relationship_id)
 
@@ -66,6 +63,14 @@ class CausalRelationship(AbstractRelationship):
 
     def set_anecdotal_in_relationship_ids(self, anecdotal_in_relationship_ids):
         self._anecdotal_in_relationship_ids = anecdotal_in_relationship_ids
+
+    def nodes(self):
+        self._nodes = [
+            self.narrative_1(),
+            self.narrative_2(),
+            *self.anecdotal_in_relationships(),
+        ]
+        return super().nodes()
 
     @staticmethod
     def from_dict(val, narrative_graph):

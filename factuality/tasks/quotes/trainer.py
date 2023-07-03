@@ -5,6 +5,7 @@ from torch.optim import Adam
 from transformers import BigBirdForQuestionAnswering, BigBirdTokenizer
 from collections import defaultdict
 from jadelogs import JadeLogger
+import random
 
 
 from factuality.common.config import Config
@@ -46,7 +47,7 @@ class QuotesClassificationTrainBase:
 
     def load(self, run_config):
         self._datahandler = self._datahandlers_registry.get_datahandler(run_config.dataset())
-        base_model_class = self._models_registry.get_model('quote_classification_base')
+        base_model_class = self._models_registry.get_model('quote_classification_graph')
         self._base_model = base_model_class(run_config)
         self._base_model.to(device)
         self._config = Config.instance()
@@ -70,6 +71,8 @@ class QuotesClassificationTrainBase:
         self._jade_logger.new_experiment()
         self._jade_logger.set_experiment_type('classification')
         self._jade_logger.set_total_epochs(run_config.epochs())
+        random.seed(22)
+        random.shuffle(self._train_data)
         for epoch_i in range(1, run_config.epochs()):
             self._jade_logger.new_epoch()
             self._train_epoch(epoch_i, run_config)
@@ -82,6 +85,10 @@ class QuotesClassificationTrainBase:
         jadelogger_epoch.set_size(data_size)
         self._jade_logger.new_train_batch()
         for datum_i, datum in enumerate(train_data):
+            if datum_i % 100 == 0:
+                print('train', datum_i)
+            #if datum_i > 1000:
+            #    break
             self._train_datum(run_config, datum_i, datum)
 
     def _eval_epoch(self, epoch_i, run_config):
@@ -89,6 +96,9 @@ class QuotesClassificationTrainBase:
         self._jade_logger.new_evaluate_batch()
         self._labels = []
         for datum_i, datum in enumerate(test_data):
+            if datum_i % 100 == 0:
+                print('eval', datum_i)
+
             self._infer_datum(datum, run_config)
         f1 = self.calculate_f1(self._labels)
         print(f1)
@@ -97,6 +107,8 @@ class QuotesClassificationTrainBase:
         text = quote_datum.text()
         wordid2tokenid, tokens = self._base_model.wordid2tokenid(text)
         sentence_classification_output = self._base_model(text)
+        if sentence_classification_output is None:
+            return
         answer_bitmap = [[0, 0, 0, 0] for _ in sentence_classification_output]
         bitmaps = self._datum2bitmap(quote_datum, tokens, run_config)
         answer = []
@@ -128,6 +140,8 @@ class QuotesClassificationTrainBase:
         text = quote_datum.text()
         with torch.no_grad():
             sentence_classification_output = self._base_model(text)
+            if sentence_classification_output is None:
+                return
             wordid2tokenid, tokens = self._base_model.wordid2tokenid(text)
             bitmaps = self._datum2bitmap(quote_datum, tokens, run_config)
             answer_bitmap = bitmaps['answer_bitmap']
@@ -135,7 +149,7 @@ class QuotesClassificationTrainBase:
             answer_tensor = torch.Tensor(answer_bitmap).to(device).unsqueeze(0)
             loss = self._task_criterion(sentence_classification_output, answer_tensor)
             losses.append(loss)
-            answer_index = np.argmax(sentence_classification_output).item()
+            answer_index = torch.argmax(sentence_classification_output).item()
             answer = answer_reverse_dict[answer_index]
             self._labels.append((bitmaps['required_answer'], answer))
             self._jade_logger.new_evaluate_datapoint(bitmaps['required_answer'], answer, loss.item(), {"text": text})

@@ -1,4 +1,5 @@
 import os
+import re
 import torch.nn as nn
 from transformers import RobertaTokenizer, RobertaModel
 import torch
@@ -16,7 +17,7 @@ class QuoteClassificationBase(nn.Module):
         if run_config.llm() == 'roberta':
             self._tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
             self._model = RobertaModel.from_pretrained('roberta-base')
-        modules = [self._model.embeddings, *self._model.encoder.layer[:-4]]
+        modules = [self._model.embeddings, *self._model.encoder.layer[:-2]]
         for module in modules:
             for param in module.parameters():
                 param.requires_grad = True
@@ -27,6 +28,8 @@ class QuoteClassificationBase(nn.Module):
         self._classifier = torch.nn.Linear(hidden_layer_size, 4).to(device)
 
     def forward(self, text):
+        text = re.sub("@ @ @ @ @ @ @", '', text)
+        text = re.sub("` `", '"', text)
         inputs = self._tokenizer([text], return_tensors="pt", padding='longest', max_length=1000)
         inputs = {k: v.to(device) for k, v in inputs.items()}
         outputs = self._model(**inputs)

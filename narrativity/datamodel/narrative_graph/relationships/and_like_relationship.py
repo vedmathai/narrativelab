@@ -55,6 +55,13 @@ class AndLikeRelationship(AbstractRelationship):
     def set_relationship(self, relationship) -> None:
         self._relationship_id = relationship.id()
 
+    def nodes(self):
+        self._nodes = [
+            self.narrative_1(),
+            self.narrative_2(),
+        ]
+        return super().nodes()
+
     @staticmethod
     def from_dict(val, narrative_graph):
         and_like_relationship = AndLikeRelationship()

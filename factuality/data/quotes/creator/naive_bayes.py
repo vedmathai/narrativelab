@@ -94,7 +94,7 @@ with open('factuality/data/quotes/creator/masked_quotes.csv') as f:
     documents = []
     y = []
     doc_list = list(reader)
-    random.seed(23)
+    random.seed(22)
     random.shuffle(doc_list)
     label2docs = defaultdict(list)
     seen = set()
@@ -159,7 +159,7 @@ def featurize(doc_list, train):
             for narrative1 in graph.narrative_nodes().values():
                 narrative = narrative1
                 if narrative.id() not in annecdotal_narratives:
-                    continue
+                    pass
                 if narrative.is_state() is False:
                     children = []
                     pipe = [narrative._token]
@@ -212,7 +212,7 @@ def featurize(doc_list, train):
                     augmented_r0 += ' ' + ' '.join([subject, aux, object])
 
             doc = dn
-            if len(dn.strip()) > 0 and len(annecdotal_narratives) > 0:# and any(i.lower() in quote.lower() for i in topics):
+            if len(dn.strip()) > 0 and len(quote.strip()) > 0:# and any(i.lower() in quote.lower() for i in topics):
                 if train is True:
                     #print(dn)
                     #print(quote)
@@ -226,6 +226,7 @@ def featurize(doc_list, train):
 
           
 #doc_list = [["For all those of you who voted for President Trump , I understand the disappointment tonight , '' MASK said", 'label']]
+#random.shuffle(train_doc_list)
 train_featurized, train_labels = featurize(train_doc_list, True)
 test_featurized, test_labels = featurize(test_doc_list, False)
 #featurize(doc_list, True)

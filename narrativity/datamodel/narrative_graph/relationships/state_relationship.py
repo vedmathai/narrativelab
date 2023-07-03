@@ -43,6 +43,13 @@ class StateRelationship(AbstractRelationship):
     def set_state_id(self, state_id: str):
         self._state_id = state_id
 
+    def nodes(self):
+        self._nodes = [
+            self.narrative(),
+            self.state(),
+        ]
+        return super().nodes()
+
     @staticmethod
     def from_dict(val, narrative_graph):
         state_relationship = StateRelationship()

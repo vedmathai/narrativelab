@@ -50,3 +50,15 @@ class Verb2DirectObjects:
                 else:
                     direct_object_node = self.get_direct_object_node(child, narrative_graph)
                 self.add_direct_object_relationship(direct_object_node, narrative_node, narrative_graph)
+
+    def get_appos_object_nodes(self, first_object, all_children_tokens, narrative_node, narrative_graph):
+        for child in all_children_tokens:
+            path = FeaturizedSentence.dependency_path_between_tokens(first_object, child)
+            if self._extraction_path_matcher.match(path, 'appos_object_detection') is True:
+                coreferences = child.coreference()
+                if coreferences is not None:
+                    for coreference in coreferences:
+                        direct_object_node = self.get_direct_object_node(coreference, narrative_graph)
+                else:
+                    direct_object_node = self.get_direct_object_node(child, narrative_graph)
+                self.add_direct_object_relationship(direct_object_node, narrative_node, narrative_graph)

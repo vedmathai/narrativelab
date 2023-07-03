@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 
 from narrativity.datamodel.narrative_graph.nodes.abstract_node import AbstractNode
 from narrativity.datamodel.narrative_graph.relationships.abstract_relationship import AbstractRelationship
@@ -18,7 +18,7 @@ from narrativity.datamodel.narrative_graph.relationships.contradictory_relations
 from narrativity.datamodel.narrative_graph.relationships.anecdotal_relationship import AnecdotalRelationship
 from narrativity.datamodel.narrative_graph.relationships.prep_relationship import PrepRelationship
 from narrativity.datamodel.narrative_graph.relationships.and_like_relationship import AndLikeRelationship
-
+from narrativity.datamodel.narrative_graph.relationships.descriptor_relationship import DescriptorRelationship
 
 
 class NarrativeGraph:
@@ -40,6 +40,7 @@ class NarrativeGraph:
         self._anecdotal_relationships: Dict[str, AnecdotalRelationship] = {}
         self._prep_relationships: Dict[str, PrepRelationship] = {}
         self._and_like_relationships: Dict[str, AndLikeRelationship] = {}
+        self._descriptor_relationships: Dict[str, DescriptorRelationship] = {}
         self._text2action_node: Dict[str, ActionNode] = {}
         self._text2entity_node: Dict[str, EntityNode] = {}
         self._text2absolute_temporal_node: Dict[str, AbsoluteTemporalNode] = {}
@@ -121,6 +122,12 @@ class NarrativeGraph:
 
     def id2and_like_relationship(self, id) -> Dict[str, AndLikeRelationship]:
         return self._and_like_relationships.get(id)
+    
+    def descriptor_relationships(self) -> Dict[str, DescriptorRelationship]:
+        return self._descriptor_relationships
+
+    def id2descriptor_relationship(self, id) -> Dict[str, DescriptorRelationship]:
+        return self._descriptor_relationships.get(id)
 
     def id2actor_relationship(self, id: str) -> ActorRelationship:
         return self._actor_relationships.get(id)
@@ -186,12 +193,41 @@ class NarrativeGraph:
             self.id2anecdotal_relationship,
             self.id2prep_relationship,
             self.id2and_like_relationship,
+            self.id2descriptor_relationship,
         ]
         for fn in id2relationshipfns:
             relationship = fn(id)
             if relationship is not None:
                 return relationship
         return None
+
+    def nodes(self) -> List:
+        _nodes = [
+            self.action_nodes(),
+            self.entity_nodes(),
+            self.absolute_temporal_nodes(),
+            self.narrative_nodes(),
+        ]
+        return sum([list(i.values()) for i in _nodes], [])
+
+    def relationships(self) -> List:
+        _relationships = [
+            self.location_relationships(),
+            self.direct_object_relationships(),
+            self.indirect_object_relationships(),
+            self.temporal_event_relationships(),
+            self.absolute_temporal_relationships(),
+            self.state_relationships(),
+            self.actor_relationships(),
+            self.subject_relationships(),
+            self.causal_relationships(),
+            self.contradictory_relationships(),
+            self.anecdotal_relationships(),
+            self.prep_relationships(),
+            self.and_like_relationships(),
+            self.descriptor_relationships(),
+        ]
+        return sum([list(i.values()) for i in _relationships], [])
 
     def set_action_nodes(self, action_nodes: Dict[str, ActionNode]) -> None:
         self._action_nodes = action_nodes
@@ -256,6 +292,9 @@ class NarrativeGraph:
     def set_and_like_relationships(self, and_like_relationships: Dict[str, AndLikeRelationship]) -> None:
         self._and_like_relationships = and_like_relationships
 
+    def set_descriptor_relationships(self, descriptor_relationships: Dict[str, DescriptorRelationship]) -> None:
+        self._descriptor_relationships = descriptor_relationships
+
     def add_action_node(self, action_node: ActionNode) -> None:
         self._action_nodes[action_node.id()] = action_node
         self._text2action_node[action_node.canonical_name()] = action_node
@@ -310,6 +349,9 @@ class NarrativeGraph:
     def add_and_like_relationship(self, and_like_relationship: AndLikeRelationship) -> None:
         self._and_like_relationships[and_like_relationship.id()] = and_like_relationship
 
+    def add_descriptor_relationship(self, descriptor_relationship: AndLikeRelationship) -> None:
+        self._descriptor_relationships[descriptor_relationship.id()] = descriptor_relationship
+
     def to_dict(self):
         return {
             "action_nodes": [i.to_dict() for i in self.action_nodes().values()],
@@ -328,6 +370,7 @@ class NarrativeGraph:
             "anecdotal_relationships": [i.to_dict() for i in self.anecdotal_relationships().values()],
             "prep_relationships": [i.to_dict() for i in self.prep_relationships().values()],
             "and_like_relationships": [i.to_dict() for i in self.and_like_relationships().values()],
+            "descriptor_relationships": [i.to_dict() for i in self.descriptor_relationships().values()],
             "subject_relationships": [i.to_dict() for i in self.subject_relationships().values()],
         }
 
@@ -381,7 +424,10 @@ class NarrativeGraph:
         })
         narrative_graph.set_and_like_relationships({
             i['id']: AndLikeRelationship.from_dict(i) for i in val['and_like_relationships']
-        })        
+        })  
+        narrative_graph.set_descriptor_relationships({
+            i['id']: DescriptorRelationship.from_dict(i) for i in val['descriptor_relationships']
+        })         
         narrative_graph.set_temporal_event_relationships({
             i['id']: TemporalEventRelationship.from_dict(i) for i in val['temporal_event_relationships']
         })
