@@ -43,6 +43,13 @@ class LocationRelationship(AbstractRelationship):
     def set_location_id(self, location_id: str):
         self._location_id = location_id
 
+    def nodes(self):
+        self._nodes = [
+            self.narrative(),
+            self.location(),
+        ]
+        return super().nodes()
+
     @staticmethod
     def from_dict(val, narrative_graph):
         location_relationship = LocationRelationship()

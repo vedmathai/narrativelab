@@ -24,6 +24,7 @@ class NodeContextCreator:
         node_type2fn = {
             'entity_node': [
                 self.get_narratives,
+                self.get_descriptors,
             ],
             'narrative_node': [
                 self.get_actors,
@@ -42,6 +43,7 @@ class NodeContextCreator:
                 self.get_anecdotal_out_relationships,
                 self.get_anecdotal_in_relationships,
                 self.get_and_like_relationships,
+                self.get_described_entity_relationships,
             ],
             'absolute_temporal_node': [
                 self.get_narratives,
@@ -106,6 +108,12 @@ class NodeContextCreator:
             narrative = narrative_relationship.narrative()
             self.add_other_node(narrative, 'narrative', node_context)
             self.add_relationship(narrative, narrative_relationship, node_context)
+
+    def get_descriptors(self, node, node_context: NodeContext):
+        for descriptor_relationship in node.descriptor_relationships():
+            descriptor = descriptor_relationship.narrative()
+            self.add_other_node(descriptor, 'descriptor', node_context)
+            self.add_relationship(descriptor, descriptor_relationship, node_context)
 
     def get_subjects(self, node, node_context: NodeContext):
         for subject_relationship in node.subject_relationships():
@@ -179,3 +187,9 @@ class NodeContextCreator:
                 narrative_2 = and_like_relationship.narrative_1()
             self.add_other_node(narrative_2, 'and_like', node_context)
             self.add_relationship(narrative_2, and_like_relationship, node_context)
+
+    def get_described_entity_relationships(self, node, node_context: NodeContext):
+        for descriptor_relationship in node.descriptor_relationships():
+            entity = descriptor_relationship.entity_node()
+            self.add_other_node(entity, 'described_entity', node_context)
+            self.add_relationship(entity, descriptor_relationship, node_context)

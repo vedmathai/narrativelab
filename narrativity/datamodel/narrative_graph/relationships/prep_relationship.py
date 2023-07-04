@@ -14,6 +14,9 @@ class PrepRelationship(AbstractRelationship):
         self._relationship_id = None
         self._preposition = None
 
+    def display_name(self) -> str:
+        return self._preposition
+
     def preposition(self) -> str:
         return self._preposition
 
@@ -61,6 +64,14 @@ class PrepRelationship(AbstractRelationship):
 
     def set_preposition(self, preposition: str):
         self._preposition = preposition
+
+    def nodes(self):
+        self._nodes = [
+            self.narrative_1(),
+            self.narrative_2(),
+            self.relationship(),
+        ]
+        return super().nodes()
 
     @staticmethod
     def from_dict(val, narrative_graph):

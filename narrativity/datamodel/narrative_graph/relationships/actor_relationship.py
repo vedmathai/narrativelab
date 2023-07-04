@@ -36,6 +36,13 @@ class ActorRelationship(AbstractRelationship):
     def set_actor_id(self, actor_id: str):
         self._actor_id = actor_id
 
+    def nodes(self):
+        self._nodes = [
+            self.actor(),
+            self.narrative()
+        ]
+        return super().nodes()
+
     @staticmethod
     def from_dict(val, narrative_graph):
         actor_relationship = ActorRelationship()

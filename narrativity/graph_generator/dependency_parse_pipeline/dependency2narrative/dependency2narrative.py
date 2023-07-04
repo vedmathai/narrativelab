@@ -24,7 +24,8 @@ class Dependency2Narrative:
         annecdotal_connectors = []
         tokeni2event = {}
         for sentence in fdocument.sentences():
-            phrase_connectors = self._sentence2phrases.split(sentence.root(), phrase_connectors)
+            if sentence.root() is not None:
+                phrase_connectors = self._sentence2phrases.split(sentence.root(), phrase_connectors)
         for phrase_connector in phrase_connectors:
             verb_1 = phrase_connector.verb_1()
             verb_2 = phrase_connector.verb_2()
@@ -32,6 +33,7 @@ class Dependency2Narrative:
             if narrative_node_1 is None:
                 narrative_node_1 = self._clause_root2event(verb_1)
                 tokeni2event[verb_1.i()] = narrative_node_1
+                narrative_node_1._token = verb_1
             if phrase_connector.connector_type() != 'single':
                 narrative_node_2 = tokeni2event.get(verb_2.i())
                 if narrative_node_2 is None:

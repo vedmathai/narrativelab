@@ -29,6 +29,7 @@ class NarrativeNode(AbstractNode):
         self._anecdotal_in_relationship_ids = []
         self._anecdotal_out_relationship_ids = []
         self._and_like_relationship_ids = []
+        self._descriptor_relationship_ids = []
         self._prep_in_relationship_ids = []
         self._prep_out_relationship_ids = []
         self._sources = []
@@ -175,6 +176,12 @@ class NarrativeNode(AbstractNode):
 
     def and_like_relationships(self):
         return [self._narrative_graph.id2and_like_relationship(i) for i in self.and_like_relationship_ids()]
+    
+    def descriptor_relationship_ids(self):
+        return self._descriptor_relationship_ids
+
+    def descriptor_relationships(self):
+        return [self._narrative_graph.id2descriptor_relationship(i) for i in self.descriptor_relationship_ids()]
 
     def sub_narrative_ids(self) -> List[str]:
         return self._sub_narrative_ids
@@ -238,6 +245,9 @@ class NarrativeNode(AbstractNode):
 
     def set_location_relationship_ids(self, location_relationship_ids) -> List[str]:
         self._location_relationship_ids = location_relationship_ids
+
+    def set_subject_relationship_ids(self, subject_relationship_ids) -> List[str]:
+        self._subject_relationship_ids = subject_relationship_ids
 
     def add_location_relationship(self, location_relationship) -> List[str]:
         self._location_relationship_ids.append(location_relationship.id())
@@ -311,6 +321,12 @@ class NarrativeNode(AbstractNode):
     def add_and_like_relationship(self, and_like_relationship) -> None:
         self._and_like_relationship_ids.append(and_like_relationship.id())
 
+    def set_descriptor_relationship_ids(self, descriptor_relationship_ids) -> None:
+        self._descriptor_relationship_ids = descriptor_relationship_ids
+
+    def add_descriptor_relationship(self, descriptor_relationship) -> None:
+        self._descriptor_relationship_ids.append(descriptor_relationship.id())
+
     def add_temporal_event_in_relationship(self, temporal_event_in_relationship) -> None:
         self._temporal_event_in_relationship_ids.append(temporal_event_in_relationship.id())
 
@@ -341,6 +357,31 @@ class NarrativeNode(AbstractNode):
     def set_canonical_name(self, canonical_name: str) -> None:
         self._canonical_name = canonical_name
 
+    def relationships(self):
+        self._relationships = [
+            self.actor_relationships(),
+            self.subject_relationships(),
+            self.actions(),
+            self.direct_object_relationships(),
+            self.indirect_object_relationships(),
+            self.location_relationships(),
+            self.temporal_event_in_relationships(),
+            self.temporal_event_out_relationships(),
+            self.absolute_temporal_relationships(),
+            self.state_relationships(),
+            self.causal_in_relationships(),
+            self.causal_out_relationships(),
+            self.contradictory_in_relationships(),
+            self.contradictory_out_relationships(),
+            self.anecdotal_in_relationships(),
+            self.anecdotal_out_relationships(),
+            self.prep_in_relationships(),
+            self.prep_out_relationships(),
+            self.and_like_relationships(),
+            self.descriptor_relationships(),
+        ]
+        return super().relationships()
+
     @staticmethod
     def from_dict(val, narrative_graph):
         narrative_node = NarrativeNode()
@@ -367,6 +408,7 @@ class NarrativeNode(AbstractNode):
         narrative_node.set_prep_in_relationship_ids(val['prep_in_relationship_ids'])
         narrative_node.set_prep_out_relationship_ids(val['prep_out_relationship_ids'])
         narrative_node.set_and_like_relationship_ids(val['and_like_relationship_ids'])
+        narrative_node.set_descriptor_relationship_ids(val['descriptor_relationship_ids'])
         narrative_node.set_sub_narrative_ids(val['sub_narrative_ids'])
         narrative_node.set_parent_narrative_ids(val['parent_narrative_ids'])
         narrative_node.set_sources(val['sources'])
@@ -400,6 +442,7 @@ class NarrativeNode(AbstractNode):
             "prep_in_relationship_ids": self.prep_in_relationship_ids(),
             "prep_out_relationship_ids": self.prep_out_relationship_ids(),
             "and_like_relationship_ids": self.and_like_relationship_ids(),
+            "descriptor_relationship_ids": self.descriptor_relationship_ids(),
             "sub_narrative_ids": self.sub_narrative_ids(),
             "parent_narrative_ids": self.parent_narrative_ids(),
             "sources": self.sources(),

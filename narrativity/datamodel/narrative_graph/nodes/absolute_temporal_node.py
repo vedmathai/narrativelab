@@ -44,6 +44,12 @@ class AbsoluteTemporalNode(AbstractNode):
     def add_narrative_relationship(self, narrative_relationship):
         self._narrative_relationship_ids.append(narrative_relationship.id())
 
+    def relationships(self):
+        self._relationships = [
+            self.narrative_relationships()
+        ]
+        return super().relationships()
+
     @staticmethod
     def from_dict(val, narrative_graph) -> "AbsoluteTemporalNode":
         absolute_temporal_node = AbsoluteTemporalNode

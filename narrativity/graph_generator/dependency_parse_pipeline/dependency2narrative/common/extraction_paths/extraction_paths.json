@@ -29,36 +29,118 @@
             "after_like_temporal_prepositions": [
                 "after", "before", "during", "while", "when"
             ],
-            "anecdotal_verbs": ["observe", "observes", "observed", "describe", "describes", "described", "discuss", "discusses", "discussed",
-					  "report", "reports", "reported", "outline", "outlines", "outlined", "remark", "remarks", "remarked", 	
-					  "state", "states", "stated", "go on to say that", "goes on to say that", "went on to say that", 	
-					  "quote that", "quotes that", "quoted that", "say", "says", "said", "mention", "mentions", "mentioned",
-					  "articulate", "articulates", "articulated", "write", "writes", "wrote", "relate", "relates", "related",
-					  "convey", "conveys", "conveyed", "recognise", "recognises", "recognised", "clarify", "clarifies", "clarified",
-					  "acknowledge", "acknowledges", "acknowledged", "concede", "concedes", "conceded", "accept", "accepts", "accepted",
-					  "refute", "refutes", "refuted", "uncover", "uncovers", "uncovered", "admit", "admits", "admitted",
-					  "demonstrate", "demonstrates", "demonstrated", "highlight", "highlights", "highlighted", "illuminate", "illuminates", "illuminated", 							  
-                      "support", "supports", "supported", "conclude", "concludes", "concluded", "elucidate", "elucidates", "elucidated",
-					  "reveal", "reveals", "revealed", "verify", "verifies", "verified", "argue", "argues", "argued", "reason", "reasons", "reasoned",
-					  "maintain", "maintains", "maintained", "contend", "contends", "contended", "hypothesise", "hypothesises", "hypothesised",
-					  "propose", "proposes", "proposed", "theorise", "theorises", "theorised", "feel", "feels", "felt", "consider", "considers", "considered", 						  
-                      "assert", "asserts", "asserted", "dispute", "disputes", "disputed", "advocate", "advocates", "advocated",
-					  "opine", "opines", "opined", "think", "thinks", "thought", "imply", "implies", "implied", "posit", "posits", "posited",
-					  "show", "shows", "showed", "illustrate", "illustrates", "illustrated", "point out", "points out", "pointed out",
-					  "prove", "proves", "proved", "find", "finds", "found", "explain", "explains", "explained", "agree", "agrees", "agreed",
-					  "confirm", "confirms", "confirmed", "identify", "identifies", "identified", "evidence", "evidences", "evidenced",
-					  "attest", "attests", "attested", "believe", "believes", "believed", "claim", "claims", "claimed", "justify", "justifies", "justified", 							  
-                      "insist", "insists", "insisted", "assume", "assumes", "assumed", "allege", "alleges", "alleged", "deny", "denies", "denied",
-					  "speculate", "speculates", "speculated", "disregard", "disregards", "disregarded", "suppose", "supposes", "supposed",
-					  "conjecture", "conjectures", "conjectured", "surmise", "surmises", "surmised", "note", "notes", "noted",
-					  "suggest", "suggests", "suggested", "challenge", "challenges", "challenged", "critique", "critiques", "critiqued",
-					  "emphasise", "emphasises", "emphasised", "declare", "declares", "declared", "indicate", "indicates", "indicated",
-					  "comment", "comments", "commented", "uphold", "upholds", "upheld", "perceives", "perceive", "perceived", "expected", "expects", "expect",
-                      "mandate", "mandates", "mandated"
+            "anecdotal_verbs": ["observe", "observes", "observed", "obvserving", "describe", "describes", "described", "describing", "discuss", "discusses", "discussed", "discussing",
+					  "report", "reports", "reported", "reporting", "outline", "outlines", "outlined", "outlining", "remark", "remarks", "remarked", "remarking", 	
+					  "state", "states", "stated", "stating", "go on to say that", "goes on to say that", "went on to say that", "know", "knows", "knowing", "knew",
+					  "quote that", "quotes that", "quoted that", "quotes", "quoting", "quoted", "quote", "say", "says", "said", "saying", "mention", "mentions", "mentioned", "mentioning",
+					  "articulate", "articulates", "articulated", "articulating", "write", "writes", "wrote", "writing", "relate", "relates", "related", "relating",
+					  "convey", "conveys", "conveyed", "conveying", "recognise", "recognises", "recognised", "recognizing", "clarify", "clarifies", "clarified", "clarifying",
+					  "acknowledge", "acknowledges", "acknowledged", "acknowledging", "concede", "concedes", "conceded", "conceding", "accept", "accepts", "accepted", "accepting",
+					  "refute", "refutes", "refuted", "refuting", "uncover", "uncovers", "uncovered", "uncovering", "admit", "admits", "admitted", "admitting",
+					  "demonstrate", "demonstrates", "demonstrated", "demonstrating", "highlight", "highlights", "highlighted", "highlighting", "illuminate", "illuminates", "illuminated", "illuminating",							  
+                      "support", "supports", "supported", "supporting", "conclude", "concludes", "concluded", "concluding", "elucidate", "elucidates", "elucidated", "elucidating",
+					  "reveal", "reveals", "revealed", "revealing", "verify", "verifies", "verified", "verifying", "argue", "argues", "argued", "arguing", "reason", "reasons", "reasoned", "reasoning",
+					  "maintain", "maintains", "maintained", "maintaining", "contend", "contends", "contended", "contending", "hypothesise", "hypothesises", "hypothesised", "hypothesising",
+					  "propose", "proposes", "proposed", "proposing", "theorise", "theorises", "theorised", "theorising", "feel", "feels", "felt", "feeling", "consider", "considers", "considered", "considering",					  
+                      "assert", "asserts", "asserted", "asserting", "dispute", "disputes", "disputed", "disputing", "advocate", "advocates", "advocated", "advocating",
+					  "opine", "opines", "opined", "opining", "think", "thinks", "thought", "thinking", "imply", "implies", "implied", "implying", "posit", "posits", "posited", "positing",
+					  "show", "shows", "showed", "showing", "illustrate", "illustrates", "illustrated", "illustrating", "point out", "points out", "pointed out", "pointing out", 
+					  "prove", "proves", "proved", "proving", "find", "finds", "found", "finding", "explain", "explains", "explained", "explaining", "agree", "agrees", "agreed", "agreeing",
+					  "confirm", "confirms", "confirmed", "confirming", "identify", "identifies", "identified", "identifying", "evidence", "evidences", "evidenced", "evidencing",
+					  "attest", "attests", "attested", "attesting", "believe", "believes", "believed", "believing", "claim", "claims", "claimed", "claiming", "justify", "justifies", "justified", "justifying",					  
+                      "insist", "insists", "insisted", "insisting", "assume", "assumes", "assumed", "assuming", "allege", "alleges", "alleged", "alleging", "deny", "denies", "denied", "denying",
+					  "speculate", "speculates", "speculated", "speculating", "disregard", "disregards", "disregarded", "disregarding", "suppose", "supposes", "supposed", "supposing",
+					  "conjecture", "conjectures", "conjectured", "conjecturing", "surmise", "surmises", "surmised", "surmising", "note", "notes", "noted", "noting",
+					  "suggest", "suggests", "suggested", "suggesting", "challenge", "challenges", "challenged", "challenging", "critique", "critiques", "critiqued", "critiquing",
+					  "emphasise", "emphasises", "emphasised", "emphasising", "declare", "declares", "declared", "declaring", "indicate", "indicates", "indicated", "indicating",
+					  "comment", "comments", "commented", "commenting", "uphold", "upholds", "upheld", "upholding", "perceives", "perceive", "perceived", "perceiving", "expected", "expects", "expect", "expecting",
+                      "mandate", "mandates", "mandated", "mandating", "tell", "telling", "tells", "telling", "told"
             ]
         }
     },
     "extraction_paths": [
+        {
+            "element": "descriptor_relationship_detection",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj", "ccomp", "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "nsubj", "dobj"
+                    ],
+                    "pos": ["NOUN"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "relcl", "acl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "descriptor_relationship_detection",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj", "ccomp", "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "prep", "agent"
+                    ],
+                    "pos": ["ADP"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "nsubj", "dobj", "pobj"
+                    ],
+                    "pos": ["NOUN"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "relcl", "acl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
         {
             "element": "anecdotal_relationship",
             "extraction_path": [
@@ -213,6 +295,42 @@
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": ["$$anecdotal_verbs$$"],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "prep_relationship",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT",
+                        "conj", "xcomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "xcomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "advcl"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
                     "tokens_blacklist": [],
                     "entity_types": [],
                     "entity_types_blacklist": []
@@ -440,6 +558,31 @@
                 {
                     "deps": [
                        "acomp"
+                    ],
+                    "pos": ["VERB", "AUX"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                },
+                {
+                    "deps": [
+                        "conj"
+                    ],
+                    "pos": ["VERB"],
+                    "tokens": [],
+                    "tokens_blacklist": [],
+                    "entity_types": [],
+                    "entity_types_blacklist": []
+                }
+            ]
+        },
+        {
+            "element": "and_like_relationship",
+            "extraction_path": [
+                {
+                    "deps": [
+                        "ROOT", "conj", "ccomp"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -756,7 +899,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp"
+                        "advcl", "ccomp", "pcomp", "relcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -785,7 +928,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp"
+                        "advcl", "ccomp", "relcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -830,7 +973,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp", "pcomp", "prep"
+                        "advcl", "ccomp", "pcomp", "prep", "relcl"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -869,7 +1012,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp", "pcomp", "prep"
+                        "advcl", "ccomp", "pcomp", "prep", "relcl"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -918,7 +1061,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp", "pcomp", "prep"
+                        "advcl", "ccomp", "pcomp", "prep", "relcl"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -967,7 +1110,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp", "pcomp", "prep"
+                        "advcl", "ccomp", "pcomp", "prep", "relcl"
                     ],
                     "pos": ["VERB", "AUX"],
                     "tokens": [],
@@ -1004,7 +1147,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp"
+                        "advcl", "ccomp", "relcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -1031,7 +1174,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp"
+                        "advcl", "ccomp", "xcomp", "relcl"
                     ],
                     "pos": ["VERB"],
                     "tokens": [],
@@ -1207,7 +1350,7 @@
                     "deps": [
                         "ROOT",
                         "conj",
-                        "advcl", "ccomp"
+                        "advcl", "ccomp", "relcl"
                     ],
                     "pos": ["AUX"],
                     "tokens": [],

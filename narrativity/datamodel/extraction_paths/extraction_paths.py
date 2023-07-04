@@ -1,4 +1,5 @@
 from typing import List
+from jadelogs import JadeLogger
 
 from narrativity.datamodel.extraction_paths.extraction_path import ExtractionPath
 from narrativity.datamodel.extraction_paths.extraction_paths_common import ExtractionPathsCommon

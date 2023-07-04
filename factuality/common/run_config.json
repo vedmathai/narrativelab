@@ -1,0 +1,12 @@
+{
+    "run_configs": [
+        {
+            "id": "0",
+            "is_train": true,
+            "trainer": "quotes_classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "nela"
+        }
+    ]
+}

@@ -2,6 +2,10 @@ import csv
 import re
 
 from factuality.data.nela.datareader import NelaDatareader
+from narrativity.graph_generator.dependency_parse_pipeline.parser import NarrativeGraphGenerator
+ngg = NarrativeGraphGenerator()
+
+ngg.load()
 
 persons_dict = {
     'Clinton': 'dem',
@@ -55,6 +59,7 @@ class QuotesDataCreator:
         dataset_list = []
         dataset = self._nela_datareader.read_dataset()
         size = len(dataset.data())
+        seen = set()
         for ii, i in enumerate(dataset.data()):
             print(ii/size)
             if i.label() is not None and len(i.label().media_bias_fact_check_label()) > 0:
@@ -66,7 +71,10 @@ class QuotesDataCreator:
 
                         if len(sentences) > 0 and len(label) > 0:
                             for k in sentences:
-                                dataset_list.append([k.strip(), '{}-{}'.format(label, party)])
+                                if len(k.strip()) > 0 and k.strip() not in seen:
+                                    dataset_list.append([k.strip(), '{}-{}'.format(label, party)])
+                                    seen.add(k.strip())
+
         with open('factuality/data/quotes/creator/masked_quotes.csv', 'wt') as f:
             writer = csv.writer(f, delimiter='\t')
             for datum in dataset_list:
@@ -89,9 +97,28 @@ class QuotesDataCreator:
                     while k < len(d.content()) - 2 and d.content()[k] != '.':
                         k += 1                    
                     sentence = d.content()[j+1:k]
-                    sentence = re.sub(search_term, '[MASK]', d.content()[j+1:k])
-                    sentences = [sentence]
+                    sentence = re.sub(search_term, 'MASK', d.content()[j+1:k])
+                    sentences = self._extract_quote(sentence)
         return sentences
+    
+    def _extract_quote(self, sentence):
+        graph = ngg.generate(sentence)
+        sentences = []
+        for narrative1 in graph.narrative_nodes().values():
+            if 'MASK' in narrative1.display_name():
+                ar = narrative1.anecdotal_out_relationships()
+                for rel in ar:
+                    children = []
+                    narrative2 = rel.narrative_2()
+                    if narrative2 is not None:
+                        token = narrative2._token
+                        pipe = [token]
+                        while len(pipe) > 0 and pipe[0] is not None:
+                            top = pipe.pop(0)
+                            children.append(top)
+                            pipe.extend(top.all_children())
+                    sentences.append(' '.join([i.text() for i in sorted(children, key=lambda x: x.i())]))
+        return sentences   
                     
 
 if __name__ == '__main__':

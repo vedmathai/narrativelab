@@ -2,7 +2,7 @@ def resolve_compounds(token):
     compound = []
     for dep, child_list in token.children().items():
         for child in child_list:
-            if child.dep() in ['compound', 'amod', 'nummod', 'quantmod', 'poss', 'case', 'nmod', 'appos', 'conj', 'cc', 'advmod', 'prep', 'pobj']:
+            if child.dep() in ['compound', 'amod', 'nummod', 'quantmod', 'poss', 'case', 'nmod', 'appos', 'conj', 'cc', 'advmod', 'prep', 'pobj', 'acl']:
                 compound.extend(resolve_compounds(child))
     compound.append(token)
     compound = sorted(compound, key=lambda x: x.i())

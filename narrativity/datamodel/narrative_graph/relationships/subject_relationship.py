@@ -36,6 +36,13 @@ class SubjectRelationship(AbstractRelationship):
     def set_subject_id(self, subject_id: str):
         self._subject_id = subject_id
 
+    def nodes(self):
+        self._nodes = [
+            self.narrative(),
+            self.subject(),
+        ]
+        return super().nodes()
+
     @staticmethod
     def from_dict(val, narrative_graph):
         subject_relationship = SubjectRelationship()

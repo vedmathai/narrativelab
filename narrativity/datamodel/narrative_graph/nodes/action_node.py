@@ -30,6 +30,12 @@ class ActionNode(AbstractNode):
     def set_narrative_relationship_ids(self, narrative_relationships_ids: List[str]):
         self._narrative_relationship_ids = narrative_relationships_ids
 
+    def relationships(self):
+        self._relationships = [
+            self.narrative_relationships()
+        ]
+        return super().relationships()
+
     @staticmethod
     def from_dict(val, narrative_graph):
         action_node = ActionNode()
