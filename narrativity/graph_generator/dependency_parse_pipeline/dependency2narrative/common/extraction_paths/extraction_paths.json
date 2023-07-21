@@ -239,42 +239,6 @@
                 }
             ]
         },        
-	{
-            "element": "anecdotal_relationship",
-            "extraction_path": [
-                {
-                    "deps": [
-                        "ROOT", 
-			"conj", "ccomp"
-                    ],
-                    "pos": ["VERB", "AUX"],
-                    "tokens": ["$$anecdotal_verbs$$"],
-                    "tokens_blacklist": [],
-                    "entity_types": [],
-                    "entity_types_blacklist": []
-                },
-                {
-                    "deps": [
-                        "ccomp"
-                    ],
-                    "pos": ["VERB", "AUX"],
-                    "tokens": [],
-                    "tokens_blacklist": [],
-                    "entity_types": [],
-                    "entity_types_blacklist": []
-                },
-		{
-                    "deps": [
-                        "mark"
-                    ],
-                    "pos": ["SCONJ"],
-                    "tokens": ["$$that_complement_conjunctions$$"],
-                    "tokens_blacklist": [],
-                    "entity_types": [],
-                    "entity_types_blacklist": []
-                }
-            ]
-        },
         {
             "element": "anecdotal_relationship",
             "extraction_path": [

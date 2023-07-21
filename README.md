@@ -141,7 +141,7 @@ Then `git reset --soft HEAD^` to reset local changes to uncommited
 REQUEST_ID=1234 PROJECT_ID=narrative-lab PYTHONPATH=jade_front/narrative-lab/code/narrativelab python jade_front/narrative-lab/code/narrativelab/factuality/entrypoints/main.py
 
 # Running on Jade
-PYTHONPATH=REMOTE_CODE_FOLDER_PATH/narrativelab RUNCONFIGID=0 python3.8 REMOTE_CODE_FOLDER_PATH/narrativelab/factuality/entrypoints/main.py
+PYTHONPATH=REMOTE_CODE_FOLDER_PATH/narrativelab RUNCONFIGID=1 python3.8 REMOTE_CODE_FOLDER_PATH/narrativelab/factuality/entrypoints/main.py
 
 # Running Locally
 PYTHONPATH=jade_front/narrative-lab/code/narrativelab REQUEST_ID=2 PROJECT_ID='narrative-lab' RUNCONFIGID=0 python jade_front/narrative-lab/code/narrativelab/factuality/entrypoints/main.py 

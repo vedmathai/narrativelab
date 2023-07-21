@@ -9,46 +9,29 @@ import random
 
 
 from factuality.common.config import Config
-from factuality.tasks.quotes.datamodels.quote_datum import QuoteDatum
-from factuality.tasks.quotes.datahandlers.datahandlers_registry import DatahandlersRegistry
-from factuality.tasks.quotes.models.registry import ModelsRegistry
+from factuality.tasks.agreement.datamodels.agreement_datum import AgreementDatum
+from factuality.tasks.agreement.datahandlers.datahandlers_registry import DatahandlersRegistry
+from factuality.tasks.agreement.models.registry import ModelsRegistry
 
 
 LEARNING_RATE = 1e-5
 BATCH_SIZE = 24
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
-sentence_breaks = {
-    'bigbird': '[SEP]',
-    'roberta': '</s>',
-}
-
-token_delimiters = {
-    'bigbird': '▁',
-    'roberta': 'Ġ',
-}
-
 answer_dict = {
-    'left-dem': 0,
-    'left-rep': 1,
-    'right-dem': 2,
-    'right-rep': 3,
+    "0": 0,
+    "1": 1,
+    "2": 2,
 }
 
-"""
-answer_dict = {
-    'left-dem': 0,
-    'left-rep': 1,
-    'right-dem': 0,
-    'right-rep': 1,
+answer_reverse_dict = {
+    0: "disagree",
+    1: "neutral",
+    2: "agree",
 }
-"""
-
-answer_reverse_dict = {v: k for k, v in answer_dict.items()}
 
 
-class QuotesClassificationTrainBase:
+class AgreementClassificationTrainBase:
     def __init__(self):
         self._jade_logger = JadeLogger()
         self._datahandlers_registry = DatahandlersRegistry()
@@ -68,8 +51,6 @@ class QuotesClassificationTrainBase:
             lr=LEARNING_RATE,
         )
 
-        self.losses = []
-        self.task_losses = []
         self._total_count = 0
         self._answer_count = 0
         self._test_data = self._datahandler.test_data().data()
@@ -93,76 +74,82 @@ class QuotesClassificationTrainBase:
         data_size = len(train_data)
         jadelogger_epoch.set_size(data_size)
         self._jade_logger.new_train_batch()
+        batch = []
         for datum_i, datum in enumerate(train_data):
-            if datum_i % 100 == 0:
-                print('train', datum_i)
-            self._train_datum(run_config, datum_i, datum)
+            print(datum_i)
+            if datum_i % BATCH_SIZE == 0 and len(batch) != 0:
+                self._train_batch(run_config, batch)
+                batch = []
+            else:
+                batch.append(datum)
 
     def _eval_epoch(self, epoch_i, run_config):
         test_data = self._test_data
         self._jade_logger.new_evaluate_batch()
         self._labels = []
+        batch = []
         for datum_i, datum in enumerate(test_data):
-            if datum_i % 100 == 0:
-                print('eval', datum_i)
-
-            self._infer_datum(datum, run_config)
+            if len(batch) % BATCH_SIZE == 0 and len(batch) != 0:
+                self._eval_batch(run_config, batch)         
+                batch = []
+            else:
+                batch.append(datum)
         f1 = self.calculate_f1(self._labels)
         print(f1)
 
-    def _train_datum(self, run_config, datum_i, quote_datum: QuoteDatum):
-        text = quote_datum.text()
-        if len(text.split()) > 300:
-            return
-        wordid2tokenid, tokens = self._base_model.wordid2tokenid(text)
-        sentence_classification_output = self._base_model(text)
-        if sentence_classification_output is None:
-            return
-        bitmaps = self._datum2bitmap(quote_datum, tokens, run_config)
-        answer = []
-        answer_bitmap = torch.Tensor(bitmaps['answer_bitmap']).to(device)
-        answer_bitmap = torch.Tensor(answer_bitmap).to(device).unsqueeze(0)
-        loss = self._task_criterion(sentence_classification_output, answer_bitmap)
-        answer_index = torch.argmax(sentence_classification_output).item()
-        answer = answer_reverse_dict[answer_index]
-        self._jade_logger.new_train_datapoint(bitmaps['required_answer'], answer, loss.item(), {"text": text})
-        self.losses += [loss]
-        if len(self.losses) >= BATCH_SIZE:
-            (sum(self.losses)/BATCH_SIZE).backward()
-            self._base_model_optimizer.step()
-            self._base_model.zero_grad()
-            self.losses = []
-            self._jade_logger.new_train_batch()
+    def _train_batch(self, run_config, batch):
+        sentence_classification_outputs = self._base_model(batch)
+        losses = []
+        for agreement_datum_i, agreement_datum in enumerate(batch):
+            text_1 = agreement_datum.text_1()
+            text_2 = agreement_datum.text_2()
+            sentence_classification_output = sentence_classification_outputs[agreement_datum_i]
+            if sentence_classification_output is None:
+                continue
+            answer_bitmap = [[0, 0, 0] for _ in sentence_classification_output]
+            bitmaps = self._datum2bitmap(agreement_datum, run_config)
+            answer = []
+            answer_bitmap = torch.Tensor(bitmaps['answer_bitmap']).to(device)
+            answer_bitmap = torch.Tensor(answer_bitmap).to(device).unsqueeze(0)
+            loss = self._task_criterion(sentence_classification_output, answer_bitmap)
+            answer_index = torch.argmax(sentence_classification_output).item()
+            answer = answer_reverse_dict[answer_index]
+            self._jade_logger.new_train_datapoint(bitmaps['required_answer'], answer, loss.item(), {"text_1": text_1, "text_2": text_2})
+            losses += [loss]
+        (sum(losses)/BATCH_SIZE).backward()
+        self._base_model_optimizer.step()
+        self._base_model.zero_grad()
+        self._jade_logger.new_train_batch()
 
-    def _datum2bitmap(self, quote_datum, tokens, run_config):
+    def _datum2bitmap(self, quote_datum, run_config):
         answer = quote_datum.label()
-        answer_bitmap = [0] * 4
+        answer_bitmap = [0] * 3
         answer_bitmap[answer_dict.get(answer)] = 1
+        answer = answer_reverse_dict[int(answer)]
         bitmaps = {
             'required_answer': answer,
             'answer_bitmap': answer_bitmap,
         }
         return bitmaps
 
-    def _infer_datum(self, quote_datum: QuoteDatum, run_config):
-        text = quote_datum.text()
-        if len(text.split()) > 300:
-            return
+    def _eval_batch(self, run_config, batch):
+
         with torch.no_grad():
-            sentence_classification_output = self._base_model(text)
-            if sentence_classification_output is None:
-                return
-            wordid2tokenid, tokens = self._base_model.wordid2tokenid(text)
-            bitmaps = self._datum2bitmap(quote_datum, tokens, run_config)
-            answer_bitmap = bitmaps['answer_bitmap']
-            losses = []
-            answer_tensor = torch.Tensor(answer_bitmap).to(device).unsqueeze(0)
-            loss = self._task_criterion(sentence_classification_output, answer_tensor)
-            losses.append(loss)
-            answer_index = torch.argmax(sentence_classification_output).item()
-            answer = answer_reverse_dict[answer_index]
-            self._labels.append((bitmaps['required_answer'], answer))
-            self._jade_logger.new_evaluate_datapoint(bitmaps['required_answer'], answer, loss.item(), {"text": text})
+            sentence_classification_outputs = self._base_model(batch)
+            for agreement_datum_i, agreement_datum in enumerate(batch):
+                text_1 = agreement_datum.text_1()
+                text_2 = agreement_datum.text_2()
+                sentence_classification_output = sentence_classification_outputs[agreement_datum_i]
+                if sentence_classification_output is None:
+                    continue
+                bitmaps = self._datum2bitmap(agreement_datum, run_config)
+                answer_bitmap = bitmaps['answer_bitmap']
+                answer_tensor = torch.Tensor(answer_bitmap).to(device).unsqueeze(0)
+                loss = self._task_criterion(sentence_classification_output, answer_tensor)
+                answer_index = torch.argmax(sentence_classification_output).item()
+                answer = answer_reverse_dict[answer_index]
+                self._labels.append((bitmaps['required_answer'], answer))
+                self._jade_logger.new_evaluate_datapoint(bitmaps['required_answer'], answer, loss.item(), {"text_1": text_1, "text_2": text_2})
 
     def calculate_f1(self, labels):
         precision_list = defaultdict(list)

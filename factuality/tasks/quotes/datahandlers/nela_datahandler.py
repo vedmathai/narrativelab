@@ -54,7 +54,7 @@ class NelaDatahandler():
             label2data[label].append(r)
         train_doc_list = []
         test_doc_list = []
-        min_size = min([len(i) for i in label2data.values()])
+        min_size = min([len(i) for i in label2data.values()] + [5000])
         train_size = int(0.8 * min_size)
         for k in label2data:
             for i in label2data[k][:train_size]:

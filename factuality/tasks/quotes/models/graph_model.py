@@ -7,41 +7,42 @@ import torch
 import torch.nn.functional as F
 
 from factuality.common.config import Config
-from factuality.tasks.quotes.graph_featurizers.narrative_graph_featurizer import NarrativeGraphFeaturizer
+from factuality.tasks.quotes.graph_featurizers.narrative_graph_featurizer_single import NarrativeGraphFeaturizer
 
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 hidden_layer_size = 16
-number_of_relationships = 17
+number_of_relationships = 18
 
 class QuoteClassificationGraph(nn.Module):
 
     def __init__(self, run_config):
         super().__init__()
         config = Config.instance()
+        self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
         if run_config.llm() == 'roberta':
             self._tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
-            self._model = RobertaModel.from_pretrained('roberta-base').to(device)
+            self._model = RobertaModel.from_pretrained('roberta-base').to(self._device)
         modules = [self._model.embeddings, *self._model.encoder.layer[:-2]]
         for module in modules:
             for param in module.parameters():
                 param.requires_grad = True
         self._run_config = run_config
-        self._dropout = nn.Dropout(0.5).to(device)
-        self._gat1 = GATv2Conv(768 + number_of_relationships, 768 + number_of_relationships, heads=1).to(device)
-        self._gat2 = GATv2Conv(16*4, 16 * 4, heads=1).to(device)
-        self._base_layer_classifier = torch.nn.Linear(768 + number_of_relationships + 768, hidden_layer_size).to(device)
-        self._base_classifier_activation = nn.Tanh().to(device)
-        self._classifier = torch.nn.Linear(hidden_layer_size, 4).to(device)
+        self._dropout = nn.Dropout(0.5).to(self._device)
+        self._gat1 = GATv2Conv(768 + number_of_relationships, 768 + number_of_relationships, heads=1).to(self._device)
+        self._gat2 = GATv2Conv(16*4, 16 * 4, heads=1).to(self._device)
+        self._base_layer_classifier = torch.nn.Linear(768 + number_of_relationships + 768, hidden_layer_size).to(self._device)
+        self._base_classifier_activation = nn.Tanh().to(self._device)
+        self._classifier = torch.nn.Linear(hidden_layer_size, 4).to(self._device)
         self._featurizer = NarrativeGraphFeaturizer()
-        self._featurizer.load()
+        self._featurizer.load(self._device)
 
     def forward(self, text):
         text = re.sub("@ @ @ @ @ @ @", '', text)
         text = re.sub("` `", '"', text)
         text = re.sub("' re", 'are', text)
-        inputs = self._tokenizer([text], return_tensors="pt", padding='longest', max_length=1000)
-        inputs = {k: v.to(device) for k, v in inputs.items()}
+        inputs = self._tokenizer([text], return_tensors="pt", padding='longest', max_length=512, truncation="longest_first")
+        inputs = {k: v.to(self._device) for k, v in inputs.items()}
         outputs = self._model(**inputs)
         pooled_output = outputs.pooler_output
 
@@ -68,7 +69,7 @@ class QuoteClassificationGraph(nn.Module):
     
     def wordid2tokenid(self, text):
         wordid2tokenid = {}
-        inputs = self._tokenizer([text], return_tensors="pt", padding='longest', max_length=1000)
+        inputs = self._tokenizer([text], return_tensors="pt", padding='longest', max_length=512, truncation="longest_first")
         tokens = self._tokenizer.convert_ids_to_tokens(inputs['input_ids'][0]) #input tokens
         stoken_i = 0
         for ti, t in enumerate(tokens):
