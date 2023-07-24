@@ -1,9 +1,9 @@
-from factuality.tasks.quotes.datahandlers.nela_datahandler import NelaDatahandler
+from factuality.tasks.agreement.datahandlers.agreement_datahandler import AgreementDatahandler
 
 
 class DatahandlersRegistry:
     _dict = {
-        'nela': NelaDatahandler,
+        "debagreement": AgreementDatahandler
     }
 
     def get_datahandler(self, name):

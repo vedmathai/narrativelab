@@ -9,4 +9,5 @@ class ModelsRegistry:
     }
 
     def get_model(self, model):
+        print(model)
         return ModelsRegistry._model_dict.get(model)

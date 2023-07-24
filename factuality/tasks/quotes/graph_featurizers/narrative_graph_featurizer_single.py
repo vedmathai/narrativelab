@@ -2,6 +2,8 @@ from narrativity.graph_generator.dependency_parse_pipeline.parser import Narrati
 import torch
 from transformers import RobertaTokenizer, RobertaModel
 import re
+import torch.nn as nn
+
 
 
 type_i2index = {
@@ -39,11 +41,37 @@ class NarrativeGraphFeaturizer():
         for module in modules:
             for param in module.parameters():
                 param.requires_grad = True
+        self.pool = nn.MaxPool1d(1, stride=1)
         
     def featurize(self, sentence):
+        display_name = '[PAD]'
+        text = ' '.join(display_name.split('->'))
+        inputs = self._tokenizer([text], return_tensors="pt", padding='longest', max_length=1000)
+        inputs = {k: v.to(self._device) for k, v in inputs.items()}
+        outputs = self._model(**inputs)
+        pad = outputs.pooler_output
         sentence = re.sub("@ @ @ @ @ @ @", '', sentence)
         sentence = re.sub("` `", '"', sentence)
         graph = self._ngg.generate(sentence)
+        inputs = self._tokenizer([sentence], return_tensors="pt", padding='longest', max_length=1000)
+        tokens = self._tokenizer.convert_ids_to_tokens(inputs['input_ids'][0])
+        inputs = {k: v.to(self._device) for k, v in inputs.items()}
+        outputs = self._model(**inputs)
+        token_i = len(tokens) - 1
+        token2embedding = {}
+        total = ''
+        while token_i > 0:
+            token = tokens[token_i]
+            if token[0] != 'Ġ' and tokens[token_i - 1] != '<s>':
+                total = token + total
+            else:
+                if token_i != 1:
+                    total = token[1:] + total
+                else:
+                    total = token + total  
+                token2embedding[total] = outputs.last_hidden_state[0][token_i]
+                total = ''
+            token_i -= 1
         node_id2index = {}
         adjacency = []
         types = set()
@@ -87,9 +115,9 @@ class NarrativeGraphFeaturizer():
                     second_node_type_encoding = torch.Tensor(second_node_type_encoding).to(self._device)
                     rel_type_encoding = torch.Tensor(rel_type_encoding).to(self._device)
                     adjacency.extend([[x, rel_idx], [rel_idx, y]])
-                    pooled_node_1 = self.node2pooled(node0)
-                    pooled_node_2 = self.node2pooled(node1)
-                    pooled_rel = self.node2pooled(rel)
+                    pooled_node_1 = self.node2pooled(node0, token2embedding, pad)
+                    pooled_node_2 = self.node2pooled(node1, token2embedding, pad)
+                    pooled_rel = self.node2pooled(rel, token2embedding, pad)
                     pooled_node_1 = torch.cat([pooled_node_1[0], first_node_type_encoding], 0)
                     pooled_node_2 = torch.cat([pooled_node_2[0], second_node_type_encoding], 0)
                     pooled_rel = torch.cat([pooled_rel[0], rel_type_encoding], 0)
@@ -107,15 +135,19 @@ class NarrativeGraphFeaturizer():
         edge_index = torch.tensor([x, y], dtype=int).to(self._device)
         return X, edge_index, main_narrative_index
 
-    def node2pooled(self, node):
+    def node2pooled(self, node, token2embedding, pad):
         display_name = node.display_name()
-        if display_name is None or display_name.strip() == '':
-            display_name = '[PAD]'
-        text = ' '.join(display_name.split())
-        inputs = self._tokenizer([text], return_tensors="pt", padding='longest', max_length=512)
-        inputs = {k: v.to(self._device) for k, v in inputs.items()}
-        outputs = self._model(**inputs)
-        pooled_output = outputs.pooler_output
+        if display_name is None or display_name.strip() == '' or ''.join(display_name.split('->')) == '':
+            pooled_output = pad
+        else:
+            text = ' '.join(display_name.split('->'))
+            text = text.split()
+            array = []
+            for t in text:
+                array.append(token2embedding.get(t, pad[0]))
+            tens = torch.stack(array)
+            pooled_output = self.pool(tens)
+
         return pooled_output
 
 

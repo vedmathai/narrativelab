@@ -19,6 +19,7 @@ from narrativity.datamodel.narrative_graph.relationships.anecdotal_relationship 
 from narrativity.datamodel.narrative_graph.relationships.prep_relationship import PrepRelationship
 from narrativity.datamodel.narrative_graph.relationships.and_like_relationship import AndLikeRelationship
 from narrativity.datamodel.narrative_graph.relationships.descriptor_relationship import DescriptorRelationship
+from narrativity.datamodel.narrative_graph.relationships.cooccurrence_relationship import CooccurrenceRelationship
 
 
 class NarrativeGraph:
@@ -41,6 +42,7 @@ class NarrativeGraph:
         self._prep_relationships: Dict[str, PrepRelationship] = {}
         self._and_like_relationships: Dict[str, AndLikeRelationship] = {}
         self._descriptor_relationships: Dict[str, DescriptorRelationship] = {}
+        self._cooccurrence_relationships: Dict[str, CooccurrenceRelationship] = {}
         self._text2action_node: Dict[str, ActionNode] = {}
         self._text2entity_node: Dict[str, EntityNode] = {}
         self._text2absolute_temporal_node: Dict[str, AbsoluteTemporalNode] = {}
@@ -128,6 +130,12 @@ class NarrativeGraph:
 
     def id2descriptor_relationship(self, id) -> Dict[str, DescriptorRelationship]:
         return self._descriptor_relationships.get(id)
+    
+    def cooccurrence_relationships(self) -> Dict[str, CooccurrenceRelationship]:
+        return self._cooccurrence_relationships
+
+    def id2cooccurrence_relationship(self, id) -> Dict[str, CooccurrenceRelationship]:
+        return self._cooccurrence_relationships.get(id)
 
     def id2actor_relationship(self, id: str) -> ActorRelationship:
         return self._actor_relationships.get(id)
@@ -194,6 +202,7 @@ class NarrativeGraph:
             self.id2prep_relationship,
             self.id2and_like_relationship,
             self.id2descriptor_relationship,
+            self.id2cooccurrence_relationship,
         ]
         for fn in id2relationshipfns:
             relationship = fn(id)
@@ -226,6 +235,7 @@ class NarrativeGraph:
             self.prep_relationships(),
             self.and_like_relationships(),
             self.descriptor_relationships(),
+            self.cooccurrence_relationships(),
         ]
         return sum([list(i.values()) for i in _relationships], [])
 
@@ -295,6 +305,9 @@ class NarrativeGraph:
     def set_descriptor_relationships(self, descriptor_relationships: Dict[str, DescriptorRelationship]) -> None:
         self._descriptor_relationships = descriptor_relationships
 
+    def set_cooccurrence_relationships(self, cooccurrence_relationships: Dict[str, CooccurrenceRelationship]) -> None:
+        self._cooccurrence_relationships = cooccurrence_relationships
+
     def add_action_node(self, action_node: ActionNode) -> None:
         self._action_nodes[action_node.id()] = action_node
         self._text2action_node[action_node.canonical_name()] = action_node
@@ -349,8 +362,11 @@ class NarrativeGraph:
     def add_and_like_relationship(self, and_like_relationship: AndLikeRelationship) -> None:
         self._and_like_relationships[and_like_relationship.id()] = and_like_relationship
 
-    def add_descriptor_relationship(self, descriptor_relationship: AndLikeRelationship) -> None:
+    def add_descriptor_relationship(self, descriptor_relationship: DescriptorRelationship) -> None:
         self._descriptor_relationships[descriptor_relationship.id()] = descriptor_relationship
+
+    def add_cooccurrence_relationship(self, cooccurrence_relationship: CooccurrenceRelationship) -> None:
+        self._cooccurrence_relationships[cooccurrence_relationship.id()] = cooccurrence_relationship
 
     def to_dict(self):
         return {
@@ -371,6 +387,7 @@ class NarrativeGraph:
             "prep_relationships": [i.to_dict() for i in self.prep_relationships().values()],
             "and_like_relationships": [i.to_dict() for i in self.and_like_relationships().values()],
             "descriptor_relationships": [i.to_dict() for i in self.descriptor_relationships().values()],
+            "cooccurrence_relationships": [i.to_dict() for i in self.cooccurrence_relationships().values()],
             "subject_relationships": [i.to_dict() for i in self.subject_relationships().values()],
         }
 
@@ -427,6 +444,9 @@ class NarrativeGraph:
         })  
         narrative_graph.set_descriptor_relationships({
             i['id']: DescriptorRelationship.from_dict(i) for i in val['descriptor_relationships']
+        })
+        narrative_graph.set_cooccurrence_relationships({
+            i['id']: CooccurrenceRelationship.from_dict(i) for i in val['cooccurrence_relationships']
         })         
         narrative_graph.set_temporal_event_relationships({
             i['id']: TemporalEventRelationship.from_dict(i) for i in val['temporal_event_relationships']

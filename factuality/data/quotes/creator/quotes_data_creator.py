@@ -75,7 +75,7 @@ class QuotesDataCreator:
                                     dataset_list.append([k.strip(), '{}-{}'.format(label, party)])
                                     seen.add(k.strip())
 
-        with open('factuality/data/quotes/creator/masked_quotes.csv', 'wt') as f:
+        with open('jade_front/narrative-lab/code/narrativelab/factuality/data/quotes/creator/masked_quotes.csv', 'wt') as f:
             writer = csv.writer(f, delimiter='\t')
             for datum in dataset_list:
                 writer.writerow(datum)
@@ -92,13 +92,23 @@ class QuotesDataCreator:
                     #location = d.content().index(search_term)
                     j = location
                     k = location
-                    while j >= 0 and d.content()[j] != '.':
+                    found = False
+                    while j >= 0:
+                        if d.content()[j] == '.' and found is False:
+                            found = True
+                        elif d.content()[j] == '.' and found is True:
+                            break
                         j -= 1
-                    while k < len(d.content()) - 2 and d.content()[k] != '.':
-                        k += 1                    
+                    found = False
+                    while k < len(d.content()) - 2:
+                        if d.content()[k] == '.' and found is False:
+                            found = True
+                        elif d.content()[k] == '.' and found is True:
+                            break 
+                        k += 1
                     sentence = d.content()[j+1:k]
                     sentence = re.sub(search_term, 'MASK', d.content()[j+1:k])
-                    sentences = self._extract_quote(sentence)
+                    sentences.append(sentence)
         return sentences
     
     def _extract_quote(self, sentence):

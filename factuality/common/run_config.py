@@ -6,6 +6,7 @@ class RunConfig:
         self._llm = None,
         self._epochs = None
         self._dataset = None
+        self._model_type = None
 
     def id(self):
         return self._id
@@ -25,6 +26,9 @@ class RunConfig:
     def dataset(self):
         return self._dataset
     
+    def model_type(self):
+        return self._model_type
+    
     def set_id(self, id):
         self._id = id
     
@@ -43,6 +47,9 @@ class RunConfig:
     def set_dataset(self, dataset):
         self._dataset = dataset
 
+    def set_model_type(self, model_type):
+        self._model_type = model_type
+
     @staticmethod
     def from_dict(val):
         run_config = RunConfig()
@@ -52,6 +59,7 @@ class RunConfig:
         run_config.set_llm(val['llm'])
         run_config.set_epochs(val['epochs'])
         run_config.set_dataset(val['dataset'])
+        run_config.set_model_type(val['model_type'])
         return run_config
     
     def to_dict(self):
@@ -62,6 +70,7 @@ class RunConfig:
             "llm": self.llm(),
             "epochs": self.epochs(),
             "dataset": self.dataset(),
+            "model_type": self.model_type(),
         }
 
 
