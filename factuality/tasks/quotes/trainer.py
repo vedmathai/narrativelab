@@ -2,7 +2,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.optim import Adam
-from transformers import BigBirdForQuestionAnswering, BigBirdTokenizer
 from collections import defaultdict
 from jadelogs import JadeLogger
 import random
@@ -94,6 +93,7 @@ class QuotesClassificationTrainBase:
         jadelogger_epoch.set_size(data_size)
         self._jade_logger.new_train_batch()
         for datum_i, datum in enumerate(train_data):
+            print(datum_i)
             if datum_i % 100 == 0:
                 print('train', datum_i)
             self._train_datum(run_config, datum_i, datum)

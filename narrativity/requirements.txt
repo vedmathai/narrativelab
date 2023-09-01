@@ -1,4 +1,5 @@
 spacy
 flask
 flask-cors
+jadelogs
 coreferee==1.4.0
