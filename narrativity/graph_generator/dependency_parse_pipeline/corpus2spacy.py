@@ -1,8 +1,6 @@
 import coreferee, spacy
 
 from narrativity.datamodel.featurized_document_model.featurized_document import FeaturizedDocument
-from narrativity.datamodel.featurized_document_model.featurized_sentence import FeaturizedSentence
-
 
 
 class Corpus2spacy:

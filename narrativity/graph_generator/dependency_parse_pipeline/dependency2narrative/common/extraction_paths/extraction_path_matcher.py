@@ -1,20 +1,24 @@
 import json
+import os
 from jadelogs import JadeLogger
 
 from narrativity.datamodel.extraction_paths.extraction_paths import ExtractionPaths
 
 
-EXTRACTION_PATH_JSON = "narrativelab/narrativity/graph_generator/dependency_parse_pipeline/dependency2narrative/common/extraction_paths/extraction_paths.json"
-
+EXTRACTION_PATH_JSON = "narrativity/graph_generator/dependency_parse_pipeline/dependency2narrative/common/extraction_paths/extraction_paths.json"
 
 class ExtractionPathMatcher:
     def __init__(self):
+        self._environment = os.environ.get('ENVIRONMENT')
         self._jade_logger = JadeLogger()
         self._extraction_paths = self.load_extraction_paths()
         self._extraction_paths_common = self._extraction_paths.common()
         
     def load_extraction_paths(self):
-        filepath = self._jade_logger.file_manager.code_filepath(EXTRACTION_PATH_JSON)
+        filepath = EXTRACTION_PATH_JSON
+        if self._environment == 'JADE':
+            filepath = os.path.join('narrativelab', EXTRACTION_PATH_JSON)
+            filepath = self._jade_logger.file_manager.code_filepath(filepath)
         with open(filepath) as f:
             extraction_paths_dict = json.load(f)
             extraction_paths = ExtractionPaths.from_dict(extraction_paths_dict)

@@ -8,10 +8,12 @@ import torch.nn.functional as F
 
 from factuality.common.config import Config
 from factuality.tasks.quotes.graph_featurizers.narrative_graph_featurizer_single import NarrativeGraphFeaturizer
+from factuality.tasks.quotes.graph_featurizers.dependency_parse_featurizer import DependencyParseFeaturizer
+from factuality.tasks.quotes.graph_featurizers.semantic_role_labelling_featurizer import SRLParseFeaturizer
 
 
 hidden_layer_size = 16
-number_of_relationships = 18
+number_of_relationships = 33
 
 class QuoteClassificationGraph(nn.Module):
 
@@ -34,7 +36,7 @@ class QuoteClassificationGraph(nn.Module):
         self._base_layer_classifier = torch.nn.Linear(768 + number_of_relationships + 768, hidden_layer_size).to(self._device)
         self._base_classifier_activation = nn.Tanh().to(self._device)
         self._classifier = torch.nn.Linear(hidden_layer_size, 4).to(self._device)
-        self._featurizer = NarrativeGraphFeaturizer()
+        self._featurizer = SRLParseFeaturizer()
         self._featurizer.load(self._device)
 
     def forward(self, text):
