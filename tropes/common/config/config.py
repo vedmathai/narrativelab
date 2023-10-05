@@ -11,6 +11,7 @@ class Config:
         self._tv_tropes_data_location = None
         self._experiment_type = None
         self._run_configs_file = None
+        self._wikipedia_data_location = None
         self._jade_logger = JadeLogger()
 
 
@@ -33,6 +34,13 @@ class Config:
 
     def set_tv_tropes_data_location(self, tv_tropes_data_location):
         self._tv_tropes_data_location = tv_tropes_data_location
+
+    def wikipedia_data_location(self):
+        location = self._jade_logger.file_manager.data_filepath(self._wikipedia_data_location)
+        return location
+
+    def set_wikipedia_data_location(self, wikipedia_data_location):
+        self._wikipedia_data_location = wikipedia_data_location
 
     def run_configs_file(self):
         return self._run_configs_file
@@ -67,4 +75,5 @@ class Config:
         config.set_experiment_type(val.get('experiment_type'))
         config.set_run_configs_file(val.get('run_configs_file'))
         config.set_model_save_location(val.get('model_save_location'))
+        config.set_wikipedia_data_location(val.get('wikipedia_data_location'))
         return config

@@ -4,7 +4,10 @@ from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.aux2state.aux2state import Aux2State
 from narrativity.graph_generator.dependency_parse_pipeline.dependency2narrative.events2relationships.events2relationships import Events2Relationships
 from narrativity.datamodel.narrative_graph.relationships.cooccurrence_relationship import CooccurrenceRelationship
-
+from tropes.inferer.trope_classification.infer import TropeClassificationInfer
+from narrativity.datamodel.narrative_graph.nodes.trope_node import TropeNode
+from narrativity.datamodel.narrative_graph.relationships.trope_relationship import TropeRelationship
+from narrativity.datamodel.narrative_graph.nodes.narrative_node import NarrativeNode
 
 class Dependency2Narrative:
     def __init__(self):
@@ -12,12 +15,14 @@ class Dependency2Narrative:
         self._verb2event = Verb2Event()
         self._aux2state = Aux2State()
         self._events2relationships = Events2Relationships()
+        self._trope_classifier = TropeClassificationInfer()
 
     def load(self):
         self._sentence2phrases.load()
         self._verb2event.load()
         self._aux2state.load()
         self._events2relationships.load()
+        self._trope_classifier.load()
 
     def convert(self, fdocument):
         self._narrative_graph = NarrativeGraph()
@@ -36,6 +41,7 @@ class Dependency2Narrative:
                 narrative_node_1 = self._clause_root2event(verb_1)
                 tokeni2event[verb_1.i()] = narrative_node_1
                 narrative_node_1._token = verb_1
+                self._classify_tropes(narrative_node_1)
                 all_narratives.append(narrative_node_1)
             if phrase_connector.connector_type() != 'single':
                 narrative_node_2 = tokeni2event.get(verb_2.i())
@@ -43,6 +49,7 @@ class Dependency2Narrative:
                     narrative_node_2 = self._clause_root2event(verb_2)
                     tokeni2event[verb_2.i()] = narrative_node_2
                     narrative_node_2._token = verb_2
+                    self._classify_tropes(narrative_node_2)
                     all_narratives.append(narrative_node_2)
                 self._create_event_relationships(narrative_node_1, narrative_node_2, phrase_connector)
             if phrase_connector.connector_type() == 'anecdotal_relationship':
@@ -86,3 +93,24 @@ class Dependency2Narrative:
                     cooccurrence_relationship.set_narrative_1(narrative_1)
                     cooccurrence_relationship.set_narrative_2(narrative_2)
                     self._narrative_graph.add_cooccurrence_relationship(cooccurrence_relationship)
+
+    def _classify_tropes(self, narrative: NarrativeNode):
+        verb = narrative.token()
+        children = verb.all_children()
+        sentence = ' '.join([child.text() for child in sorted(children, key=lambda x: x.i())])
+        trope = self._trope_classifier.infer(sentence)
+        trope_node = self._narrative_graph.text2trope(trope)
+        if trope_node is None:
+            trope_node = TropeNode.create()
+            trope_node.set_narrative_graph(self._narrative_graph)
+            trope_node.set_canonical_name(trope)
+            self._narrative_graph.add_trope_node(trope_node)
+        self._narrative_graph.add_trope_node(trope_node)
+        trope_relationship = TropeRelationship.create()
+        trope_relationship.set_narrative_graph(self._narrative_graph)
+        trope_relationship.set_narrative(narrative)
+        trope_relationship.set_trope(trope_node)
+        narrative.add_trope_relationship(trope_relationship)
+        trope_node.add_narrative_relationship(trope_relationship)
+        self._narrative_graph.add_trope_relationship(trope_relationship)
+        return trope_node

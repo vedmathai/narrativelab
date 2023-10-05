@@ -12,8 +12,8 @@ from tropes.trainer.trope_classification.models.trope_classifier_model import Tr
 
 TRAIN_SAMPLE_SIZE = int(8000 / 5)
 TEST_SAMPLE_SIZE = 2000
-EPOCHS = 5
-LEARNING_RATE = 1e-3  # 1e-2
+EPOCHS = 40
+LEARNING_RATE = 1e-5  # 1e-2
 MOMENTUM = 0.9
 WEIGHT_DECAY = 1e-5
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

@@ -26,10 +26,10 @@ class TropeClassifierModel(nn.Module):
 
     def forward(self, datum):
         sentence = datum.sentence()
-        inputs = self._tokenizer([sentence], return_tensors="pt", padding='max_length', max_length=512, truncation=True)
+        inputs = self._tokenizer([sentence], return_tensors="pt", padding='longest', max_length=512, truncation=True)
         inputs = {k: v.to(device) for k, v in inputs.items()}
         outputs = self._llm(**inputs)
-        pooler_output = outputs.pooler_output
+        pooler_output = outputs.last_hidden_state[0][0].unsqueeze(0)
         dropout_output = self._dropout(pooler_output)
         base_classification_output = self._linear_1(dropout_output)
         activation_output = self._relu(base_classification_output)

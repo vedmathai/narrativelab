@@ -1,4 +1,6 @@
 import numpy as np
+import random
+from collections import defaultdict
 
 from tropes.datahandlers.tv_tropes.tv_tropes_datahandler import TVTropesDataHandler
 from tropes.common.config.config import Config
@@ -17,17 +19,33 @@ class RoBERTaDataHandler():
         self._train_data = []
         self._test_data = []
         self._validation_data = []
+        self._data = []
+        self._counts = defaultdict(int)
 
     def load(self):
         self._data_handler.load()
         self._model_input_data = ModelInputData()
+        self.process_data()
         self.load_train_data()
         self.load_test_data()
         self.load_validation_data()
 
+    def process_data(self):
+        data_dict = defaultdict(list)
+        data = []
+        for datum in self._data_handler.data():
+            data_dict[datum[2]].append(datum)
+        for key in data_dict.keys():
+            self._counts[len(data_dict[key])] += 1
+            if len(data_dict[key]) > 200:
+                print(key, len(data_dict[key]))
+                data.extend(random.choices(data_dict[key], k=5000))
+        random.shuffle(data)
+        self._data = data
+
     def load_train_data(self):
-        length = len(self._data_handler.data())
-        self._train_data = self._data_handler.data()[:int(length*0.6)]
+        length = len(self._data)
+        self._train_data = self._data[:int(length*0.6)]
         for datum in self._train_data:
             if datum[2] not in self._labels:
                 continue
@@ -39,8 +57,8 @@ class RoBERTaDataHandler():
     
     # A function that loops over valuation data and instantiates a model input datum for each
     def load_validation_data(self):
-        length = len(self._data_handler.data())
-        self._validation_data = self._data_handler.data()[int(length*0.6):int(length*0.8)]
+        length = len(self._data)
+        self._validation_data = self._data[int(length*0.6):int(length*0.8)]
         for datum in self._validation_data:
             if datum[2] not in self._labels:
                 continue
@@ -52,8 +70,8 @@ class RoBERTaDataHandler():
 
     # A function that loops over test data and instantiates a model input datum for each
     def load_test_data(self):
-        length = len(self._data_handler.data())
-        self._test_data = self._data_handler.data()[int(length*0.8):]
+        length = len(self._data)
+        self._test_data = self._data[int(length*0.8):]
         for datum in self._test_data:
             if datum[2] not in self._labels:
                 continue
@@ -68,6 +86,11 @@ class RoBERTaDataHandler():
 
     def label_counts(self):
         return len(self._data_handler.labels())
+    
+    def datum_from_sentence(self, sentence):
+        datum = ModelInputDatum()
+        datum.set_sentence(sentence)
+        return datum
 
     def label_map(self):
         labels = sorted(list(self._data_handler.labels()))

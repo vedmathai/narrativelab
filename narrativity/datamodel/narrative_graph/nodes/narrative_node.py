@@ -33,6 +33,7 @@ class NarrativeNode(AbstractNode):
         self._cooccurrence_relationship_ids = []
         self._prep_in_relationship_ids = []
         self._prep_out_relationship_ids = []
+        self._trope_relationship_ids = []
         self._sources = []
         self._is_leaf = False
         self._is_state = False
@@ -45,6 +46,9 @@ class NarrativeNode(AbstractNode):
         
     def names(self) -> List[str]:
         return self._names
+    
+    def token(self):
+        return self._token
 
     def display_name(self) -> str:
         if self._canonical_name is not None:
@@ -201,6 +205,12 @@ class NarrativeNode(AbstractNode):
 
     def parent_narratives(self) -> List["NarrativeNode"]:
         return [self._narrative_graph.id2narrative_node(id) for i in self.parent_narrative_ids()]
+    
+    def trope_relationship_ids(self) -> List[str]:
+        return self._trope_relationship_ids
+    
+    def trope_relationships(self):
+        return [self._narrative_graph.id2trope_relationship(id) for id in self.trope_relationship_ids()]
 
     def sources(self) -> List[str]:
         return self._sources
@@ -355,6 +365,12 @@ class NarrativeNode(AbstractNode):
     def set_parent_narrative_ids(self, parent_narrative_ids: List[str]) -> None:
         self._parent_narrative_ids = parent_narrative_ids
 
+    def set_trope_relationship_ids(self, trope_relationship_ids: List[str]) -> None:
+        self._trope_relationship_ids = trope_relationship_ids
+
+    def add_trope_relationship(self, trope_relationship) -> None:
+        self._trope_relationship_ids.append(trope_relationship.id())
+
     def set_sources(self, sources: List[str]) -> None:
         self._sources = sources
 
@@ -393,6 +409,7 @@ class NarrativeNode(AbstractNode):
             self.and_like_relationships(),
             self.descriptor_relationships(),
             self.cooccurrence_relationships(),
+            self.trope_relationships(),
         ]
         return super().relationships()
 
@@ -424,6 +441,7 @@ class NarrativeNode(AbstractNode):
         narrative_node.set_and_like_relationship_ids(val['and_like_relationship_ids'])
         narrative_node.set_descriptor_relationship_ids(val['descriptor_relationship_ids'])
         narrative_node.set_cooccurrence_relationship_ids(val['cooccurrence_relationship_ids'])
+        narrative_node.set_trope_relationship_ids(val['trope_relationship_ids'])
         narrative_node.set_sub_narrative_ids(val['sub_narrative_ids'])
         narrative_node.set_parent_narrative_ids(val['parent_narrative_ids'])
         narrative_node.set_sources(val['sources'])
@@ -459,6 +477,7 @@ class NarrativeNode(AbstractNode):
             "and_like_relationship_ids": self.and_like_relationship_ids(),
             "descriptor_relationship_ids": self.descriptor_relationship_ids(),
             "cooccurrence_relationship_ids": self.cooccurrence_relationship_ids(),
+            "trope_relationship_ids": self.trope_relationship_ids(),
             "sub_narrative_ids": self.sub_narrative_ids(),
             "parent_narrative_ids": self.parent_narrative_ids(),
             "sources": self.sources(),

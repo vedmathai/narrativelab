@@ -1,5 +1,6 @@
 {
     "tv_tropes_data_location": "TVTropesData",
+    "wikipedia_data_location": "wikipedia",
     "run_type": "relationship_classification",
     "model_save_location": "model.pkl",
     "experiment_type": "classification",
