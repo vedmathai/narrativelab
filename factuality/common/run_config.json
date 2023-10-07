@@ -3,38 +3,65 @@
         {
             "id": "0",
             "is_train": true,
-            "trainer": "quotes_classification_train_base",
+            "trainer": "classification_train_base",
             "llm": "roberta",
             "epochs": 60,
-            "dataset": "nela",
-            "model_type": "quote_classification_base"
+            "dataset": "booksummaries",
+            "model_type": "classification_base"
         },
         {
             "id": "1",
             "is_train": true,
-            "trainer": "agreement_classification_train_base",
+            "trainer": "classification_train_base",
             "llm": "roberta",
             "epochs": 60,
-            "dataset": "debagreement",
-            "model_type": "agreement_classification_base"
+            "dataset": "booksummaries_paired",
+            "model_type": "classification_base"
         },
         {
             "id": "2",
             "is_train": true,
-            "trainer": "agreement_classification_train_base",
+            "trainer": "classification_train_base",
             "llm": "roberta",
             "epochs": 60,
-            "dataset": "debagreement",
-            "model_type": "agreement_classification_graph"
+            "dataset": "hyperpartisan",
+            "model_type": "classification_base"
         },
         {
             "id": "3",
             "is_train": true,
-            "trainer": "quotes_classification_train_base",
+            "trainer": "classification_train_base",
             "llm": "roberta",
             "epochs": 60,
-            "dataset": "nela",
-            "model_type": "quote_classification_graph"
+            "dataset": "twenty_news",
+            "model_type": "classification_base"
+        },
+        {
+            "id": "4",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "eurlex",
+            "model_type": "classification_base"
+        },
+        {
+            "id": "5",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "eurlex_inverted",
+            "model_type": "classification_base"
+        },
+        {
+            "id": "6",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "booksummaries",
+            "model_type": "classification_graph"
         }
     ]
 }

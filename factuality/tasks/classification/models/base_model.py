@@ -8,9 +8,9 @@ from factuality.common.config import Config
 
 hidden_layer_size = 16
 
-class QuoteClassificationBase(nn.Module):
+class ClassificationBase(nn.Module):
 
-    def __init__(self, run_config):
+    def __init__(self, run_config, num_labels):
         super().__init__()
         config = Config.instance()
         self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -26,7 +26,7 @@ class QuoteClassificationBase(nn.Module):
         self._dropout = nn.Dropout(0.5).to(self._device)
         self._base_layer_classifier = torch.nn.Linear(768, hidden_layer_size).to(self._device)
         self._base_classifier_activation = nn.Tanh().to(self._device)
-        self._classifier = torch.nn.Linear(hidden_layer_size, 4).to(self._device)
+        self._classifier = torch.nn.Linear(hidden_layer_size, num_labels).to(self._device)
 
     def forward(self, text):
         text = re.sub("@ @ @ @ @ @ @", '', text)
