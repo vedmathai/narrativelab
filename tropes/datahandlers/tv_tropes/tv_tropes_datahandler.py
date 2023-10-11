@@ -19,8 +19,8 @@ class TVTropesDataHandler():
             with open(good_reads_data, 'rt') as f:
                 csv_reader = csv.reader(f, delimiter=',')
                 next(csv_reader)  # skip the first row
-                for row in csv_reader:
-                    self._data.append(row)
+                #for row in csv_reader:
+                #    self._data.append(row)
         labels = os.path.join(self._config.tv_tropes_data_location(), 'subheadings.txt')
         with open(labels, 'rt') as f:
             csv_reader = csv.reader(f, delimiter=',')

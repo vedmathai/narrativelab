@@ -23,6 +23,7 @@ type_i2index = {
     "and_like_relationship": 15,
     "descriptor_relationship": 16,
     "cooccurrence_relationship": 17,
+    "trope_relationship": 18,
 }
 
 

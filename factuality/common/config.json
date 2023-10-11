@@ -11,5 +11,6 @@
     "book_summaries_data_location": "cmu_summaries/data/booksummaries/booksummaries.txt",
     "hyperpartisan_data_location": "hyperpartisan",
     "twenty_news_data_location": "20news",
-    "eurlex_data_location": "eurlex"
+    "eurlex_data_location": "eurlex",
+    "rst_cache_location": "rst_cache"
 }

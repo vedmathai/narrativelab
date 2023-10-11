@@ -48,7 +48,6 @@ class HyperpartisanDataReader():
                         datum.set_text(text)
                         datum.set_title(title)
                         data.add_datum(datum)
-                        print(json.dumps(datum.to_dict(), indent=4))
         return data
     
     def hyperpartisan_article2label(self, type="train"):

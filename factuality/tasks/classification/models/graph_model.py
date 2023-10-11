@@ -7,9 +7,7 @@ import torch
 import torch.nn.functional as F
 
 from factuality.common.config import Config
-from factuality.tasks.classification.graph_featurizers.narrative_graph_featurizer_single import NarrativeGraphFeaturizer
-from factuality.tasks.classification.graph_featurizers.dependency_parse_featurizer import DependencyParseFeaturizer
-from factuality.tasks.classification.graph_featurizers.semantic_role_labelling_featurizer import SRLParseFeaturizer
+from factuality.tasks.classification.graph_featurizers.featurizer_registry import FeaturizerRegistry
 
 
 hidden_layer_size = 16
@@ -19,6 +17,7 @@ class ClassificationGraph(nn.Module):
 
     def __init__(self, run_config, num_labels):
         super().__init__()
+        print('reached')
         config = Config.instance()
         self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -32,7 +31,8 @@ class ClassificationGraph(nn.Module):
         self._base_layer_classifier = torch.nn.Linear(768 + number_of_relationships + 768, hidden_layer_size).to(self._device)
         self._base_classifier_activation = nn.Tanh().to(self._device)
         self._classifier = torch.nn.Linear(hidden_layer_size, num_labels).to(self._device)
-        self._featurizer = SRLParseFeaturizer()
+        featurizer_name = run_config.featurizer()
+        self._featurizer = FeaturizerRegistry().get_featurizer(featurizer_name)
         self._featurizer.load(self._device)
 
     def forward(self, text):
@@ -43,8 +43,6 @@ class ClassificationGraph(nn.Module):
         inputs = {k: v.to(self._device) for k, v in inputs.items()}
         outputs = self._model(**inputs)
         pooled_output = outputs.pooler_output
-
-
         features = self._featurizer.featurize(text)
         if features is None:
             return

@@ -7,7 +7,8 @@
             "llm": "roberta",
             "epochs": 60,
             "dataset": "booksummaries",
-            "model_type": "classification_base"
+            "model_type": "classification_base",
+            "featurizer": null
         },
         {
             "id": "1",
@@ -16,7 +17,8 @@
             "llm": "roberta",
             "epochs": 60,
             "dataset": "booksummaries_paired",
-            "model_type": "classification_base"
+            "model_type": "classification_base",
+            "featurizer": null
         },
         {
             "id": "2",
@@ -25,7 +27,8 @@
             "llm": "roberta",
             "epochs": 60,
             "dataset": "hyperpartisan",
-            "model_type": "classification_base"
+            "model_type": "classification_base",
+            "featurizer": null
         },
         {
             "id": "3",
@@ -34,7 +37,8 @@
             "llm": "roberta",
             "epochs": 60,
             "dataset": "twenty_news",
-            "model_type": "classification_base"
+            "model_type": "classification_base",
+            "featurizer": null
         },
         {
             "id": "4",
@@ -43,7 +47,8 @@
             "llm": "roberta",
             "epochs": 60,
             "dataset": "eurlex",
-            "model_type": "classification_base"
+            "model_type": "classification_base",
+            "featurizer": null
         },
         {
             "id": "5",
@@ -52,7 +57,8 @@
             "llm": "roberta",
             "epochs": 60,
             "dataset": "eurlex_inverted",
-            "model_type": "classification_base"
+            "model_type": "classification_base",
+            "featurizer": null
         },
         {
             "id": "6",
@@ -61,7 +67,78 @@
             "llm": "roberta",
             "epochs": 60,
             "dataset": "booksummaries",
-            "model_type": "classification_graph"
+            "model_type": "classification_base",
+            "featurizer": null
+        },
+        {
+            "id": "7",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "booksummaries",
+            "model_type": "classification_graph",
+            "featurizer": "amr"
+        },
+        {
+            "id": "8",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "booksummaries_paired",
+            "model_type": "classification_graph",
+            "featurizer": "amr"
+        },
+        {
+            "id": "9",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "hyperpartisan",
+            "model_type": "classification_graph",
+            "featurizer": "amr"
+        },
+        {
+            "id": "10",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "twenty_news",
+            "model_type": "classification_graph",
+            "featurizer": "amr"
+        },
+        {
+            "id": "11",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "eurlex",
+            "model_type": "classification_graph",
+            "featurizer": "amr"
+        },
+        {
+            "id": "12",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "eurlex_inverted",
+            "model_type": "classification_graph",
+            "featurizer": "amr"
+        },
+        {
+            "id": "13",
+            "is_train": true,
+            "trainer": "classification_train_base",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "booksummaries",
+            "model_type": "classification_graph",
+            "featurizer": "amr"
         }
     ]
 }
