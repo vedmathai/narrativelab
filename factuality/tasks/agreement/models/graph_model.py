@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as F
 
 from factuality.common.config import Config
-from factuality.tasks.quotes.graph_featurizers.narrative_graph_featurizer import NarrativeGraphFeaturizer
+from factuality.tasks.classification.graph_featurizers.narrative_graph_featurizer import NarrativeGraphFeaturizer
 
 
 hidden_layer_size = 16

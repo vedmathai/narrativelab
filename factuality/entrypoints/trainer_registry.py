@@ -1,10 +1,10 @@
-from factuality.tasks.quotes.trainer import QuotesClassificationTrainBase
+from factuality.tasks.classification.trainer import ClassificationTrainBase
 from factuality.tasks.agreement.trainer import AgreementClassificationTrainBase
 
 
 class TrainerRegistry:
     _registry = {
-        "quotes_classification_train_base": QuotesClassificationTrainBase,
+        "classification_train_base": ClassificationTrainBase,
         "agreement_classification_train_base": AgreementClassificationTrainBase,
     }
 

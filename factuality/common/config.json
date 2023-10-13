@@ -7,5 +7,10 @@
         "test": "vitaminc/test.jsonl"
     },
     "nela_quotes_data_location": "quote_bias/masked_quotes_3_sentences.csv",
-    "debagreement_data_location": "DEBAGREEMENT_data/Labeled Dataset/labeled_data.csv"
+    "debagreement_data_location": "DEBAGREEMENT_data/Labeled Dataset/labeled_data.csv",
+    "book_summaries_data_location": "cmu_summaries/data/booksummaries/booksummaries.txt",
+    "hyperpartisan_data_location": "hyperpartisan",
+    "twenty_news_data_location": "20news",
+    "eurlex_data_location": "eurlex",
+    "rst_cache_location": "rst_cache"
 }

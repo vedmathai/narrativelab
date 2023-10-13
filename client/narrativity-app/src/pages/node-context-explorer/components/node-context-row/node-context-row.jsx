@@ -25,6 +25,7 @@ const key2headings = {
     'and_like': 'And Like Relationship',
     'descriptor': 'Describing Narrative',
     'described_entity': 'Described Entity',
+    'trope': 'Tropes',
 }
 
 export default function NodeContextRow(props) {

@@ -26,6 +26,9 @@ class NodeContextCreator:
                 self.get_narratives,
                 self.get_descriptors,
             ],
+            'trope_node': [
+                self.get_narratives,
+            ],
             'narrative_node': [
                 self.get_actors,
                 self.get_direct_objects,
@@ -33,6 +36,7 @@ class NodeContextCreator:
                 self.get_locations,
                 self.get_absolute_times,
                 self.get_subjects,
+                self.get_tropes,
                 self.get_states_descriptors,
                 self.get_causal_out_relationships,
                 self.get_causal_in_relationships,
@@ -103,7 +107,14 @@ class NodeContextCreator:
             self.add_other_node(absolute_time, 'absolute_time', node_context)
             self.add_relationship(absolute_time, absolute_temporal_relationship, node_context)
 
+    def get_tropes(self, node, node_context: NodeContext):
+        for trope_relationship in node.trope_relationships():
+            trope = trope_relationship.trope()
+            self.add_other_node(trope, 'trope', node_context)
+            self.add_relationship(trope, trope_relationship, node_context)
+
     def get_narratives(self, node, node_context: NodeContext):
+        print(node.to_dict())
         for narrative_relationship in node.narrative_relationships():
             narrative = narrative_relationship.narrative()
             self.add_other_node(narrative, 'narrative', node_context)

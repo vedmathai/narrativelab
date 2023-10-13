@@ -12,7 +12,12 @@ class Config:
         self._vitamin_c_file_mapping = None
         self._nela_quotes_data_location = None
         self._debagreement_data_location = None
+        self._hyperpartisan_data_location = None
+        self._book_summaries_data_location = None
         self._run_configs_file = None
+        self._eurlex_data_location = None
+        self._twenty_news_data_location = None
+        self._rst_cache_location = None
         self._jade_logger = JadeLogger()
 
     @staticmethod
@@ -54,8 +59,43 @@ class Config:
         filepath = self._jade_logger.file_manager.data_filepath(self._debagreement_data_location)
         return filepath
     
+    def hyperpartisan_data_location(self):
+        filepath = self._jade_logger.file_manager.data_filepath(self._hyperpartisan_data_location)
+        return filepath
+    
+    def set_hyperpartisan_data_location(self, hyperpartisan_data_location):
+        self._hyperpartisan_data_location = hyperpartisan_data_location
+
+    def book_summaries_data_location(self):
+        filepath = self._jade_logger.file_manager.data_filepath(self._book_summaries_data_location)
+        return filepath
+    
+    def set_book_summaries_data_location(self, book_summaries_data_location):
+        self._book_summaries_data_location = book_summaries_data_location
+    
     def set_debagreement_data_location(self, debagreement_data_location):
         self._debagreement_data_location = debagreement_data_location
+
+    def eurlex_data_location(self):
+        filepath = self._jade_logger.file_manager.data_filepath(self._eurlex_data_location)
+        return filepath
+
+    def set_eurlex_data_location(self, eurlex_data_location):
+        self._eurlex_data_location = eurlex_data_location
+
+    def set_twenty_news_data_location(self, twenty_news_data_location):
+        self._twenty_news_data_location = twenty_news_data_location
+
+    def twenty_news_data_location(self):
+        filepath = self._jade_logger.file_manager.data_filepath(self._twenty_news_data_location)
+        return filepath
+    
+    def rst_cache_location(self):
+        filepath = self._jade_logger.file_manager.data_filepath(self._rst_cache_location)
+        return filepath
+    
+    def set_rst_cache_location(self, rst_cache_location):
+        self._rst_cache_location = rst_cache_location
 
     def run_configs_file(self):
         return self._run_configs_file
@@ -74,5 +114,11 @@ class Config:
         config.set_vitamin_c_file_mapping(val.get('vitamin_c_file_mapping'))
         config.set_nela_quotes_data_location(val.get('nela_quotes_data_location'))
         config.set_debagreement_data_location(val.get('debagreement_data_location'))
+        config.set_hyperpartisan_data_location(val.get('hyperpartisan_data_location'))
+        config.set_book_summaries_data_location(val.get('book_summaries_data_location'))
+        config.set_eurlex_data_location(val.get('eurlex_data_location'))
+        config.set_twenty_news_data_location(val.get('twenty_news_data_location'))
         config.set_run_configs_file(val.get('run_configs_file'))
+        config.set_rst_cache_location(val.get('rst_cache_location'))
         return config
+    

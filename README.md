@@ -143,5 +143,9 @@ REQUEST_ID=1234 PROJECT_ID=narrative-lab PYTHONPATH=jade_front/narrative-lab/cod
 # Running on Jade
 PYTHONPATH=REMOTE_CODE_FOLDER_PATH/narrativelab ENVIRONMENT=JADE RUNCONFIGID=1 python3.8 REMOTE_CODE_FOLDER_PATH/narrativelab/factuality/entrypoints/main.py
 
+PYTHONPATH=REMOTE_CODE_FOLDER_PATH/narrativelab ENVIRONMENT=JADE RUNCONFIGID=1 python3.8 REMOTE_CODE_FOLDER_PATH/narrativelab/tropes/entry_points/main.py
+
 # Running Locally
 PYTHONPATH=jade_front/narrative-lab/code/narrativelab REQUEST_ID=2 PROJECT_ID='narrative-lab' RUNCONFIGID=0 python jade_front/narrative-lab/code/narrativelab/factuality/entrypoints/main.py 
+
+PYTHONPATH=jade_front/narrative-lab/code/narrativelab REQUEST_ID=2 PROJECT_ID='narrative-lab' RUNCONFIGID=0 python jade_front/narrative-lab/code/narrativelab/tropes/entrypoints/main.py 

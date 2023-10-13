@@ -5,6 +5,7 @@ from narrativity.datamodel.narrative_graph.relationships.abstract_relationship i
 from narrativity.datamodel.narrative_graph.nodes.action_node import ActionNode
 from narrativity.datamodel.narrative_graph.nodes.entity_node import EntityNode
 from narrativity.datamodel.narrative_graph.nodes.absolute_temporal_node import AbsoluteTemporalNode
+from narrativity.datamodel.narrative_graph.nodes.trope_node import TropeNode
 from narrativity.datamodel.narrative_graph.nodes.narrative_node import NarrativeNode
 from narrativity.datamodel.narrative_graph.relationships.location_relationship import LocationRelationship
 from narrativity.datamodel.narrative_graph.relationships.object_relationship import ObjectRelationship
@@ -20,12 +21,14 @@ from narrativity.datamodel.narrative_graph.relationships.prep_relationship impor
 from narrativity.datamodel.narrative_graph.relationships.and_like_relationship import AndLikeRelationship
 from narrativity.datamodel.narrative_graph.relationships.descriptor_relationship import DescriptorRelationship
 from narrativity.datamodel.narrative_graph.relationships.cooccurrence_relationship import CooccurrenceRelationship
+from narrativity.datamodel.narrative_graph.relationships.trope_relationship import TropeRelationship
 
 
 class NarrativeGraph:
     def __init__(self):
         self._action_nodes: Dict[str, ActionNode] = {}
         self._entity_nodes: Dict[str, EntityNode] = {}
+        self._trope_nodes: Dict[str, TropeNode] = {}
         self._absolute_temporal_nodes: Dict[str, AbsoluteTemporalNode] = {}
         self._narrative_nodes: Dict[str, NarrativeNode] = {}
         self._location_relationships: Dict[str, LocationRelationship] = {}
@@ -43,9 +46,11 @@ class NarrativeGraph:
         self._and_like_relationships: Dict[str, AndLikeRelationship] = {}
         self._descriptor_relationships: Dict[str, DescriptorRelationship] = {}
         self._cooccurrence_relationships: Dict[str, CooccurrenceRelationship] = {}
+        self._trope_relationships: Dict[str, TropeRelationship] = {}
         self._text2action_node: Dict[str, ActionNode] = {}
         self._text2entity_node: Dict[str, EntityNode] = {}
         self._text2absolute_temporal_node: Dict[str, AbsoluteTemporalNode] = {}
+        self._text2trope_node: Dict[str, TropeNode] = {}
 
     def action_nodes(self) -> Dict[str, ActionNode]:
         return self._action_nodes
@@ -82,6 +87,15 @@ class NarrativeGraph:
 
     def id2narrative_node(self, id: str) -> NarrativeNode:
         return self._narrative_nodes.get(id)
+    
+    def id2trope_node(self, id: str) -> TropeNode:
+        return self._trope_nodes.get(id)
+    
+    def trope_nodes(self) -> Dict[str, TropeNode]:
+        return self._trope_nodes
+    
+    def text2trope(self, text) -> Dict[str, TropeNode]:
+        return self._text2trope_node.get(text)
 
     def actor_relationships(self) -> Dict[str, ActorRelationship]:
         return self._actor_relationships
@@ -172,12 +186,19 @@ class NarrativeGraph:
     
     def id2prep_relationship(self, id: str) -> PrepRelationship:
         return self._prep_relationships.get(id)
+    
+    def id2trope_relationship(self, id: str) -> TropeRelationship:
+        return self._trope_relationships.get(id)
+    
+    def trope_relationships(self) -> Dict[str, TropeRelationship]:
+        return self._trope_relationships
 
     def id2node(self, id: str) -> AbstractNode:
         id2nodefns = [
             self.id2action_node,
             self.id2entity_node,
             self.id2absolute_temporal_node,
+            self.id2trope_node,
             self.id2narrative_node,
         ]
         for fn in id2nodefns:
@@ -203,6 +224,7 @@ class NarrativeGraph:
             self.id2and_like_relationship,
             self.id2descriptor_relationship,
             self.id2cooccurrence_relationship,
+            self.id2trope_relationship,
         ]
         for fn in id2relationshipfns:
             relationship = fn(id)
@@ -215,6 +237,7 @@ class NarrativeGraph:
             self.action_nodes(),
             self.entity_nodes(),
             self.absolute_temporal_nodes(),
+            self.trope_nodes(),
             self.narrative_nodes(),
         ]
         return sum([list(i.values()) for i in _nodes], [])
@@ -236,6 +259,7 @@ class NarrativeGraph:
             self.and_like_relationships(),
             self.descriptor_relationships(),
             self.cooccurrence_relationships(),
+            self.trope_relationships(),
         ]
         return sum([list(i.values()) for i in _relationships], [])
 
@@ -256,6 +280,12 @@ class NarrativeGraph:
         for absolute_temporal_node in self._absolute_temporal_nodes.values():
             if absolute_temporal_node.canonical_name() is not None:
                 self._text2absolute_temporal_node[absolute_temporal_node.canonical_name()] = absolute_temporal_node
+
+    def set_trope_nodes(self, trope_nodes: Dict[str, TropeNode]) -> None:
+        self._trope_nodes = trope_nodes
+        for trope_node in self._trope_nodes.values():
+            if trope_node.canonical_name() is not None:
+                self._text2trope_node[trope_node.canonical_name()] = trope_node
 
     def set_absolute_temporal_nodes(self, absolute_temporal_nodes: Dict[str, AbsoluteTemporalNode]) -> None:
         self._absolute_temporal_nodes = absolute_temporal_nodes
@@ -308,6 +338,9 @@ class NarrativeGraph:
     def set_cooccurrence_relationships(self, cooccurrence_relationships: Dict[str, CooccurrenceRelationship]) -> None:
         self._cooccurrence_relationships = cooccurrence_relationships
 
+    def set_tropes_relationships(self, trope_relationships: Dict[str, TropeRelationship]) -> None:
+        self._trope_relationships = trope_relationships
+
     def add_action_node(self, action_node: ActionNode) -> None:
         self._action_nodes[action_node.id()] = action_node
         self._text2action_node[action_node.canonical_name()] = action_node
@@ -319,6 +352,10 @@ class NarrativeGraph:
     def add_absolute_temporal_node(self, absolute_temporal_node: AbsoluteTemporalNode) -> None:
         self._absolute_temporal_nodes[absolute_temporal_node.id()] = absolute_temporal_node
         self._text2absolute_temporal_node[absolute_temporal_node.canonical_name()] = absolute_temporal_node
+
+    def add_trope_node(self, trope_node: TropeNode) -> None:
+        self._trope_nodes[trope_node.id()] = trope_node
+        self._text2trope_node[trope_node.canonical_name()] = trope_node
 
     def add_narrative_node(self, narrative_node: NarrativeNode) -> None:
         self._narrative_nodes[narrative_node.id()] = narrative_node
@@ -367,12 +404,16 @@ class NarrativeGraph:
 
     def add_cooccurrence_relationship(self, cooccurrence_relationship: CooccurrenceRelationship) -> None:
         self._cooccurrence_relationships[cooccurrence_relationship.id()] = cooccurrence_relationship
+    
+    def add_trope_relationship(self, trope_relationship: TropeRelationship) -> None:
+        self._trope_relationships[trope_relationship.id()] = trope_relationship
 
     def to_dict(self):
         return {
             "action_nodes": [i.to_dict() for i in self.action_nodes().values()],
             "entity_nodes": [i.to_dict() for i in self.entity_nodes().values()],
             "absolute_temporal_nodes": [i.to_dict() for i in self.absolute_temporal_nodes().values()],
+            "trope_nodes": [i.to_dict() for i in self.trope_nodes().values()],
             "narrative_nodes": [i.to_dict() for i in self.narrative_nodes().values()],
             "location_relationships": [i.to_dict() for i in self.location_relationships().values()],
             "direct_object_relationships": [i.to_dict() for i in self.direct_object_relationships().values()],
@@ -389,6 +430,7 @@ class NarrativeGraph:
             "descriptor_relationships": [i.to_dict() for i in self.descriptor_relationships().values()],
             "cooccurrence_relationships": [i.to_dict() for i in self.cooccurrence_relationships().values()],
             "subject_relationships": [i.to_dict() for i in self.subject_relationships().values()],
+            "trope_relationships": [i.to_dict() for i in self.trope_relationships().values()],
         }
 
     @staticmethod
@@ -402,6 +444,9 @@ class NarrativeGraph:
         })
         narrative_graph.set_absolute_temporal_nodes({
             i['id']: AbsoluteTemporalNode.from_dict(i) for i in val['absolute_temporal_nodes']
+        })
+        narrative_graph.set_trope_nodes({
+            i['id']: TropeNode.from_dict(i) for i in val['trope_nodes']
         })
         narrative_graph.set_narrative_nodes({
             i['id']: NarrativeNode.from_dict(i) for i in val['narrative_nodes']
@@ -454,3 +499,7 @@ class NarrativeGraph:
         narrative_graph.set_absolute_temporal_relationships({
             i['id']: AbsoluteTemporalRelationship.from_dict(i) for i in val['absolute_temporal_relationships']
         })
+        narrative_graph.set_tropes_relationships({
+            i['id']: TropeRelationship.from_dict(i) for i in val['trope_relationships']
+        })
+        return narrative_graph

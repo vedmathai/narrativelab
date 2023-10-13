@@ -7,6 +7,7 @@ class RunConfig:
         self._epochs = None
         self._dataset = None
         self._model_type = None
+        self._featurizer = None
 
     def id(self):
         return self._id
@@ -29,6 +30,9 @@ class RunConfig:
     def model_type(self):
         return self._model_type
     
+    def featurizer(self):
+        return self._featurizer
+    
     def set_id(self, id):
         self._id = id
     
@@ -50,6 +54,9 @@ class RunConfig:
     def set_model_type(self, model_type):
         self._model_type = model_type
 
+    def set_featurizer(self, featurizer):
+        self._featurizer = featurizer
+
     @staticmethod
     def from_dict(val):
         run_config = RunConfig()
@@ -60,6 +67,7 @@ class RunConfig:
         run_config.set_epochs(val['epochs'])
         run_config.set_dataset(val['dataset'])
         run_config.set_model_type(val['model_type'])
+        run_config.set_featurizer(val['featurizer'])
         return run_config
     
     def to_dict(self):
@@ -71,6 +79,7 @@ class RunConfig:
             "epochs": self.epochs(),
             "dataset": self.dataset(),
             "model_type": self.model_type(),
+            "featurizer": self.featurizer(),
         }
 
 
