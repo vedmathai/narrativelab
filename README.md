@@ -149,3 +149,7 @@ PYTHONPATH=REMOTE_CODE_FOLDER_PATH/narrativelab ENVIRONMENT=JADE RUNCONFIGID=1 p
 PYTHONPATH=jade_front/narrative-lab/code/narrativelab REQUEST_ID=2 PROJECT_ID='narrative-lab' RUNCONFIGID=0 python jade_front/narrative-lab/code/narrativelab/factuality/entrypoints/main.py 
 
 PYTHONPATH=jade_front/narrative-lab/code/narrativelab REQUEST_ID=2 PROJECT_ID='narrative-lab' RUNCONFIGID=0 python jade_front/narrative-lab/code/narrativelab/tropes/entrypoints/main.py 
+
+
+# Running Server
+ENVIRONMENT=JADE PROJECT_ID=narrative-lab PYTHONPATH=jade_front/narrative-lab/code/narrativelab:/home/lalady6977/oerc/projects/MemSum python jade_front/narrative-lab/code/narrativelab/narrativity/server/run.py -r local

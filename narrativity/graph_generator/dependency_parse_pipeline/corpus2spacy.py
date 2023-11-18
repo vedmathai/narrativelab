@@ -9,6 +9,10 @@ class Corpus2spacy:
         self._spacy.add_pipe('coreferee')
 
     def convert(self, text):
-        spacy_text = self._spacy(text)
-        fdocument = FeaturizedDocument.from_spacy(spacy_text)
+        paragraphs = text.split('\n')
+        spacy_paragraphs = []
+        for paragraph in paragraphs:
+            spacy_text = self._spacy(paragraph)
+            spacy_paragraphs.append(spacy_text)
+        fdocument = FeaturizedDocument.from_spacy(spacy_paragraphs)
         return fdocument

@@ -32,6 +32,7 @@ class NarrativityServer:
         self._narrative_graph_generator.load()
 
     def upload_corpus(self, corpus):
+        print(corpus["text"].split("\n"))
         self._graph = self._narrative_graph_generator.generate(corpus["text"])
 
     def get_node_context(self, node_id):

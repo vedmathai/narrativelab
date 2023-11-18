@@ -18,7 +18,7 @@ class WikipediaAnalysis:
 
     def get_list_of_subheadings(self):
         subheadings = []
-        location = 'narrativelab/tropes/analysis/wikipedia/list_of_picked_subheadings.py'
+        location = 'narrativelab/tropes/analysis/wikipedia/list_of_picked_subheadings.txt'
         location = self._jade_logger.file_manager.code_filepath(location)
         with open(location) as f:
             for line in f:
@@ -43,13 +43,14 @@ class WikipediaAnalysis:
                 else:
                     interested = False
                 if para != "":
-                    if interested is True:
+                    if interested is True and len(dataset[key]) < 200:
                         dataset[key].extend(self._clean_sentence(para))
                     para = ""
                 key = word
             if interested is True and heading_flag is False:
                 para += ' ' + datum
-            if all(len(dataset[key]) > 1000  for key in dataset.keys()):
+            print(sum([len(dataset[key]) for key in dataset.keys()]), len(dataset.keys()) * 200)
+            if sum([len(dataset[key]) for key in dataset.keys()]) > len(dataset.keys()) * 200:
                 for key in dataset:
                     print(key)
                     print('--' * 4),

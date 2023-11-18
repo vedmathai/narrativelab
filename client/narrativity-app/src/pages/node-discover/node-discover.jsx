@@ -32,10 +32,15 @@ export default function NodeDiscover(props) {
         const row_cards = nodes.map((node, node_i) => {
             return (
                 <div
-                    className="page-card node-discover-page-card"
+                    className={"page-card node-discover-page-card"}
                     onClick={() => onClickContextRowCard(node.id)}
                 >
                     {node.display_name}
+                    <div
+                        className={(node.is_main? "node-discover-page-card-main-marker-on" : "node-discover-page-card-main-marker-off")}
+                    >
+                        <span class="main-narrative-marker"></span>
+                    </div>
                 </div>
             )
         })

@@ -42,7 +42,7 @@ class TropeClassifierModel(nn.Module):
 
     def load(self):
         if os.path.exists(self._save_location):
-            state_dict = torch.load(self._save_location)
+            state_dict = torch.load(self._save_location, map_location=torch.device(device))
             self.load_state_dict(state_dict, strict=False)
         else:
             print('Warning: Model doesn\'t exist. Going with default '
