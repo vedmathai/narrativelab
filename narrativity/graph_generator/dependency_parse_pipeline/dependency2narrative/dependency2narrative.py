@@ -7,7 +7,10 @@ from narrativity.datamodel.narrative_graph.relationships.cooccurrence_relationsh
 from tropes.inferer.trope_classification.infer import TropeClassificationInfer
 from narrativity.datamodel.narrative_graph.nodes.trope_node import TropeNode
 from narrativity.datamodel.narrative_graph.relationships.trope_relationship import TropeRelationship
+from narrativity.datamodel.narrative_graph.relationships.main_narrative_relationship import MainNarrativeRelationship
 from narrativity.datamodel.narrative_graph.nodes.narrative_node import NarrativeNode
+from summarizer.inferer.summarizer_infer import SummarizerInfer
+
 
 class Dependency2Narrative:
     def __init__(self):
@@ -16,6 +19,7 @@ class Dependency2Narrative:
         self._aux2state = Aux2State()
         self._events2relationships = Events2Relationships()
         self._trope_classifier = TropeClassificationInfer()
+        self._summarizer = SummarizerInfer()
 
     def load(self):
         self._sentence2phrases.load()
@@ -23,6 +27,7 @@ class Dependency2Narrative:
         self._aux2state.load()
         self._events2relationships.load()
         self._trope_classifier.load()
+        self._summarizer.load()
 
     def convert(self, fdocument):
         self._narrative_graph = NarrativeGraph()
@@ -30,32 +35,46 @@ class Dependency2Narrative:
         annecdotal_connectors = []
         tokeni2event = {}
         all_narratives = []
-        for sentence in fdocument.sentences():
-            if sentence.root() is not None:
-                phrase_connectors = self._sentence2phrases.split(sentence.root(), phrase_connectors)
-        for phrase_connector in phrase_connectors:
-            verb_1 = phrase_connector.verb_1()
-            verb_2 = phrase_connector.verb_2()
-            narrative_node_1 = tokeni2event.get(verb_1.i())
-            if narrative_node_1 is None:
-                narrative_node_1 = self._clause_root2event(verb_1)
-                tokeni2event[verb_1.i()] = narrative_node_1
-                narrative_node_1._token = verb_1
-                self._classify_tropes(narrative_node_1)
-                all_narratives.append(narrative_node_1)
-            if phrase_connector.connector_type() != 'single':
-                narrative_node_2 = tokeni2event.get(verb_2.i())
-                if narrative_node_2 is None:
-                    narrative_node_2 = self._clause_root2event(verb_2)
-                    tokeni2event[verb_2.i()] = narrative_node_2
-                    narrative_node_2._token = verb_2
-                    self._classify_tropes(narrative_node_2)
-                    all_narratives.append(narrative_node_2)
-                self._create_event_relationships(narrative_node_1, narrative_node_2, phrase_connector)
-            if phrase_connector.connector_type() == 'anecdotal_relationship':
-                annecdotal_connectors.append((narrative_node_1, narrative_node_2, phrase_connector))
-        self._create_anecdotal_event_relationships(annecdotal_connectors)
-        self._create_cooccurrence_relationships(all_narratives)
+        sentences = []
+        for fpara in fdocument.paragraphs():
+            all_para_narratives = []
+            for sentence in fpara.sentences():
+                sentences += [sentence.text()]
+            summaries = self._summarizer.infer(sentences)[1][0]
+            for sentencei, sentence in enumerate(fpara.sentences()):
+                if sentence.root() is not None:
+                    is_main = False
+                    if sentencei in summaries:
+                        is_main = True
+                    phrase_connectors = self._sentence2phrases.split(sentence.root(), phrase_connectors, is_main)
+            for phrase_connector in phrase_connectors:
+                verb_1 = phrase_connector.verb_1()
+                verb_2 = phrase_connector.verb_2()
+                narrative_node_1 = tokeni2event.get(verb_1.i())
+                if narrative_node_1 is None:
+                    narrative_node_1 = self._clause_root2event(verb_1)
+                    tokeni2event[verb_1.i()] = narrative_node_1
+                    narrative_node_1._token = verb_1
+                    narrative_node_1.set_is_main(phrase_connector.is_main())
+                    self._classify_tropes(narrative_node_1)
+                    all_narratives.append(narrative_node_1)
+                    all_para_narratives.append(narrative_node_1)
+                if phrase_connector.connector_type() != 'single':
+                    narrative_node_2 = tokeni2event.get(verb_2.i())
+                    if narrative_node_2 is None:
+                        narrative_node_2 = self._clause_root2event(verb_2)
+                        tokeni2event[verb_2.i()] = narrative_node_2
+                        narrative_node_2._token = verb_2
+                        narrative_node_2.set_is_main(phrase_connector.is_main())
+                        self._classify_tropes(narrative_node_2)
+                        all_narratives.append(narrative_node_2)
+                        all_para_narratives.append(narrative_node_2)
+                    self._create_event_relationships(narrative_node_1, narrative_node_2, phrase_connector)
+                if phrase_connector.connector_type() == 'anecdotal_relationship':
+                    annecdotal_connectors.append((narrative_node_1, narrative_node_2, phrase_connector))
+            self._create_anecdotal_event_relationships(annecdotal_connectors)
+            self._create_cooccurrence_relationships(all_narratives)
+            self._create_main_narrative_relationships(all_para_narratives)
         return self._narrative_graph
 
     def _clause_root2event(self, clause_root):
@@ -93,6 +112,25 @@ class Dependency2Narrative:
                     cooccurrence_relationship.set_narrative_1(narrative_1)
                     cooccurrence_relationship.set_narrative_2(narrative_2)
                     self._narrative_graph.add_cooccurrence_relationship(cooccurrence_relationship)
+
+    def _create_main_narrative_relationships(self, narratives):
+        main_narratives = []
+        non_main_narratives = []
+        for narrative in narratives:
+            if narrative.is_main():
+                main_narratives.append(narrative)
+            else:
+                non_main_narratives.append(narrative)
+
+        for narrative_1 in main_narratives:
+            for narrative_2 in non_main_narratives:
+                main_narrative_relationship = MainNarrativeRelationship.create()
+                narrative_1.add_main_narrative_in_relationship(main_narrative_relationship)
+                narrative_2.add_main_narrative_out_relationship(main_narrative_relationship)
+                main_narrative_relationship.set_narrative_graph(self._narrative_graph)
+                main_narrative_relationship.set_narrative_1(narrative_1)
+                main_narrative_relationship.set_narrative_2(narrative_2)
+                self._narrative_graph.add_main_narrative_relationship(main_narrative_relationship)
 
     def _classify_tropes(self, narrative: NarrativeNode):
         verb = narrative.token()

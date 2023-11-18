@@ -34,7 +34,10 @@ class NarrativeNode(AbstractNode):
         self._prep_in_relationship_ids = []
         self._prep_out_relationship_ids = []
         self._trope_relationship_ids = []
+        self._main_narrative_out_relationship_ids = []
+        self._main_narrative_in_relationship_ids = []
         self._sources = []
+        self._is_main = False
         self._is_leaf = False
         self._is_state = False
         self._is_negative = False
@@ -211,9 +214,24 @@ class NarrativeNode(AbstractNode):
     
     def trope_relationships(self):
         return [self._narrative_graph.id2trope_relationship(id) for id in self.trope_relationship_ids()]
+    
+    def main_narrative_out_relationship_ids(self) -> List[str]:
+        return self._main_narrative_out_relationship_ids
+    
+    def main_narrative_in_relationship_ids(self) -> List[str]:
+        return self._main_narrative_in_relationship_ids
+    
+    def main_narrative_out_relationships(self):
+        return [self._narrative_graph.id2main_narrative_relationship(id) for id in self.main_narrative_out_relationship_ids()]
+    
+    def main_narrative_in_relationships(self):
+        return [self._narrative_graph.id2main_narrative_relationship(id) for id in self.main_narrative_in_relationship_ids()]
 
     def sources(self) -> List[str]:
         return self._sources
+    
+    def is_main(self) -> bool:
+        return self._is_main
 
     def is_state(self) -> bool:
         return self._is_state
@@ -371,11 +389,26 @@ class NarrativeNode(AbstractNode):
     def add_trope_relationship(self, trope_relationship) -> None:
         self._trope_relationship_ids.append(trope_relationship.id())
 
+    def set_main_narrative_out_relationship_ids(self, main_narrative_out_relationship_ids: List[str]) -> None:
+        self._main_narrative_out_relationship_ids = main_narrative_out_relationship_ids
+
+    def set_main_narrative_in_relationship_ids(self, main_narrative_in_relationship_ids: List[str]) -> None:
+        self._main_narrative_in_relationship_ids = main_narrative_in_relationship_ids
+
+    def add_main_narrative_out_relationship(self, main_narrative_out_relationship) -> None:
+        self._main_narrative_out_relationship_ids.append(main_narrative_out_relationship.id())
+
+    def add_main_narrative_in_relationship(self, main_narrative_in_relationship) -> None:
+        self._main_narrative_in_relationship_ids.append(main_narrative_in_relationship.id())
+
     def set_sources(self, sources: List[str]) -> None:
         self._sources = sources
 
     def set_is_state(self, is_state: bool) -> None:
         self._is_state = is_state
+
+    def set_is_main(self, is_main: bool) -> None:
+        self._is_main = is_main
 
     def set_is_leaf(self, is_leaf: bool) -> None:
         self._is_leaf = is_leaf
@@ -442,10 +475,13 @@ class NarrativeNode(AbstractNode):
         narrative_node.set_descriptor_relationship_ids(val['descriptor_relationship_ids'])
         narrative_node.set_cooccurrence_relationship_ids(val['cooccurrence_relationship_ids'])
         narrative_node.set_trope_relationship_ids(val['trope_relationship_ids'])
+        narrative_node.set_main_narrative_out_relationship_ids(val['main_narrative_out_relationship_ids'])
+        narrative_node.set_main_narrative_in_relationship_ids(val['main_narrative_in_relationship_ids'])
         narrative_node.set_sub_narrative_ids(val['sub_narrative_ids'])
         narrative_node.set_parent_narrative_ids(val['parent_narrative_ids'])
         narrative_node.set_sources(val['sources'])
         narrative_node.set_is_state(val['is_state'])
+        narrative_node.set_is_main(val['is_main'])
         narrative_node.set_is_negative(val['is_negative'])
         narrative_node.set_canonical_name(val['canonical_name'])
         return narrative_node
@@ -478,10 +514,13 @@ class NarrativeNode(AbstractNode):
             "descriptor_relationship_ids": self.descriptor_relationship_ids(),
             "cooccurrence_relationship_ids": self.cooccurrence_relationship_ids(),
             "trope_relationship_ids": self.trope_relationship_ids(),
+            "main_narrative_out_relationship_ids": self.main_narrative_out_relationship_ids(),
+            "main_narrative_in_relationship_ids": self.main_narrative_in_relationship_ids(),
             "sub_narrative_ids": self.sub_narrative_ids(),
             "parent_narrative_ids": self.parent_narrative_ids(),
             "sources": self.sources(),
             "is_state": self.is_state(),
+            "is_main": self.is_main(),
             "is_negative": self.is_negative(),
             "canonical_name": self.canonical_name(),
         }

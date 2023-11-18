@@ -26,6 +26,8 @@ const key2headings = {
     'descriptor': 'Describing Narrative',
     'described_entity': 'Described Entity',
     'trope': 'Tropes',
+    'main_narrative_out': 'Outgoing Main Narrative Relationship',
+    'main_narrative_in': 'Incoming Main Narrative Relationship',
 }
 
 export default function NodeContextRow(props) {

@@ -14,15 +14,13 @@ class Config:
         self._wikipedia_data_location = None
         self._jade_logger = JadeLogger()
 
-
     @staticmethod
     def instance():
         if Config._instance is None:
-            pythonpath = os.environ['PYTHONPATH']
-            config_filepath = os.path.join(pythonpath, 'tropes/common/config/config.json')
+            jade_logger = JadeLogger()
+            config_filepath = jade_logger.file_manager.code_filepath('narrativelab/tropes/common/config/config.json')
             with open(config_filepath) as f:
                 Config._instance = Config.from_dict(json.load(f))
-            Config._instance.set_pythonpath(pythonpath)
         return Config._instance
     
     def pythonpath(self):

@@ -150,7 +150,7 @@ class FeaturizedToken:
         ftoken._dep = token.dep_
         ftoken._vector = token.vector
         ftoken._entity_type = token.ent_type_
-        coref = document._.coref_chains.resolve(token)
-        if coref is not None:
-            ftoken._coreference = [i.i for i in coref]
+        #coref = document._.coref_chains.resolve(token)
+        # if coref is not None:
+        #    ftoken._coreference = [i.i for i in coref]
         return ftoken

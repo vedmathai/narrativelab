@@ -1,3 +1,26 @@
 .node-discover-page-card {
     cursor: pointer;
 }
+
+.node-discover-page-card-main {
+    background-color: green;
+}
+
+.node-discover-page-card-main-marker-on {
+    display: inline-block;
+}
+
+.node-discover-page-card-main-marker-off {
+    display: none;
+}
+
+.main-narrative-marker {
+    height: 15px;
+    width: 15px;
+    top: -10px;
+    left: 10px;
+    position: relative;
+    background-color: #256615;
+    border-radius: 50%;
+    display: inline-block;
+}

@@ -48,6 +48,8 @@ class NodeContextCreator:
                 self.get_anecdotal_in_relationships,
                 self.get_and_like_relationships,
                 self.get_described_entity_relationships,
+                self.get_main_narrative_out_relationships,
+                self.get_main_narrative_in_relationships,
             ],
             'absolute_temporal_node': [
                 self.get_narratives,
@@ -204,3 +206,15 @@ class NodeContextCreator:
             entity = descriptor_relationship.entity_node()
             self.add_other_node(entity, 'described_entity', node_context)
             self.add_relationship(entity, descriptor_relationship, node_context)
+
+    def get_main_narrative_in_relationships(self, node, node_context: NodeContext):
+        for main_narrative_in_relationship in node.main_narrative_in_relationships():
+            narrative_2 = main_narrative_in_relationship.narrative_2()
+            self.add_other_node(narrative_2, 'main_narrative_in', node_context)
+            self.add_relationship(narrative_2, main_narrative_in_relationship, node_context)
+
+    def get_main_narrative_out_relationships(self, node, node_context: NodeContext):
+        for main_narrative_out in node.main_narrative_out_relationships():
+            narrative_1 = main_narrative_out.narrative_1()
+            self.add_other_node(narrative_1, 'main_narrative_out', node_context)
+            self.add_relationship(narrative_1, main_narrative_out, node_context)

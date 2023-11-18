@@ -1,21 +1,20 @@
-from narrativity.datamodel.featurized_document_model.featurized_sentence import FeaturizedSentence  # noqa
+from narrativity.datamodel.featurized_document_model.featurized_paragraph import FeaturizedParagraph  # noqa
 from narrativity.datamodel.featurized_document_model.utils import resolve_coreference_pointers
 
 
 class FeaturizedDocument:
     def __init__(self):
-        self._sentences = []
+        self._paragraphs = []
 
-    def add_sentence(self, sentence):
-        self._sentences.append(sentence)
+    def add_paragraph(self, paragraph):
+        self._paragraphs.append(paragraph)
 
-    def sentences(self):
-        return self._sentences
+    def paragraphs(self):
+        return self._paragraphs
 
     @staticmethod
     def from_spacy(document):
         fdoc = FeaturizedDocument()
-        for sentence in document.sents:
-            fdoc.add_sentence(FeaturizedSentence.from_spacy(sentence, document))
-        fdoc = resolve_coreference_pointers(fdoc)
+        for para in document:
+            fdoc.add_paragraph(FeaturizedParagraph.from_spacy(para, fdoc))
         return fdoc

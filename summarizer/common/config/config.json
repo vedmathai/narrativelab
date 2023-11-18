@@ -1,0 +1,5 @@
+{
+    "memsum_vocab_path": "/home/lalady6977/oerc/projects/MemSum/memsum/model/word_embedding/vocabulary_200dim.pkl",
+    "memsum_arxiv_model_path": "/home/lalady6977/oerc/projects/MemSum/memsum/model/memsum-arxiv/model.pt"
+}
+
