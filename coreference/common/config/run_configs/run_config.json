@@ -1,0 +1,13 @@
+{
+    "run_configs": [
+        {
+            "id": "0",
+            "is_train": true,
+            "trainer": "coreference_classification",
+            "llm": "roberta",
+            "epochs": 60,
+            "dataset": "nela",
+            "model_type": "quote_classification_base"
+        }
+    ]
+}

@@ -33,35 +33,7 @@ class ECBReader:
             data = self.read_folder(folder)
             for datum in data:
                 ecb_datum = ECBDocument.from_bs(datum)
-                sentence_id2sentence = defaultdict(list)
-                token_id2sentence_id = {}
-                m_id2token_id = {}
-                token_id2token = {}
-                for token in ecb_datum.tokens():
-                    token_id2token[token.tid()] = token
-                    sentence_id2sentence[token.sentence()].append(token)
-                    token_id2sentence_id[token.tid()] = token.sentence()
-                for markable in ecb_datum.token_markables():
-                    m_id2token_id[markable.mid()] = markable.token_anchors()
-                for coref in ecb_datum.cross_doc_corefs():
-                    sources = coref.sources()
-                    target = coref.target()
-                    for s in sources:
-                        tokens = m_id2token_id[s]
-                        string = ''
-                        for token in tokens:
-                            string += token_id2token[token].text() + ' '
-                        sentence_id = token_id2sentence_id[tokens[0]]
-                        sentence = sentence_id2sentence[sentence_id]
-                        if 'act' in coref.note().lower():
-                            print(string, [i.text() for i in sentence])
-                    print('------------------')
-                print('------------------')
-
-
-
-
-
+                yield ecb_datum
 
 
 if __name__ == '__main__':
