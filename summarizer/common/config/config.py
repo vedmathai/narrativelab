@@ -8,8 +8,10 @@ class Config:
     @staticmethod
     def instance():
         if Config._instance is None:
+            config_filepath = 'narrativelab/summarizer/common/config/config.json'
             jade_logger = JadeLogger()
-            config_filepath = jade_logger.file_manager.code_filepath('narrativelab/summarizer/common/config/config.json')
+            if os.environ.get('ENVIRONMENT') == 'JADE':
+                config_filepath = jade_logger.file_manager.code_filepath(config_filepath)
             with open(config_filepath) as f:
                 Config._instance = Config.from_dict(json.load(f))
         return Config._instance

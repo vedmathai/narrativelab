@@ -23,7 +23,7 @@ class ECBReader:
             file_path = os.path.join(folder_path, file)
             with open(file_path, 'r') as f:
                 datum = f.read()
-                self._bs = BeautifulSoup(datum, "xml")
+                self._bs = BeautifulSoup(datum, "lxml")
                 data.append(self._bs)
         return data
     

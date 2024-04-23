@@ -41,8 +41,8 @@ class ECBInstanceMarkable:
         markable = ECBInstanceMarkable()
         markable.set_mid(bs.attrs['m_id'])
         markable.set_markable_type(bs.name)
-        markable.set_related_to(bs.attrs['RELATED_TO'])
-        markable.set_tag_descriptor(bs.attrs['TAG_DESCRIPTOR'])
+        markable.set_related_to(bs.attrs['related_to'])
+        markable.set_tag_descriptor(bs.attrs['tag_descriptor'])
         markable.set_instance_id(bs.attrs['instance_id'])
         return markable
 

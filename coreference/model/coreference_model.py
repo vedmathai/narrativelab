@@ -4,7 +4,7 @@ import torch.nn as nn
 from transformers import RobertaTokenizerFast, RobertaModel
 import torch
 
-from factuality.common.config import Config
+from coreference.common.config.config import Config
 
 hidden_layer_size = 16
 
@@ -14,10 +14,11 @@ class CoreferenceClassifierModel(nn.Module):
         super().__init__()
         self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         config = Config.instance()
+        self._save_location = config.model_save_location()
         if run_config.llm() == 'roberta':
-            self._tokenizer = RobertaTokenizerFast.from_pretrained('roberta-base')
-            self._model = RobertaModel.from_pretrained('roberta-base')
-        modules = [self._model.embeddings, *self._model.encoder.layer[:-2]]
+            self._tokenizer = RobertaTokenizerFast.from_pretrained('transformers_cache/roberta-base', local_files_only=True) 
+            self._model = RobertaModel.from_pretrained('roberta-base').to(self._device) # noqa
+        modules = [self._model.embeddings, *self._model.encoder.layer[:]]
         for module in modules:
             for param in module.parameters():
                 param.requires_grad = True
@@ -25,7 +26,7 @@ class CoreferenceClassifierModel(nn.Module):
         self._dropout = nn.Dropout(0.5).to(self._device)
         self._base_layer_classifier = torch.nn.Linear(768 * 2, hidden_layer_size).to(self._device)
         self._base_classifier_activation = nn.Tanh().to(self._device)
-        self._classifier = torch.nn.Linear(hidden_layer_size, 1).to(self._device)
+        self._classifier = torch.nn.Linear(hidden_layer_size, 2).to(self._device)
 
     def forward(self, datum):
         text = datum.text()
@@ -36,8 +37,11 @@ class CoreferenceClassifierModel(nn.Module):
         event_1 = datum.event_1()
         event_1_start = datum.event_1_start()
         event_1_end = datum.event_1_end()
-        start_char = inputs.word_to_chars(event_1_start)
-        end_char = inputs.word_to_chars(event_1_end)
+        try:
+            start_char = inputs.word_to_chars(event_1_start)
+            end_char = inputs.word_to_chars(event_1_end)
+        except:
+            return torch.tensor([0.0, 0.0], requires_grad=True).to(self._device)
         start_token = inputs.char_to_token(start_char.start)
         end_token = inputs.char_to_token(end_char.start)
         if datum.label() == 1:
@@ -49,8 +53,11 @@ class CoreferenceClassifierModel(nn.Module):
         event_2 = datum.event_2()
         event_2_start = datum.event_2_start()
         event_2_end = datum.event_2_end()
-        start_char = inputs.word_to_chars(event_2_start)
-        end_char = inputs.word_to_chars(event_2_end)
+        try:
+            start_char = inputs.word_to_chars(event_2_start)
+            end_char = inputs.word_to_chars(event_2_end)
+        except:
+            return torch.tensor([0.0, 0.0], requires_grad=True).to(self._device)
         start_token = inputs.char_to_token(start_char.start)
         end_token = inputs.char_to_token(end_char.start)
         offset = self.further_offset(tokens[start_token-20: end_token+20], event_2)

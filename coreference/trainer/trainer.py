@@ -53,11 +53,11 @@ class CoreferenceClassificationTrain:
         event_prediction_loss = self._criterion(
             event_predicted_vector, relationship_target
         )
-        predicted = event_predicted_vector.item()
+        predicted = event_predicted_vector[0]
         if predicted > 0.5:
-            predicted_label = 'coreference'
+            predicted_label = 1
         else:
-            predicted_label = 'not_coreference'
+            predicted_label = 0
         if self._loss is None:
             self._loss = event_prediction_loss
         else:
@@ -66,7 +66,7 @@ class CoreferenceClassificationTrain:
 
     def relationship_target(self, datum):
         target = datum.label()
-        relationship_target = torch.from_numpy(np.array([float(target)])).to(device)
+        relationship_target = torch.from_numpy(np.array([float(target), float(1-target)])).to(device)
         return relationship_target
 
     def classify(self, datum):
@@ -113,9 +113,9 @@ class CoreferenceClassificationTrain:
                     relationship_target
                 )
                 loss = batch_loss.item()
-                predicted = event_predicted_vector.item()
+                predicted = event_predicted_vector[0]
                 if predicted > 0.5:
-                    predicted_label = 'coreference'
+                    predicted_label = 1
                 else:
-                    predicted_label = 'not_coreference'
+                    predicted_label = 0
                 self._jade_logger.new_evaluate_datapoint(datum.label(), predicted_label, loss, {})

@@ -53,7 +53,7 @@ class ECBDocument:
             token = ECBToken.from_bs(token)
             document.add_token(token)
         
-        markables = bs.find('Markables')
+        markables = bs.find('markables')
         for child in markables.findChildren(recursive=False):
             if 'instance_id' in child.attrs:
                 markable = ECBInstanceMarkable.from_bs(child)
@@ -61,7 +61,7 @@ class ECBDocument:
             else:
                 markable = ECBTokenMarkable.from_bs(child)
                 document.add_token_markable(markable)
-        for child in bs.find_all('CROSS_DOC_COREF'):
+        for child in bs.find_all('cross_doc_coref'):
             cross_doc_coref = ECBCrossDocCoref.from_bs(child)
             document.add_cross_doc_coref(cross_doc_coref)
         return document
