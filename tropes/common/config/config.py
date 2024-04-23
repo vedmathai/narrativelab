@@ -17,8 +17,10 @@ class Config:
     @staticmethod
     def instance():
         if Config._instance is None:
+            config_filepath = 'narrativelab/tropes/common/config/config.json'
             jade_logger = JadeLogger()
-            config_filepath = jade_logger.file_manager.code_filepath('narrativelab/tropes/common/config/config.json')
+            if os.environ.get('ENVIRONMENT') == 'JADE':
+                config_filepath = jade_logger.file_manager.code_filepath(config_filepath)
             with open(config_filepath) as f:
                 Config._instance = Config.from_dict(json.load(f))
         return Config._instance
@@ -27,7 +29,10 @@ class Config:
         return self._pythonpath
 
     def tv_tropes_data_location(self):
-        location = self._jade_logger.file_manager.data_filepath(self._tv_tropes_data_location)
+        if os.environ.get('ENVIRONMENT') == 'JADE':
+            location = self._jade_logger.file_manager.data_filepath(self._tv_tropes_data_location)
+        else:
+            location = self._tv_tropes_data_location
         return location
 
     def set_tv_tropes_data_location(self, tv_tropes_data_location):

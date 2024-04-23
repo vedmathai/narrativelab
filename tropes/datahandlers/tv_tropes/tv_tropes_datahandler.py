@@ -14,6 +14,7 @@ class TVTropesDataHandler():
     def load(self):
         data = []
         files = ["output.csv"]#, 'lit_goodreads_match.csv', "film_tropes.csv"]
+        """
         for file in files:
             good_reads_data = os.path.join(self._config.tv_tropes_data_location(), file)
             with open(good_reads_data, 'rt') as f:
@@ -27,6 +28,25 @@ class TVTropesDataHandler():
             next(csv_reader)
             for row in csv_reader:
                 self._labels.add(row[0])
+        """
+        self._labels = set([
+            "Location",
+            "Works",
+            "Death",
+            "Life",
+            "Plot",
+            "Description",
+            "Background",
+            "Bibliography",
+            "Reception",
+            "Geography",
+            "Early",
+            "Personal",
+            "Biography",
+            "Career",
+            "History",
+        ])
+
 
     def data(self):
         return self._data

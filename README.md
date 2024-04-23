@@ -16,7 +16,7 @@ mkdir narrative_project
 cd narrative_project
 ```
 ## Clone the repository
-`git clone https://github.com/MaximilianAhrens/narrativelab.git`
+`git clone https://github.com/vedmathai/narrativelab.git`
 
 ## Create the Virtual Ennvironment
 `python3 -m venv venv_narrative_project`
@@ -36,9 +36,24 @@ Windows: `venv_narrative_project\Scripts\activate`
 RUN `python -m spacy download en_core_web_lg` to install the spacy models.
 RUN `python -m coreferee install en` to install the coreferee (coreference resolution) models.
 
+# Install Memsum
+Follow the instructions on github for Memsum [https://github.com/nianlonggu/MemSum]
+Specifically, 
+ * Set Up Environment
+ * Download Pretrained Model Checkpoints for the arxiv model
+
+That is, run this line:
+```snapshot_download('nianlong/memsum-arxiv-summarization', local_dir = "model/memsum-arxiv" )```
+
+
+
 ## Run Python Server
-`PYTHONPATH=. python narrativity/server/run.py` 
-Windows: `$env:PYTHONPATH='.'; python .\narrativity\server\run.py`
+`# Running Server
+```PROJECT_ID=narrative-lab PYTHONPATH=narrativelab:<path/to/memsum/code>/MemSum python narrativelab/narrativity/server/run.py -r local```
+
+The path to memsum should be set as the absolute path to the memsum installation on your system.
+
+Windows: `$env:PYTHONPATH='.'; python .\narrativity\server\run.py` (Not updated)
 
 Adding the `PYTHONPATH` before the code invocation is important because the python code treats itself like a package called `narrativity`.
 Alternatively one could add this folder permanently to their `PYTHONPATH`, but may come with its own overhead.
@@ -138,18 +153,23 @@ Then : `git pull --rebase origin main`
 Then `git reset --soft HEAD^` to reset local changes to uncommited 
 
 
-REQUEST_ID=1234 PROJECT_ID=narrative-lab PYTHONPATH=jade_front/narrative-lab/code/narrativelab python jade_front/narrative-lab/code/narrativelab/factuality/entrypoints/main.py
 
-# Running on Jade
+# Appendix:
+
+## Running on Jade
 PYTHONPATH=REMOTE_CODE_FOLDER_PATH/narrativelab ENVIRONMENT=JADE RUNCONFIGID=1 python3.8 REMOTE_CODE_FOLDER_PATH/narrativelab/factuality/entrypoints/main.py
 
 PYTHONPATH=REMOTE_CODE_FOLDER_PATH/narrativelab ENVIRONMENT=JADE RUNCONFIGID=1 python3.8 REMOTE_CODE_FOLDER_PATH/narrativelab/tropes/entry_points/main.py
 
-# Running Locally
-PYTHONPATH=jade_front/narrative-lab/code/narrativelab REQUEST_ID=2 PROJECT_ID='narrative-lab' RUNCONFIGID=0 python jade_front/narrative-lab/code/narrativelab/factuality/entrypoints/main.py 
+## Running Locally
+PYTHONPATH=jade_front/narrative-lab/code/narrativelab REQUEST_ID=2 PROJECT_ID='narrative-lab' RUNCONFIGID=0 python jade_front/narrative-lab/code/narrativelab/factuality/entrypoints/main.py
+
+PROJECT_ID=narrative-lab PYTHONPATH=narrativelab:/home/lalady6977/oerc/projects/MemSum python narrativelab/narrativity/server/run.py -r local
 
 PYTHONPATH=jade_front/narrative-lab/code/narrativelab REQUEST_ID=2 PROJECT_ID='narrative-lab' RUNCONFIGID=0 python jade_front/narrative-lab/code/narrativelab/tropes/entrypoints/main.py 
 
+## Running Server
+PROJECT_ID=narrative-lab PYTHONPATH=narrativelab:<path/to/memsum/code>/MemSum python narrativelab/narrativity/server/run.py -r local
 
-# Running Server
+## Running Server through jade_front directory locally
 ENVIRONMENT=JADE PROJECT_ID=narrative-lab PYTHONPATH=jade_front/narrative-lab/code/narrativelab:/home/lalady6977/oerc/projects/MemSum python jade_front/narrative-lab/code/narrativelab/narrativity/server/run.py -r local

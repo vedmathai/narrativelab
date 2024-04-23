@@ -1,0 +1,5 @@
+{
+    "ecb_path": "EventStoryLine/ECB+_LREC2014/ECB+",
+    "run_configs_file": "narrativelab/coreference/common/config/run_configs/run_config.json",
+    "model_save_location": "coreference_model.pkl"
+}

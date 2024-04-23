@@ -195,7 +195,7 @@ class NarrativeGraph:
     def trope_relationships(self) -> Dict[str, TropeRelationship]:
         return self._trope_relationships
     
-    def _main_narrative_relationships(self) -> Dict[str, MainNarrativeRelationship]:
+    def main_narrative_relationships(self) -> Dict[str, MainNarrativeRelationship]:
         return self._main_narrative_relationships
     
     def id2main_narrative_relationship(self, id: str) -> MainNarrativeRelationship:
